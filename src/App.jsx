@@ -138,7 +138,7 @@ export default function Habitrii() {
 
   const outer = {
     fontFamily: "'DM Sans', system-ui, -apple-system, sans-serif",
-    background: C.dark,
+    background: C.teal,
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
