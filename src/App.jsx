@@ -7,8 +7,8 @@ const C = {
   dark: "#1a3330",
   deep: "#0d1f1d",
   mid: "#2a4a44",
-  cardBg: "rgba(255,255,255,0.04)",
-  cardBorder: "rgba(255,255,255,0.12)",
+  cardBg: "rgba(13,31,29,0.10)",
+  cardBorder: "rgba(13,31,29,0.35)",
 };
 
 const scene = {
@@ -69,11 +69,11 @@ function ChoiceCard({ label, sub, selected, onClick }) {
       onMouseLeave={() => setHover(false)}
       style={{
         background: selected
-          ? "rgba(87,183,167,0.18)"
+          ? "rgba(13,31,29,0.20)"
           : hover
-          ? "rgba(255,255,255,0.07)"
+          ? "rgba(13,31,29,0.10)"
           : C.cardBg,
-        border: `1px solid ${selected ? C.teal : hover ? "rgba(255,255,255,0.22)" : C.cardBorder}`,
+        border: `1px solid ${selected ? C.deep : hover ? "rgba(13,31,29,0.30)" : C.cardBorder}`,
         borderRadius: "14px",
         padding: "16px 20px",
         cursor: "pointer",
@@ -86,14 +86,14 @@ function ChoiceCard({ label, sub, selected, onClick }) {
           fontSize: "16px",
           fontWeight: selected ? 600 : 400,
           margin: "0 0 2px",
-          color: selected ? C.teal : "white",
+          color: C.deep,
           lineHeight: 1.4,
         }}
       >
         {label}
       </p>
       {sub && (
-        <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", margin: 0, lineHeight: 1.4 }}>
+        <p style={{ fontSize: "14px", color: "rgba(13,31,29,0.85)", margin: 0, lineHeight: 1.4 }}>
           {sub}
         </p>
       )}
@@ -148,7 +148,7 @@ export default function Habitrii() {
     boxSizing: "border-box",
     opacity: fading ? 0 : 1,
     transition: "opacity 0.22s ease",
-    color: "white",
+    color: C.deep,
   };
 
   const inner = {
@@ -183,7 +183,7 @@ export default function Habitrii() {
                 fontWeight: 700,
                 lineHeight: 1.2,
                 margin: "0 0 16px",
-                color: "white",
+                color: C.deep,
               }}
             >
               Financial literacy
@@ -469,7 +469,7 @@ export default function Habitrii() {
               padding: "24px 28px",
             }}
           >
-            <p style={{ fontSize: "20px", lineHeight: 1.7, color: "white", margin: 0, fontStyle: "italic" }}>
+            <p style={{ fontSize: "20px", lineHeight: 1.7, color: C.deep, margin: 0, fontStyle: "italic" }}>
               "{scene.reflection}"
             </p>
           </div>
