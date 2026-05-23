@@ -352,7 +352,7 @@ export default function Habitrii() {
                 fontSize: "11px",
                 letterSpacing: "2.5px",
                 textTransform: "uppercase",
-                color: C.teal,
+                color: C.dark,
                 margin: "0 0 8px",
                 fontWeight: 600,
               }}
