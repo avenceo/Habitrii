@@ -7,8 +7,10 @@ const C = {
   dark: "#1a3330",
   deep: "#0d1f1d",
   mid: "#2a4a44",
-  cardBg: "rgba(13,31,29,0.10)",
-  cardBorder: "rgba(13,31,29,0.35)",
+  cardBg: "rgba(255,255,255,0.16)",
+  cardBorder: "rgba(255,255,255,0.45)",
+  yellowSoft: "rgba(245,217,36,0.14)",
+  yellowBorder: "rgba(245,217,36,0.55)",
 };
 
 const scene = {
@@ -69,11 +71,12 @@ function ChoiceCard({ label, sub, selected, onClick }) {
       onMouseLeave={() => setHover(false)}
       style={{
         background: selected
-          ? "rgba(13,31,29,0.20)"
+          ? C.yellow
           : hover
-          ? "rgba(13,31,29,0.10)"
+          ? "rgba(255,255,255,0.26)"
           : C.cardBg,
-        border: `1px solid ${selected ? C.deep : hover ? "rgba(13,31,29,0.30)" : C.cardBorder}`,
+        border: `1.5px solid ${selected ? C.yellow : hover ? "rgba(255,255,255,0.65)" : C.cardBorder}`,
+        boxShadow: selected ? "0 4px 14px rgba(13,31,29,0.18)" : "0 1px 2px rgba(13,31,29,0.08)",
         borderRadius: "14px",
         padding: "16px 20px",
         cursor: "pointer",
@@ -93,7 +96,7 @@ function ChoiceCard({ label, sub, selected, onClick }) {
         {label}
       </p>
       {sub && (
-        <p style={{ fontSize: "14px", color: "rgba(13,31,29,0.85)", margin: 0, lineHeight: 1.4 }}>
+        <p style={{ fontSize: "14px", color: "rgba(13,31,29,0.78)", margin: 0, lineHeight: 1.45 }}>
           {sub}
         </p>
       )}
@@ -209,7 +212,7 @@ export default function Habitrii() {
           <button onClick={() => go("q1")} style={btnYellow}>
             Start your journey →
           </button>
-          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", margin: 0 }}>
+          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)", margin: 0 }}>
             For educational purposes only · Not financial advice
           </p>
         </div>
@@ -306,7 +309,7 @@ export default function Habitrii() {
             <h2 style={{ fontSize: "24px", fontWeight: 700, margin: "0 0 6px", lineHeight: 1.3 }}>
               Choose your first Story World
             </h2>
-            <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.55)", margin: 0 }}>
+            <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.85)", margin: 0 }}>
               Each world is a themed journey through a cluster of financial concepts.
             </p>
           </div>
@@ -337,10 +340,11 @@ export default function Habitrii() {
           <ProgressBar step={4} total={4} />
           <div
             style={{
-              background: "rgba(87,183,167,0.12)",
-              border: "1px solid rgba(87,183,167,0.35)",
+              background: C.yellowSoft,
+              border: `1px solid ${C.yellowBorder}`,
               borderRadius: "14px",
               padding: "18px 22px",
+              boxShadow: "0 2px 10px rgba(13,31,29,0.10)",
             }}
           >
             <p
@@ -370,7 +374,7 @@ export default function Habitrii() {
               "{scene.hook}"
             </p>
           </div>
-          <p style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(255,255,255,0.82)", margin: 0 }}>
+          <p style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(255,255,255,0.95)", margin: 0 }}>
             {scene.concept}
           </p>
           <div>
@@ -378,7 +382,7 @@ export default function Habitrii() {
               style={{
                 fontSize: "15px",
                 fontWeight: 600,
-                color: "rgba(255,255,255,0.9)",
+                color: "#ffffff",
                 margin: "0 0 12px",
               }}
             >
@@ -407,8 +411,9 @@ export default function Habitrii() {
         <div style={inner}>
           <div
             style={{
-              background: "rgba(245,217,36,0.12)",
-              border: "1px solid rgba(245,217,36,0.4)",
+              background: "rgba(245,217,36,0.18)",
+              border: `1.5px solid ${C.yellow}`,
+              boxShadow: "0 2px 12px rgba(13,31,29,0.12)",
               borderRadius: "14px",
               padding: "18px 22px",
             }}
@@ -429,7 +434,7 @@ export default function Habitrii() {
               {b.headline}
             </h3>
           </div>
-          <p style={{ fontSize: "16px", lineHeight: 1.8, color: "rgba(255,255,255,0.85)", margin: 0 }}>
+          <p style={{ fontSize: "16px", lineHeight: 1.8, color: "#ffffff", margin: 0 }}>
             {b.body}
           </p>
           <div
@@ -440,7 +445,7 @@ export default function Habitrii() {
               padding: "16px 20px",
             }}
           >
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.78)", margin: 0, lineHeight: 1.65 }}>
+            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.95)", margin: 0, lineHeight: 1.65 }}>
               {b.tip}
             </p>
           </div>
@@ -463,10 +468,11 @@ export default function Habitrii() {
           </h2>
           <div
             style={{
-              background: "rgba(87,183,167,0.1)",
-              border: "1px solid rgba(87,183,167,0.3)",
+              background: C.yellowSoft,
+              border: `1.5px solid ${C.yellowBorder}`,
               borderRadius: "16px",
-              padding: "24px 28px",
+              padding: "28px 32px",
+              boxShadow: "0 4px 18px rgba(13,31,29,0.14)",
             }}
           >
             <p style={{ fontSize: "20px", lineHeight: 1.7, color: C.deep, margin: 0, fontStyle: "italic" }}>
@@ -476,7 +482,7 @@ export default function Habitrii() {
           <p
             style={{
               fontSize: "15px",
-              color: "rgba(255,255,255,0.55)",
+              color: "rgba(255,255,255,0.85)",
               lineHeight: 1.65,
               margin: 0,
               maxWidth: "420px",
@@ -502,7 +508,7 @@ export default function Habitrii() {
             <h2 style={{ fontSize: "30px", fontWeight: 700, margin: "0 0 12px" }}>
               Lesson 1 complete
             </h2>
-            <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.92)", lineHeight: 1.65, margin: 0 }}>
               You just did the hardest part — starting. The 24-Hour Rule is now in your toolkit.
             </p>
           </div>
@@ -512,6 +518,8 @@ export default function Habitrii() {
               borderRadius: "14px",
               padding: "20px 24px",
               textAlign: "left",
+              borderLeft: `4px solid ${C.yellow}`,
+              boxShadow: "0 2px 10px rgba(13,31,29,0.18)",
             }}
           >
             <p
@@ -529,7 +537,7 @@ export default function Habitrii() {
             <p style={{ fontSize: "19px", fontWeight: 700, margin: "0 0 6px" }}>
               🧘 Mindful Spending Check-In
             </p>
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.55)", margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.85)", margin: 0, lineHeight: 1.55 }}>
               A quick 3-question pause before any purchase — takes 90 seconds, saves real money
             </p>
           </div>
@@ -537,14 +545,14 @@ export default function Habitrii() {
             onClick={() => go("welcome", { q1: null, q2: null, world: null, branch: null })}
             style={{
               ...btnYellow,
-              background: "transparent",
-              border: "1px solid rgba(87,183,167,0.5)",
-              color: C.teal,
+              background: "rgba(255,255,255,0.10)",
+              border: `1.5px solid ${C.yellow}`,
+              color: C.yellow,
             }}
           >
             ↩ Restart
           </button>
-          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)", margin: 0, lineHeight: 1.5 }}>
             For educational purposes only · Not financial advice
           </p>
         </div>
