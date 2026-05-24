@@ -4,7 +4,7 @@
 // environment variables and is accessed here on the server.
 
 export default async function handler(req, res) {
-
+h
   // ── CORS (allows local dev at localhost:5173) ───────────────────────────
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-3-haiku-20240307",
+        model: "claude-haiku-4-5",
         max_tokens: 350,
         system,
         messages: [{ role: "user", content: message }],
