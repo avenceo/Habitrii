@@ -4,7 +4,7 @@
 // environment variables and is accessed here on the server.
 
 export default async function handler(req, res) {
-h
+
   // ── CORS (allows local dev at localhost:5173) ───────────────────────────
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
