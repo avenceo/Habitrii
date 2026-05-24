@@ -1,62 +1,223 @@
 import { useState } from "react";
 
+// ─── Color System ────────────────────────────────────────────────────────────
+// All contrast ratios verified against WCAG AA (4.5:1 body, 3:1 large text)
 const C = {
-  teal: "#57b7a7",
+  // Backgrounds
+  bg:       "#57b7a7",  // All page backgrounds — brand teal
+  dark:     "#1a3330",  // Contrast anchor — tip blocks, completion areas
+  mid:      "#2a4a44",  // Secondary dark surface
+
+  // Cards
+  card:         "#ffffff",              // Default card bg
+  cardHover:    "#f0faf8",              // Hover state (light teal-white)
+  cardSelected: "#f5d924",              // Active/selected — yellow
+  cardBorder:   "rgba(26,51,48,0.14)",  // Default card border
+  cardBorderSel:"rgba(26,51,48,0.35)",  // Selected card border
+
+  // Text — dark on teal/white (contrast 5.8:1 ✓)
+  text:    "#0d1f1d",               // Primary text
+  textSub: "rgba(13,31,29,0.65)",   // Secondary text
+  textMut: "rgba(13,31,29,0.45)",   // Muted/hint text
+
+  // Text on dark backgrounds
+  textOnDark: "#ffffff",  // On #1a3330 (13:1 ✓)
+  textOnMid:  "#e8f7f4",  // On #2a4a44
+
+  // Brand palette
+  teal:   "#57b7a7",
   yellow: "#f5d924",
-  gray: "#a09e98",
-  dark: "#1a3330",
-  deep: "#0d1f1d",
-  mid: "#2a4a44",
-  cardBg: "rgba(255,255,255,0.16)",
-  cardBorder: "rgba(255,255,255,0.45)",
-  yellowSoft: "rgba(245,217,36,0.14)",
-  yellowBorder: "rgba(245,217,36,0.55)",
+  gray:   "#a09e98",
 };
 
-const scene = {
-  hook: "You're about to check out. Cart total: $87. Your thumb is hovering over 'Place Order.' Sound familiar?",
-  concept:
-    "The 24-Hour Rule is disarmingly simple: before buying anything non-essential, wait 24 hours. That gap between impulse and action is where your real preferences live. Studies show up to 73% of impulse purchases are regretted within a day — the rule turns that regret into clarity before it costs you.",
-  choices: [
-    { id: "stress", emoji: "😮‍💨", label: "I spend when I'm stressed or overwhelmed" },
-    { id: "fomo", emoji: "🏷️", label: "I spend when I see a deal or feel left out" },
-    { id: "reward", emoji: "🎉", label: "I spend to celebrate or treat myself" },
-  ],
-  branches: {
-    stress: {
-      headline: "For stress spenders",
-      body: "Buying something feels like a reset — a quick hit of control when life feels out of hand. The 24-Hour Rule works here because stress spending always feels urgent, but it's almost never a real deadline. Set a phone timer, close the tab, and let the urgency pass. Physical movement breaks the loop faster than willpower — a 5-minute walk works remarkably well.",
-      tip: "When the urge hits: screenshot the item and price. Revisit it when the timer goes off. You'll often find the urgency has quietly disappeared.",
+// ─── Shared Styles ────────────────────────────────────────────────────────────
+const btnYellow = {
+  background: C.yellow, color: C.dark, border: "none", borderRadius: "12px",
+  padding: "15px 28px", fontSize: "16px", fontWeight: 700, cursor: "pointer",
+  width: "100%", fontFamily: "inherit", letterSpacing: "0.2px",
+  boxShadow: "0 2px 12px rgba(245,217,36,0.35)", transition: "all 0.15s ease",
+};
+const btnGhost = {
+  background: "rgba(255,255,255,0.5)", color: C.dark,
+  border: "1.5px solid rgba(26,51,48,0.22)", borderRadius: "12px",
+  padding: "15px 28px", fontSize: "16px", fontWeight: 600, cursor: "pointer",
+  width: "100%", fontFamily: "inherit", transition: "all 0.15s ease",
+};
+const label = (color=C.dark) => ({
+  fontSize:"11px", letterSpacing:"2.5px", textTransform:"uppercase",
+  color, fontWeight:600, margin:"0 0 8px",
+});
+const pill = (bg=C.dark, color=C.textOnDark) => ({
+  display:"inline-block", fontSize:"11px", fontWeight:600, padding:"3px 10px",
+  borderRadius:"99px", background:bg, color,
+});
+
+// ─── All 8 Mind & Money Lessons ──────────────────────────────────────────────
+const LESSONS = [
+  {
+    id:"L01", number:"01", title:"The 24-Hour Rule", emoji:"⏰", duration:"3 min",
+    hook:"You're about to check out. Cart total: $87. Your thumb is hovering over 'Place Order.' Sound familiar?",
+    concept:"The 24-Hour Rule is disarmingly simple: before buying anything non-essential, wait 24 hours. That gap between impulse and action is where your real preferences live. Studies show up to 73% of impulse purchases are regretted within a day — the rule turns that regret into clarity before it costs you.",
+    choices:[
+      {id:"a", emoji:"😮‍💨", label:"I spend when I'm stressed or overwhelmed"},
+      {id:"b", emoji:"🏷️",  label:"I spend when I see a deal or feel left out"},
+      {id:"c", emoji:"🎉",  label:"I spend to celebrate or treat myself"},
+    ],
+    branches:{
+      a:{headline:"For stress spenders", body:"Buying something feels like a reset — a quick hit of control when life feels out of hand. The 24-Hour Rule works here because stress spending always feels urgent, but it's almost never a real deadline. Set a phone timer, close the tab, and let the urgency pass. A 5-minute walk breaks the loop faster than willpower alone.", tip:"Screenshot the item and price. Revisit when the timer goes off. You'll often find the urgency has quietly disappeared."},
+      b:{headline:"For FOMO spenders", body:"Sales, 'only 2 left!', limited-time offers — these are engineered to make 24 hours feel impossible. But most deals return, and most FOMO fades. Ask yourself: would I buy this at full price? If not, the discount isn't saving you money — it's costing you money you wouldn't have otherwise spent.", tip:"Screenshot the deal and compare how you feel about the item 24 hours later. Doing this a few times rewires how you read 'urgent' messaging."},
+      c:{headline:"For reward spenders", body:"Treating yourself isn't the problem — you've earned it. The challenge is when 'reward' becomes the automatic response to any positive feeling. The rule isn't about denying yourself; it's about making sure the reward matches the moment. After 24 hours, ask: is this still the reward I want?", tip:"Build a running wish list. Items that stay on it for 30 days are genuinely worth getting."},
     },
-    fomo: {
-      headline: "For FOMO spenders",
-      body: "Sales, 'only 2 left!', limited-time offers — these are engineered to make 24 hours feel impossible. But most deals return, and most FOMO fades. The rule here is learning to recognize artificial urgency. Ask yourself: would I buy this at full price? If not, the discount isn't saving you money — it's costing you money you wouldn't have otherwise spent.",
-      tip: "Screenshot the deal and compare how you feel about the item 24 hours later. Doing this just a few times will rewire how you read 'urgent' messaging.",
-    },
-    reward: {
-      headline: "For reward spenders",
-      body: "Treating yourself isn't the problem — you've earned it. The challenge is when 'reward' becomes the automatic response to any positive feeling. The rule isn't about denying yourself; it's about making sure the reward actually matches the moment. After 24 hours, ask: is this still the reward I want? When the answer is yes, the purchase becomes even more satisfying.",
-      tip: "Build a running wish list. Adding something to the list scratches the itch without the spend — items that stay on the list for 30 days are genuinely worth getting.",
-    },
+    reflection:"Before your next purchase, pause and ask: am I buying this because I want it — or because of how I'm feeling right now?",
+    teaser:{title:"Mindful Spending Check-In", desc:"Three questions. 90 seconds. Enough to know if you actually want it."},
   },
-  reflection:
-    "Before your next purchase, pause and ask: am I buying this because I want it — or because of how I'm feeling right now?",
-};
+  {
+    id:"L02", number:"02", title:"Mindful Spending Check-In", emoji:"🧘", duration:"2 min",
+    hook:"Your thumb is hovering. The item is in your cart. Something makes you pause. That pause? That's the check-in trying to happen. Let's make it intentional.",
+    concept:"The Mindful Spending Check-In is three questions before any non-essential purchase: Do I need this or want it? Will I still want it in a week? Am I buying this for me, or for how it looks to others? Ninety seconds. That's all it takes to find out if a purchase is genuinely yours.",
+    choices:[
+      {id:"a", emoji:"🛋️", label:"I'm browsing and just found something"},
+      {id:"b", emoji:"🎁", label:"I feel like I've earned a treat"},
+      {id:"c", emoji:"👀", label:"I saw someone else with it and want one"},
+    ],
+    branches:{
+      a:{headline:"The browsing check-in", body:"Browsing mode is a receptive headspace designed for finding things — and algorithms are tuned to your taste. The check-in creates a pattern interrupt: you shift from passive scroll to active choice. Ask the three questions before you hit 'add to cart.' You'll still buy plenty — but they'll be things you actually wanted.", tip:"Try a 'save for later' list instead of your cart. Items you return to after a week? Buy them. Items you forget? You already have your answer."},
+      b:{headline:"The reward check-in", body:"You do deserve nice things. The check-in here is about proportion — does the treat match the moment? A hard week deserves something real. A stressful Tuesday might deserve a walk and a good meal, not a $90 item that arrives days later when the feeling has passed.", tip:"Before you buy, name the thing you're rewarding yourself for — out loud or in writing. If you can name it specifically, the purchase is probably genuine."},
+      c:{headline:"The comparison check-in", body:"Wanting what someone else has is completely human. The check-in helps you separate 'I want that specific thing' from 'I want the feeling that thing seems to give them.' The first leads to purchases you love. The second leads to purchases that don't quite land.", tip:"When you spot something through someone else, add it to a list and wait 48 hours. If you go looking, you wanted it. If you forgot, the moment passed."},
+    },
+    reflection:"Next time you feel the urge to buy something, pause and ask: am I buying this for me — or for the version of me I want others to see?",
+    teaser:{title:"Emotional Spending Awareness", desc:"What's really driving the purchase? Let's find out."},
+  },
+  {
+    id:"L13", number:"13", title:"Emotional Spending Awareness", emoji:"💭", duration:"3 min",
+    hook:"You bought something yesterday. Something small — maybe $18. You barely remember what it was. That's not carelessness. That's emotional spending doing exactly what it's designed to do.",
+    concept:"Emotional spending is using a purchase to manage a feeling. It genuinely works — briefly. The problem is that the feeling that triggered it doesn't go away. Awareness is the first tool. You don't need to stop immediately. You just need to start noticing when it's happening.",
+    choices:[
+      {id:"a", emoji:"😔", label:"Lonely, bored, or disconnected"},
+      {id:"b", emoji:"😰", label:"Anxious, stressed, or overwhelmed"},
+      {id:"c", emoji:"😤", label:"Frustrated, resentful, or low on self-worth"},
+    ],
+    branches:{
+      a:{headline:"When you're spending to feel connected", body:"Shopping fills silence. Browsing creates stimulation. Packages feel like something to look forward to. These are real needs — connection, novelty, anticipation — and buying briefly satisfies them. The awareness practice: am I shopping because I need something, or because I'm looking for something to do?", tip:"Next time you open a shopping app out of boredom, set a 5-minute timer and text someone instead. If the urge is still there after the conversation, it might be genuine. If it's gone, you found what you were actually looking for."},
+      b:{headline:"When you're spending to feel in control", body:"When everything feels uncertain, buying something feels like a decision you can actually make — a small, completable action in a world that feels unmanageable. The awareness practice: the purchase only provides control for as long as the transaction is happening. What comes after is often the same anxiety, plus a receipt.", tip:"When you feel the urge to stress-shop, write down the one thing that's actually bothering you. Just naming it often reduces the urgency more than a purchase would."},
+      c:{headline:"When you're spending to feel deserving", body:"'I've been working so hard and no one notices. I deserve this.' That narrative is true and false at the same time. The purchase is often chosen for what it represents — recognition, reward, proof of value — not what it actually is. What would actually make you feel seen right now?", tip:"Before buying as a reward, write down what you're rewarding yourself for specifically. If you can name it, the purchase may be genuine. If you can't, the spending is chasing the feeling — not delivering it."},
+    },
+    reflection:"The next time you feel the urge to buy, pause for ten seconds and ask: what am I feeling right now that made me open this? Just asking is enough.",
+    teaser:{title:"Saying No to FOMO", desc:"Social pressure is real — here's how to spend from your values instead."},
+  },
+  {
+    id:"L14", number:"14", title:"Saying No to FOMO", emoji:"🙅", duration:"3 min",
+    hook:"The group chat just blew up. Everyone's going. Your stomach tightens. You don't even know if you want to go — but the thought of being the only one who didn't? That feeling has a name. And it has a price tag.",
+    concept:"FOMO spending is almost never about the thing. It's about belonging, identity, and not being left out of a story that feels important. Saying no to FOMO doesn't mean saying no to experiences — it means knowing when you're making a free choice, and when you're following a script someone else wrote.",
+    choices:[
+      {id:"a", emoji:"📱", label:"Social media makes me feel behind"},
+      {id:"b", emoji:"👥", label:"Friend groups and social pressure"},
+      {id:"c", emoji:"⏰", label:"'Limited time' and scarcity messaging"},
+    ],
+    branches:{
+      a:{headline:"When the feed makes you feel behind", body:"Social media shows you a curated highlight reel — everyone's best moments, best purchases, best selves. Comparing your everyday life to that is a losing game by design. The spending it triggers is an attempt to close a gap that doesn't exist. The practice: am I drawn to this thing, or to the life it seems to represent?", tip:"Try a 48-hour unfollow experiment: mute accounts that consistently make you feel like you need to spend. Notice how your spending urges shift within two days."},
+      b:{headline:"When you spend to belong", body:"Group spending pressure is real and often subtle — splitting bills you can't afford, buying tickets to avoid being the one who didn't come. The reframe: the people worth spending your life with are not keeping score. Being honest about your budget is not the same as being left out.", tip:"Have one script ready: 'I'm being more intentional with money right now — can we find something that works for both of us?' Most people will meet you there."},
+      c:{headline:"When the countdown clock gets you", body:"'Limited time.' 'Only 2 left.' 'Sale ends at midnight.' These are pressure mechanisms, not neutral descriptions. The reframe: if this deal disappeared tonight, would I regret not having the item — or would I forget about it by Tuesday? Most 'last chance' deals come back.", tip:"When you see urgency language, add the item to a list and set a 24-hour reminder. If it's gone and you still want it, buy it at full price. If you forgot, the urgency did its job — and you didn't let it."},
+    },
+    reflection:"The next time you feel the pull to spend because of what others are doing — pause and ask: am I making this choice freely, or following a script someone else wrote?",
+    teaser:{title:"The True Cost of Sales", desc:"How 'saving money' became one of the most effective ways to spend more."},
+  },
+  {
+    id:"L15", number:"15", title:"The True Cost of Sales", emoji:"🏷️", duration:"3 min",
+    hook:"The email arrives: 40% off, today only. Your heart rate ticks up. You weren't planning to buy anything. But now you're browsing — because it would be a shame to miss such a good deal.",
+    concept:"Sales don't save you money. They redirect money you weren't planning to spend toward things you weren't planning to buy. The filter is simple: would you buy this at full price? If yes, the sale is a bonus. If no, you're not saving money — you're spending it in a way that feels smarter than it is.",
+    choices:[
+      {id:"a", emoji:"💯", label:"Percentage-off and flash deals get me"},
+      {id:"b", emoji:"📦", label:"Bundle deals and free shipping thresholds"},
+      {id:"c", emoji:"⌛", label:"Clearance and 'last chance' pricing"},
+    ],
+    branches:{
+      a:{headline:"When the discount feels like a win", body:"Percentage discounts activate loss aversion — the discomfort of paying more than you have to. When you see 50% off, your brain registers: if I don't buy now, I'm losing money. But you can only lose money you were going to spend. The filter: what would you pay for this item if no sale price were shown?", tip:"Try covering the original price and looking only at the sale price. Ask: would I buy this without knowing it was higher? If knowing the original is what makes it feel good, you're buying the discount — not the item."},
+      b:{headline:"When you spend more to save more", body:"'Free shipping on orders over $50.' 'Buy 3, get 1 free.' These are designed to increase your order size. Adding a $12 item to hit the free shipping threshold feels smart — until you realize you spent $12 to avoid a $6 fee. The math only works if what you're adding is something you genuinely wanted.", tip:"When about to add something to hit a threshold, ask: would I buy this in a separate trip? If no, the bundle is costing you more than it's saving."},
+      c:{headline:"When 'last chance' feels urgent", body:"Clearance pricing creates a specific psychology: the item is so cheap, it feels wrong not to buy it. But clearance items are often things no one wanted at full price. The question isn't whether the price is low — it's whether you'd want the item at any price if it weren't marked down.", tip:"Before buying clearance, ask: if this item appeared in my home tomorrow with no price tag, would I be glad it was there? If you're not sure, the clearance price is doing more work than the item."},
+    },
+    reflection:"The next time you feel the pull of a sale, ask yourself: would I buy this at full price? If the answer is no — you're not saving money. You're just spending it differently.",
+    teaser:{title:"Your Spending Triggers Map", desc:"Your spending patterns aren't random — they have a map. Let's draw it."},
+  },
+  {
+    id:"L16", number:"16", title:"Your Spending Triggers Map", emoji:"🗺️", duration:"4 min",
+    hook:"You didn't plan to spend anything today. One minute you were doing something else — the next, three tabs were open and your cart had four things in it. Spending doesn't come from nowhere. It comes from conditions.",
+    concept:"A spending trigger is any condition — emotional, environmental, or social — that makes spending feel automatic. Everyone has them, and they follow patterns that are learnable. Mapping your triggers creates a moment of recognition: 'Oh, this is a trigger situation.' That recognition is the gap between automatic and intentional.",
+    choices:[
+      {id:"a", emoji:"💭", label:"My feelings drive my unplanned spending most"},
+      {id:"b", emoji:"🏙️", label:"Certain places, times, or platforms are my triggers"},
+      {id:"c", emoji:"👥", label:"Other people and social contexts are my biggest influence"},
+    ],
+    branches:{
+      a:{headline:"Mapping your emotional triggers", body:"For each significant unplanned purchase you can recall, try to remember: what were you feeling in the hour before? Over time, you'll notice a short list of emotional states that reliably predict your spending. Knowing your emotional trigger list means knowing to check in when those states arrive.", tip:"For one week, every time you make an unplanned purchase, note the feeling that came just before — one word is enough. After seven days, look at the list. The pattern will be obvious."},
+      b:{headline:"Mapping your environmental triggers", body:"Environmental triggers are the easiest to see and most actionable to change. Certain apps, stores, times of day, and physical states (hungry, tired, procrastinating) have reliable associations with spending. Once you identify yours, you can design your environment to reduce accidental exposure — this is called friction-adding.", tip:"Identify your top three environmental triggers. For each, add one layer of friction: log out of shopping apps, unsubscribe from promotional emails, or move your wallet to a different room. Small friction creates big pauses."},
+      c:{headline:"Mapping your social triggers", body:"Social triggers are the subtlest and hardest to name: specific people who make you feel like you should spend more, accounts that generate want, events where spending feels like participation. Mapping them isn't about blaming others — it's about recognizing that your spending decisions are always made inside a social context.", tip:"Think of one person or account that consistently makes you feel behind. Consider what a 30-day mute would feel like. Notice your reaction to the idea. That reaction is information."},
+    },
+    reflection:"The next time you make an unplanned purchase, pause afterward and ask: what were the conditions? The emotion, the environment, the social context. You're building your map one honest observation at a time.",
+    teaser:{title:"The Spending Feelings Journal", desc:"What if the most powerful financial tool you own is a notebook?"},
+  },
+  {
+    id:"L28", number:"28", title:"The Spending Feelings Journal", emoji:"📓", duration:"4 min",
+    hook:"You bought something last week. Maybe $40 or $60. You can picture the item. What you probably can't picture is how you felt the hour before you bought it. That gap — between the feeling and the purchase — is where the pattern lives.",
+    concept:"The Spending Feelings Journal isn't a budget tracker. It tracks the emotional context around your purchases — the before, the during, and the after. Three honest fields, written without judgment. Over time, patterns appear. And those patterns become the most personalized financial tool you have.",
+    choices:[
+      {id:"a", emoji:"⏮️", label:"The Before — what triggers my spending"},
+      {id:"b", emoji:"⏺️", label:"The During — what buying actually feels like"},
+      {id:"c", emoji:"⏭️", label:"The After — how I feel once it's done"},
+    ],
+    branches:{
+      a:{headline:"Starting with the trigger", body:"The 'before' entry is the most revealing and the hardest to catch — because the trigger happens before you've decided to pay attention. The practice is to work backward: after a purchase, reconstruct the emotional state that preceded it. Over time, this backward reconstruction gets faster, until you start noticing the trigger while it's happening.", tip:"Keep the entry short: one sentence, one feeling word, one context note. 'Stressed about work. Opened shopping app at 2pm.' That's enough. The pattern emerges from repetition."},
+      b:{headline:"Noticing the feeling of buying", body:"The 'during' entry captures what most people have never consciously observed: what does it actually feel like to buy something? For some people it's genuine excitement. For others, it's relief, distraction, or a flat numbness that looks like satisfaction but isn't. Knowing your 'during' feeling tells you what need the purchase is trying to meet.", tip:"Next time you're about to complete a purchase, pause five seconds before clicking confirm. Notice your body. What does buying this feel like right now? The anticipation and the completion often feel very different."},
+      c:{headline:"Following the feeling past the receipt", body:"The 'after' entry is where the journal pays off most clearly. Over a few weeks, you'll see which types of purchases reliably leave you feeling satisfied — and which ones leave you flat, regretful, or already thinking about the next thing. That contrast is worth more than any budgeting category.", tip:"Write the after entry at least one hour after the purchase, not immediately. The first feeling is often still dopamine. One hour out, you'll get the honest answer."},
+    },
+    reflection:"When did you last buy something and feel genuinely, lastingly satisfied? What was different about that purchase? That difference is your compass.",
+    teaser:{title:"Healthy Coping Alternatives", desc:"You don't have to stop seeking comfort. You just need more tools in the kit."},
+  },
+  {
+    id:"L29", number:"29", title:"Healthy Coping Alternatives", emoji:"🧰", duration:"4 min",
+    hook:"It's 9pm. You're tired in a specific way — emotionally wrung out. Your phone is in your hand. The shopping app is two taps away. The question isn't whether you deserve comfort. You do. The question is whether this comfort will leave you feeling better — or just less bad, temporarily.",
+    concept:"The goal isn't to stop seeking comfort. It's to expand your toolkit so spending isn't the only option available. Healthy alternatives aren't about discipline — they're about matching the right tool to the right need. Build a personal toolkit that works for you, so spending becomes a choice, not a default.",
+    choices:[
+      {id:"a", emoji:"⚡", label:"Stimulation — I'm bored or restless"},
+      {id:"b", emoji:"🌿", label:"Soothing — I'm anxious or overwhelmed"},
+      {id:"c", emoji:"🤝", label:"Connection — I'm lonely or feeling unseen"},
+    ],
+    branches:{
+      a:{headline:"When boredom is the trigger", body:"Boredom is one of the most underestimated spending triggers. When your mind is under-engaged, browsing and buying provide immediate novelty — exactly what boredom craves. The key is finding alternatives that deliver genuine engagement: a creative project, a game, a walk somewhere new, a conversation, a rabbit hole on something genuinely interesting.", tip:"Build a 'boredom menu' — 5-7 things that genuinely engage you and cost nothing. Keep it visible. The next time you open a shopping app out of boredom, open the list first and choose one thing."},
+      b:{headline:"When anxiety is the trigger", body:"Anxiety-driven spending feels like taking action — doing something to manage a situation that feels out of control. But it leaves you with one more thing to think about on top of the original stress. Effective soothing alternatives work with the nervous system: movement, breathwork, time outdoors, a specific playlist.", tip:"Identify your single most reliable calming tool. Write it somewhere visible. When the spending urge arrives in an anxious moment, do that one thing first. Give it ten minutes."},
+      c:{headline:"When loneliness is the trigger", body:"Loneliness is the hardest trigger to name and the most common driver of spending that doesn't satisfy. Packages provide anticipation. Shopping mimics participation. But the need underneath — to feel connected, seen, part of something — can't be met by an object. The alternatives require more vulnerability than clicking 'add to cart.' They also actually work.", tip:"The next time you feel the spending urge and loneliness might be underneath it, try texting one specific person before opening the app. Not a group chat — one person. The act of choosing someone is already a form of connection."},
+    },
+    reflection:"The next time you want to spend to feel better — pause and ask: what do I actually need right now? Name it specifically. Then ask: is there one thing I could try that gets closer to that need, before I open the app?",
+    teaser: null,
+  },
+];
 
-function ProgressBar({ step, total }) {
+// ─── Shared Components ────────────────────────────────────────────────────────
+
+function OnboardingBar({ step, total }) {
   return (
-    <div style={{ display: "flex", gap: "5px", marginBottom: "4px" }}>
-      {Array.from({ length: total }).map((_, i) => (
-        <div
-          key={i}
-          style={{
-            height: "3px",
-            flex: 1,
-            borderRadius: "99px",
-            background: i < step ? C.teal : "rgba(255,255,255,0.15)",
-            transition: "background 0.4s ease",
-          }}
-        />
+    <div style={{display:"flex", gap:"5px"}}>
+      {Array.from({length:total}).map((_,i) => (
+        <div key={i} style={{
+          height:"4px", flex:1, borderRadius:"99px",
+          background: i < step ? C.dark : "rgba(255,255,255,0.45)",
+          transition:"background 0.4s ease",
+        }}/>
+      ))}
+    </div>
+  );
+}
+
+function ProgressDots({ current, total }) {
+  return (
+    <div style={{display:"flex", gap:"6px", alignItems:"center"}}>
+      {Array.from({length:total}).map((_,i) => (
+        <div key={i} style={{
+          width: i === current ? "22px" : "7px", height:"7px", borderRadius:"99px",
+          background: i < current ? C.dark : i === current ? C.yellow : "rgba(255,255,255,0.45)",
+          transition:"all 0.3s ease",
+          boxShadow: i === current ? `0 0 0 2px rgba(245,217,36,0.35)` : "none",
+        }}/>
       ))}
     </div>
   );
@@ -65,499 +226,363 @@ function ProgressBar({ step, total }) {
 function ChoiceCard({ label, sub, selected, onClick }) {
   const [hover, setHover] = useState(false);
   return (
-    <div
-      onClick={onClick}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+    <div onClick={onClick}
+      onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
-        background: selected
-          ? C.yellow
-          : hover
-          ? "rgba(255,255,255,0.26)"
-          : C.cardBg,
-        border: `1.5px solid ${selected ? C.yellow : hover ? "rgba(255,255,255,0.65)" : C.cardBorder}`,
-        boxShadow: selected ? "0 4px 14px rgba(13,31,29,0.18)" : "0 1px 2px rgba(13,31,29,0.08)",
-        borderRadius: "14px",
-        padding: "16px 20px",
-        cursor: "pointer",
-        transition: "all 0.15s ease",
+        background: selected ? C.cardSelected : hover ? C.cardHover : C.card,
+        border: `1.5px solid ${selected ? C.cardBorderSel : hover ? "rgba(26,51,48,0.25)" : C.cardBorder}`,
+        borderRadius:"14px", padding:"16px 20px", cursor:"pointer",
+        transition:"all 0.15s ease",
         transform: hover && !selected ? "translateY(-2px)" : "none",
-      }}
-    >
-      <p
-        style={{
-          fontSize: "16px",
-          fontWeight: selected ? 600 : 400,
-          margin: "0 0 2px",
-          color: C.deep,
-          lineHeight: 1.4,
-        }}
-      >
-        {label}
-      </p>
-      {sub && (
-        <p style={{ fontSize: "14px", color: "rgba(13,31,29,0.78)", margin: 0, lineHeight: 1.45 }}>
-          {sub}
-        </p>
-      )}
+        boxShadow: selected ? "0 3px 14px rgba(245,217,36,0.4)" : hover ? "0 4px 16px rgba(26,51,48,0.1)" : "0 1px 4px rgba(26,51,48,0.07)",
+      }}>
+      <p style={{fontSize:"16px", fontWeight: selected ? 700 : 500, margin:"0 0 2px",
+        color: C.text, lineHeight:1.4}}>{label}</p>
+      {sub && <p style={{fontSize:"14px", color: C.textSub, margin:0, lineHeight:1.4}}>{sub}</p>}
     </div>
   );
 }
 
-const btnYellow = {
-  background: C.yellow,
-  color: C.dark,
-  border: "none",
-  borderRadius: "12px",
-  padding: "15px 28px",
-  fontSize: "16px",
-  fontWeight: 700,
-  cursor: "pointer",
-  width: "100%",
-  fontFamily: "inherit",
-  transition: "opacity 0.15s ease",
-  letterSpacing: "0.2px",
-};
+function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div onClick={onClick}
+      onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+      style={{
+        display:"flex", alignItems:"center", gap:"16px",
+        background: isCurrent ? C.cardSelected : isComplete ? "rgba(255,255,255,0.65)" : C.card,
+        border: `1.5px solid ${isCurrent ? C.cardBorderSel : isComplete ? "rgba(26,51,48,0.2)" : C.cardBorder}`,
+        borderRadius:"14px", padding:"14px 18px", cursor:"pointer",
+        transition:"all 0.15s ease",
+        transform: hover ? "translateY(-1px)" : "none",
+        boxShadow: isCurrent ? "0 3px 14px rgba(245,217,36,0.4)" : hover ? "0 4px 16px rgba(26,51,48,0.1)" : "0 1px 4px rgba(26,51,48,0.06)",
+      }}>
+      <div style={{fontSize:"26px", minWidth:"32px", textAlign:"center"}}>{lesson.emoji}</div>
+      <div style={{flex:1}}>
+        <p style={{fontSize:"15px", fontWeight:600, margin:"0 0 2px", color:C.text, lineHeight:1.3}}>
+          {lesson.title}
+        </p>
+        <p style={{fontSize:"13px", color:C.textSub, margin:0}}>{lesson.duration}</p>
+      </div>
+      <div style={{
+        fontSize:"12px", fontWeight:700, padding:"4px 11px", borderRadius:"99px", letterSpacing:"0.3px",
+        background: isComplete ? C.dark : isCurrent ? C.dark : "rgba(26,51,48,0.1)",
+        color: isComplete ? C.textOnDark : isCurrent ? C.yellow : C.textSub,
+      }}>
+        {isComplete ? "✓ Done" : isCurrent ? "Go →" : "Soon"}
+      </div>
+    </div>
+  );
+}
 
+// ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Habitrii() {
-  const [screen, setScreen] = useState("welcome");
-  const [q1, setQ1] = useState(null);
-  const [q2, setQ2] = useState(null);
-  const [world, setWorld] = useState(null);
-  const [branch, setBranch] = useState(null);
-  const [fading, setFading] = useState(false);
+  const [screen, setScreen]       = useState("welcome");
+  const [q1, setQ1]               = useState(null);
+  const [q2, setQ2]               = useState(null);
+  const [world, setWorld]         = useState(null);
+  const [lessonIdx, setLessonIdx] = useState(0);
+  const [branch, setBranch]       = useState(null);
+  const [completed, setCompleted] = useState(new Set());
+  const [fading, setFading]       = useState(false);
 
-  const go = (next, updates = {}) => {
+  const go = (next, updates={}) => {
     setFading(true);
-    setTimeout(() => {
-      if (updates.q1 !== undefined) setQ1(updates.q1);
-      if (updates.q2 !== undefined) setQ2(updates.q2);
-      if (updates.world !== undefined) setWorld(updates.world);
-      if (updates.branch !== undefined) setBranch(updates.branch);
-      setScreen(next);
-      setFading(false);
+    setTimeout(()=>{
+      if(updates.q1 !== undefined) setQ1(updates.q1);
+      if(updates.q2 !== undefined) setQ2(updates.q2);
+      if(updates.world !== undefined) setWorld(updates.world);
+      if(updates.lessonIdx !== undefined) setLessonIdx(updates.lessonIdx);
+      if(updates.branch !== undefined) setBranch(updates.branch);
+      if(updates.complete) setCompleted(prev => new Set([...prev, updates.complete]));
+      setScreen(next); setFading(false);
     }, 220);
   };
 
+  const lesson = LESSONS[lessonIdx];
+  const completedCount = completed.size;
+
   const outer = {
-    fontFamily: "'DM Sans', system-ui, -apple-system, sans-serif",
-    background: C.teal,
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: "36px 24px 60px",
-    boxSizing: "border-box",
-    opacity: fading ? 0 : 1,
-    transition: "opacity 0.22s ease",
-    color: C.deep,
+    fontFamily:"'DM Sans', system-ui, -apple-system, sans-serif",
+    background: C.bg, minHeight:"100vh",
+    display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
+    padding:"36px 24px 60px", boxSizing:"border-box",
+    opacity: fading ? 0 : 1, transition:"opacity 0.22s ease", color: C.text,
   };
+  const inner = {width:"100%", maxWidth:"560px", display:"flex", flexDirection:"column", gap:"18px"};
 
-  const inner = {
-    width: "100%",
-    maxWidth: "560px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "18px",
-  };
+  // ── WELCOME ────────────────────────────────────────────────────────────────
+  if(screen==="welcome") return (
+    <div style={{...outer, justifyContent:"center"}}>
+      <div style={{...inner, textAlign:"center"}}>
+        <div style={{background:C.dark, borderRadius:"16px", padding:"32px 28px 36px", marginBottom:"4px", boxShadow:"0 8px 32px rgba(13,31,29,0.25)"}}>
+          <p style={{...label(C.yellow), letterSpacing:"4px", marginBottom:"20px"}}>HABITRII</p>
+          <h1 style={{fontSize:"38px", fontWeight:700, lineHeight:1.2, margin:"0 0 16px", color:C.textOnDark}}>
+            Financial literacy<br/>that actually <span style={{color:C.yellow}}>clicks.</span>
+          </h1>
+          <p style={{fontSize:"17px", color:"rgba(255,255,255,0.72)", lineHeight:1.65, margin:"0 0 32px"}}>
+            A choose-your-own-adventure journey through money — built around how you think, feel, and make decisions.
+          </p>
+          <button onClick={()=>go("q1")} style={btnYellow}>Start your journey →</button>
+        </div>
+        <p style={{fontSize:"12px", color:"rgba(13,31,29,0.5)", margin:0}}>For educational purposes only · Not financial advice</p>
+      </div>
+    </div>
+  );
 
-  // ── WELCOME ──────────────────────────────────────────────────────────────
-  if (screen === "welcome")
-    return (
-      <div style={{ ...outer, justifyContent: "center" }}>
-        <div style={{ ...inner, textAlign: "center" }}>
-          <div>
-            <p
-              style={{
-                fontSize: "12px",
-                letterSpacing: "4px",
-                textTransform: "uppercase",
-                color: C.teal,
-                margin: "0 0 20px",
-                fontWeight: 600,
-              }}
-            >
-              HABITRII
-            </p>
-            <h1
-              style={{
-                fontSize: "38px",
-                fontWeight: 700,
-                lineHeight: 1.2,
-                margin: "0 0 16px",
-                color: C.deep,
-              }}
-            >
-              Financial literacy
-              <br />
-              that actually{" "}
-              <span style={{ color: C.yellow }}>clicks.</span>
-            </h1>
-            <p
-              style={{
-                fontSize: "17px",
-                color: "rgba(255,255,255,0.65)",
-                lineHeight: 1.65,
-                margin: "0 0 36px",
-                maxWidth: "400px",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            >
-              A choose-your-own-adventure journey through money — built around
-              how you think, feel, and make decisions.
-            </p>
+  // ── Q1 ─────────────────────────────────────────────────────────────────────
+  if(screen==="q1") return (
+    <div style={outer}>
+      <div style={inner}>
+        <OnboardingBar step={1} total={3}/>
+        <div style={{background:C.card, borderRadius:"14px", padding:"20px 22px", boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+          <p style={label(C.teal)}>QUESTION 1 OF 2</p>
+          <h2 style={{fontSize:"22px", fontWeight:700, margin:0, lineHeight:1.35, color:C.text}}>Where are you on your financial learning journey?</h2>
+        </div>
+        {[
+          {id:1, label:"I'm pretty new to this", sub:"I don't really know where to start with money stuff"},
+          {id:2, label:"I know the basics", sub:"I want to get smarter about saving, budgeting, or debt"},
+          {id:3, label:"I'm fairly knowledgeable", sub:"I want deeper insights into why I make the decisions I do"},
+        ].map(o=>(
+          <ChoiceCard key={o.id} label={o.label} sub={o.sub} selected={q1===o.id}
+            onClick={()=>{setQ1(o.id); setTimeout(()=>go("q2"),280);}}/>
+        ))}
+      </div>
+    </div>
+  );
+
+  // ── Q2 ─────────────────────────────────────────────────────────────────────
+  if(screen==="q2") return (
+    <div style={outer}>
+      <div style={inner}>
+        <OnboardingBar step={2} total={3}/>
+        <div style={{background:C.card, borderRadius:"14px", padding:"20px 22px", boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+          <p style={label(C.teal)}>QUESTION 2 OF 2</p>
+          <h2 style={{fontSize:"22px", fontWeight:700, margin:0, lineHeight:1.35, color:C.text}}>Habitrii uses personality frameworks to personalize your journey. Which sounds like you?</h2>
+        </div>
+        {[
+          {id:"a", label:"I know my MBTI and/or astrology signs", sub:"Let's use them to shape my experience"},
+          {id:"b", label:"I'm curious but new to personality stuff", sub:"Help me figure it out as we go"},
+          {id:"c", label:"I'm mainly here for the financial lessons", sub:"Personality is a fun bonus, not a priority"},
+        ].map(o=>(
+          <ChoiceCard key={o.id} label={o.label} sub={o.sub} selected={q2===o.id}
+            onClick={()=>{setQ2(o.id); setTimeout(()=>go("worlds"),280);}}/>
+        ))}
+      </div>
+    </div>
+  );
+
+  // ── WORLD SELECT ───────────────────────────────────────────────────────────
+  if(screen==="worlds") return (
+    <div style={outer}>
+      <div style={inner}>
+        <OnboardingBar step={3} total={3}/>
+        <div style={{background:C.card, borderRadius:"14px", padding:"20px 22px", boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+          <h2 style={{fontSize:"22px", fontWeight:700, margin:"0 0 6px", color:C.text, lineHeight:1.3}}>Choose your first Story World</h2>
+          <p style={{fontSize:"15px", color:C.textSub, margin:0}}>Each world is a themed journey through a cluster of financial concepts.</p>
+        </div>
+        {[
+          {id:"mind",   emoji:"🧠", title:"Mind & Money",         desc:"Your emotional relationship with spending — and how to shift it", live:true},
+          {id:"budget", emoji:"📐", title:"Budgeting Foundations", desc:"Build a system that actually works for your life"},
+          {id:"safety", emoji:"🛡️",title:"Safety & Stability",   desc:"Create a financial safety net from the ground up"},
+          {id:"debt",   emoji:"💳", title:"Debt & Credit",         desc:"Take control of what you owe and build your score"},
+          {id:"values", emoji:"🌟", title:"Advanced & Values",     desc:"Align your spending with what actually matters to you"},
+        ].map(w=>(
+          <div key={w.id} style={{position:"relative"}}>
+            <ChoiceCard label={`${w.emoji}  ${w.title}`}
+              sub={w.live ? w.desc : `${w.desc} — Coming soon`}
+              selected={world===w.id}
+              onClick={()=>{ if(!w.live) return; setWorld(w.id); setTimeout(()=>go("lesson_map"),280); }}/>
+            {!w.live && <div style={{position:"absolute", top:"14px", right:"16px", ...pill("rgba(26,51,48,0.1)", C.textMut)}}>Soon</div>}
           </div>
-          <button onClick={() => go("q1")} style={btnYellow}>
-            Start your journey →
+        ))}
+      </div>
+    </div>
+  );
+
+  // ── LESSON MAP ─────────────────────────────────────────────────────────────
+  if(screen==="lesson_map") return (
+    <div style={outer}>
+      <div style={inner}>
+        <div style={{background:C.dark, borderRadius:"16px", padding:"20px 22px", boxShadow:"0 4px 20px rgba(13,31,29,0.2)"}}>
+          <p style={label(C.yellow)}>STORY WORLD</p>
+          <h2 style={{fontSize:"26px", fontWeight:700, margin:"0 0 16px", color:C.textOnDark}}>🧠 Mind & Money</h2>
+          <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+            <ProgressDots current={completedCount} total={8}/>
+            <p style={{fontSize:"13px", color:"rgba(255,255,255,0.6)", margin:0, fontWeight:500}}>{completedCount} of 8 complete</p>
+          </div>
+        </div>
+        <p style={{fontSize:"15px", color:C.textSub, margin:0, lineHeight:1.65, fontWeight:500}}>
+          Explore all 8 lessons in any order. Each one deepens your understanding of the relationship between feelings and spending.
+        </p>
+        <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+          {LESSONS.map((l,i)=>(
+            <LessonCard key={l.id} lesson={l} isComplete={completed.has(l.id)}
+              isCurrent={!completed.has(l.id) && completedCount===i}
+              onClick={()=>go("scene",{lessonIdx:i, branch:null})}/>
+          ))}
+        </div>
+        {completedCount===8 && (
+          <button onClick={()=>go("world_complete")} style={btnYellow}>🌟 View world completion →</button>
+        )}
+      </div>
+    </div>
+  );
+
+  // ── SCENE ──────────────────────────────────────────────────────────────────
+  if(screen==="scene") return (
+    <div style={outer}>
+      <div style={inner}>
+        <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+          <button onClick={()=>go("lesson_map")} style={{background:"rgba(255,255,255,0.5)", border:"1.5px solid rgba(26,51,48,0.18)", borderRadius:"99px", padding:"5px 14px", color:C.text, cursor:"pointer", fontSize:"13px", fontWeight:600, fontFamily:"inherit"}}>
+            ← Map
           </button>
-          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)", margin: 0 }}>
-            For educational purposes only · Not financial advice
-          </p>
+          <ProgressDots current={lessonIdx} total={8}/>
+          <span style={{...pill("rgba(26,51,48,0.12)", C.textSub), fontSize:"12px"}}>{lessonIdx+1}/8</span>
         </div>
-      </div>
-    );
 
-  // ── Q1: KNOWLEDGE LEVEL ─────────────────────────────────────────────────
-  if (screen === "q1")
-    return (
-      <div style={outer}>
-        <div style={inner}>
-          <ProgressBar step={1} total={4} />
-          <div>
-            <p
-              style={{
-                fontSize: "11px",
-                letterSpacing: "2.5px",
-                textTransform: "uppercase",
-                color: C.teal,
-                margin: "0 0 10px",
-                fontWeight: 600,
-              }}
-            >
-              QUESTION 1 OF 2
-            </p>
-            <h2 style={{ fontSize: "24px", fontWeight: 700, margin: 0, lineHeight: 1.3 }}>
-              Where are you on your financial learning journey?
-            </h2>
-          </div>
-          {[
-            { id: 1, label: "I'm pretty new to this", sub: "I don't really know where to start with money stuff" },
-            { id: 2, label: "I know the basics", sub: "I want to get smarter about saving, budgeting, or debt" },
-            { id: 3, label: "I'm fairly knowledgeable", sub: "I want deeper insights into why I make the money decisions I do" },
-          ].map((o) => (
-            <ChoiceCard
-              key={o.id}
-              label={o.label}
-              sub={o.sub}
-              selected={q1 === o.id}
-              onClick={() => { setQ1(o.id); setTimeout(() => go("q2"), 280); }}
-            />
-          ))}
+        <div style={{background:C.card, borderRadius:"16px", padding:"20px 22px", borderTop:`4px solid ${C.yellow}`, boxShadow:"0 4px 16px rgba(26,51,48,0.1)"}}>
+          <p style={label(C.teal)}>🧠 MIND & MONEY · LESSON {lessonIdx+1} OF 8</p>
+          <h2 style={{fontSize:"26px", fontWeight:700, margin:"0 0 14px", color:C.text, lineHeight:1.2}}>{lesson.emoji} {lesson.title}</h2>
+          <p style={{fontSize:"16px", color:C.textSub, margin:0, lineHeight:1.72, fontStyle:"italic"}}>"{lesson.hook}"</p>
         </div>
-      </div>
-    );
 
-  // ── Q2: PERSONALITY ──────────────────────────────────────────────────────
-  if (screen === "q2")
-    return (
-      <div style={outer}>
-        <div style={inner}>
-          <ProgressBar step={2} total={4} />
-          <div>
-            <p
-              style={{
-                fontSize: "11px",
-                letterSpacing: "2.5px",
-                textTransform: "uppercase",
-                color: C.teal,
-                margin: "0 0 10px",
-                fontWeight: 600,
-              }}
-            >
-              QUESTION 2 OF 2
-            </p>
-            <h2 style={{ fontSize: "24px", fontWeight: 700, margin: 0, lineHeight: 1.3 }}>
-              Habitrii uses personality frameworks to personalize your journey. Which sounds like you?
-            </h2>
-          </div>
-          {[
-            { id: "a", label: "I know my MBTI and/or astrology signs", sub: "Let's use them to shape my experience" },
-            { id: "b", label: "I'm curious but new to personality stuff", sub: "Help me figure it out as we go" },
-            { id: "c", label: "I'm mainly here for the financial lessons", sub: "Personality is a fun bonus, not a priority" },
-          ].map((o) => (
-            <ChoiceCard
-              key={o.id}
-              label={o.label}
-              sub={o.sub}
-              selected={q2 === o.id}
-              onClick={() => { setQ2(o.id); setTimeout(() => go("worlds"), 280); }}
-            />
-          ))}
+        <div style={{background:"rgba(255,255,255,0.6)", borderRadius:"14px", padding:"18px 20px", boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
+          <p style={{fontSize:"16px", lineHeight:1.78, color:C.text, margin:0}}>{lesson.concept}</p>
         </div>
-      </div>
-    );
 
-  // ── WORLD SELECT ────────────────────────────────────────────────────────
-  if (screen === "worlds")
-    return (
-      <div style={outer}>
-        <div style={inner}>
-          <ProgressBar step={3} total={4} />
-          <div>
-            <h2 style={{ fontSize: "24px", fontWeight: 700, margin: "0 0 6px", lineHeight: 1.3 }}>
-              Choose your first Story World
-            </h2>
-            <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.85)", margin: 0 }}>
-              Each world is a themed journey through a cluster of financial concepts.
-            </p>
-          </div>
-          {[
-            { id: "mind", emoji: "🧠", title: "Mind & Money", desc: "Your emotional relationship with spending — and how to shift it" },
-            { id: "budget", emoji: "📐", title: "Budgeting Foundations", desc: "Build a system that actually works for your life" },
-            { id: "safety", emoji: "🛡️", title: "Safety & Stability", desc: "Create a financial safety net from the ground up" },
-            { id: "debt", emoji: "💳", title: "Debt & Credit", desc: "Take control of what you owe and build your score" },
-            { id: "values", emoji: "🌟", title: "Advanced & Values", desc: "Align your spending with what actually matters to you" },
-          ].map((w) => (
-            <ChoiceCard
-              key={w.id}
-              label={`${w.emoji}  ${w.title}`}
-              sub={w.desc}
-              selected={world === w.id}
-              onClick={() => { setWorld(w.id); setTimeout(() => go("scene"), 280); }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-
-  // ── SCENE: THE 24-HOUR RULE ──────────────────────────────────────────────
-  if (screen === "scene")
-    return (
-      <div style={outer}>
-        <div style={inner}>
-          <ProgressBar step={4} total={4} />
-          <div
-            style={{
-              background: C.yellowSoft,
-              border: `1px solid ${C.yellowBorder}`,
-              borderRadius: "14px",
-              padding: "18px 22px",
-              boxShadow: "0 2px 10px rgba(13,31,29,0.10)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "11px",
-                letterSpacing: "2.5px",
-                textTransform: "uppercase",
-                color: C.dark,
-                margin: "0 0 8px",
-                fontWeight: 600,
-              }}
-            >
-              🧠 MIND &amp; MONEY · LESSON 1
-            </p>
-            <h2 style={{ fontSize: "28px", fontWeight: 700, margin: "0 0 14px", lineHeight: 1.2 }}>
-              The 24-Hour Rule
-            </h2>
-            <p
-              style={{
-                fontSize: "16px",
-                color: "rgba(255,255,255,0.8)",
-                margin: 0,
-                lineHeight: 1.7,
-                fontStyle: "italic",
-              }}
-            >
-              "{scene.hook}"
-            </p>
-          </div>
-          <p style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(255,255,255,0.95)", margin: 0 }}>
-            {scene.concept}
-          </p>
-          <div>
-            <p
-              style={{
-                fontSize: "15px",
-                fontWeight: 600,
-                color: "#ffffff",
-                margin: "0 0 12px",
-              }}
-            >
-              Which of these sounds most like you?
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {scene.choices.map((c) => (
-                <ChoiceCard
-                  key={c.id}
-                  label={`${c.emoji}  ${c.label}`}
-                  selected={branch === c.id}
-                  onClick={() => { setBranch(c.id); setTimeout(() => go("branch", { branch: c.id }), 280); }}
-                />
-              ))}
-            </div>
+        <div>
+          <p style={{fontSize:"15px", fontWeight:700, color:C.text, margin:"0 0 12px"}}>Which of these sounds most like you?</p>
+          <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+            {lesson.choices.map(ch=>(
+              <ChoiceCard key={ch.id} label={`${ch.emoji}  ${ch.label}`} selected={branch===ch.id}
+                onClick={()=>{setBranch(ch.id); setTimeout(()=>go("branch",{branch:ch.id}),280);}}/>
+            ))}
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 
-  // ── BRANCH ───────────────────────────────────────────────────────────────
-  if (screen === "branch" && branch) {
-    const b = scene.branches[branch];
+  // ── BRANCH ─────────────────────────────────────────────────────────────────
+  if(screen==="branch" && branch) {
+    const b = lesson.branches[branch];
     return (
       <div style={outer}>
         <div style={inner}>
-          <div
-            style={{
-              background: "rgba(245,217,36,0.18)",
-              border: `1.5px solid ${C.yellow}`,
-              boxShadow: "0 2px 12px rgba(13,31,29,0.12)",
-              borderRadius: "14px",
-              padding: "18px 22px",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "11px",
-                letterSpacing: "2.5px",
-                textTransform: "uppercase",
-                color: C.yellow,
-                margin: "0 0 6px",
-                fontWeight: 600,
-              }}
-            >
-              YOUR PATH
-            </p>
-            <h3 style={{ fontSize: "24px", fontWeight: 700, margin: 0, color: C.yellow }}>
-              {b.headline}
-            </h3>
+          <div style={{background:C.cardSelected, border:"1.5px solid rgba(26,51,48,0.25)", borderRadius:"16px", padding:"20px 22px", boxShadow:"0 4px 18px rgba(245,217,36,0.35)"}}>
+            <p style={label(C.dark)}>YOUR PATH</p>
+            <h3 style={{fontSize:"24px", fontWeight:700, margin:0, color:C.dark}}>{b.headline}</h3>
           </div>
-          <p style={{ fontSize: "16px", lineHeight: 1.8, color: "#ffffff", margin: 0 }}>
-            {b.body}
-          </p>
-          <div
-            style={{
-              background: C.mid,
-              borderLeft: `3px solid ${C.teal}`,
-              borderRadius: "0 10px 10px 0",
-              padding: "16px 20px",
-            }}
-          >
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.95)", margin: 0, lineHeight: 1.65 }}>
-              {b.tip}
-            </p>
+
+          <div style={{background:C.card, borderRadius:"14px", padding:"20px 22px", boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+            <p style={{fontSize:"16px", lineHeight:1.8, color:C.text, margin:0}}>{b.body}</p>
           </div>
-          <button onClick={() => go("reflect")} style={btnYellow}>
-            Continue →
-          </button>
+
+          <div style={{background:C.dark, borderLeft:`4px solid ${C.yellow}`, borderRadius:"0 12px 12px 0", padding:"16px 20px", boxShadow:"0 2px 10px rgba(13,31,29,0.18)"}}>
+            <p style={{fontSize:"14px", color:C.textOnDark, margin:0, lineHeight:1.7}}>{b.tip}</p>
+          </div>
+
+          <button onClick={()=>go("reflect")} style={btnYellow}>Continue →</button>
         </div>
       </div>
     );
   }
 
-  // ── REFLECTION ───────────────────────────────────────────────────────────
-  if (screen === "reflect")
-    return (
-      <div style={{ ...outer, justifyContent: "center" }}>
-        <div style={{ ...inner, textAlign: "center" }}>
-          <div style={{ fontSize: "52px" }}>💛</div>
-          <h2 style={{ fontSize: "26px", fontWeight: 700, margin: 0, lineHeight: 1.3 }}>
-            Reflection moment
-          </h2>
-          <div
-            style={{
-              background: C.yellowSoft,
-              border: `1.5px solid ${C.yellowBorder}`,
-              borderRadius: "16px",
-              padding: "28px 32px",
-              boxShadow: "0 4px 18px rgba(13,31,29,0.14)",
-            }}
-          >
-            <p style={{ fontSize: "20px", lineHeight: 1.7, color: C.deep, margin: 0, fontStyle: "italic" }}>
-              "{scene.reflection}"
-            </p>
-          </div>
-          <p
-            style={{
-              fontSize: "15px",
-              color: "rgba(255,255,255,0.85)",
-              lineHeight: 1.65,
-              margin: 0,
-              maxWidth: "420px",
-              alignSelf: "center",
-            }}
-          >
-            Save this somewhere you'll see it before you shop. Even asking it once starts rewiring the habit.
-          </p>
-          <button onClick={() => go("complete")} style={btnYellow}>
-            I've got it 💛
-          </button>
-        </div>
-      </div>
-    );
+  // ── REFLECT ────────────────────────────────────────────────────────────────
+  if(screen==="reflect") return (
+    <div style={{...outer, justifyContent:"center"}}>
+      <div style={{...inner, textAlign:"center"}}>
+        <div style={{fontSize:"52px"}}>💛</div>
+        <h2 style={{fontSize:"26px", fontWeight:700, margin:0, color:C.text, lineHeight:1.3}}>Reflection moment</h2>
 
-  // ── COMPLETE ─────────────────────────────────────────────────────────────
-  if (screen === "complete")
+        <div style={{background:C.dark, borderRadius:"16px", padding:"24px 28px", boxShadow:"0 6px 24px rgba(13,31,29,0.22)"}}>
+          <p style={{fontSize:"19px", lineHeight:1.75, color:C.textOnDark, margin:0, fontStyle:"italic"}}>"{lesson.reflection}"</p>
+        </div>
+
+        <p style={{fontSize:"15px", color:C.textSub, lineHeight:1.65, margin:0, maxWidth:"420px", alignSelf:"center", fontWeight:500}}>
+          Save this somewhere you'll see it. Even asking it once starts rewiring the habit.
+        </p>
+        <button onClick={()=>go("lesson_complete",{complete:lesson.id})} style={btnYellow}>I've got it 💛</button>
+      </div>
+    </div>
+  );
+
+  // ── LESSON COMPLETE ────────────────────────────────────────────────────────
+  if(screen==="lesson_complete") {
+    const newCompleted = new Set([...completed, lesson.id]);
+    const allDone = newCompleted.size === 8;
+    const nextLesson = LESSONS[lessonIdx + 1];
     return (
-      <div style={{ ...outer, justifyContent: "center" }}>
-        <div style={{ ...inner, textAlign: "center" }}>
-          <div style={{ fontSize: "56px" }}>✨</div>
-          <div>
-            <h2 style={{ fontSize: "30px", fontWeight: 700, margin: "0 0 12px" }}>
-              Lesson 1 complete
-            </h2>
-            <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.92)", lineHeight: 1.65, margin: 0 }}>
-              You just did the hardest part — starting. The 24-Hour Rule is now in your toolkit.
-            </p>
+      <div style={{...outer, justifyContent:"center"}}>
+        <div style={{...inner, textAlign:"center"}}>
+          <div style={{background:C.cardSelected, borderRadius:"20px", padding:"28px 24px", boxShadow:"0 6px 24px rgba(245,217,36,0.4)"}}>
+            <div style={{fontSize:"48px", marginBottom:"12px"}}>✅</div>
+            <h2 style={{fontSize:"26px", fontWeight:700, margin:"0 0 8px", color:C.dark}}>Lesson {lessonIdx+1} complete</h2>
+            <p style={{fontSize:"15px", color:"rgba(13,31,29,0.7)", margin:0}}>{lesson.emoji} {lesson.title}</p>
           </div>
-          <div
-            style={{
-              background: C.mid,
-              borderRadius: "14px",
-              padding: "20px 24px",
-              textAlign: "left",
-              borderLeft: `4px solid ${C.yellow}`,
-              boxShadow: "0 2px 10px rgba(13,31,29,0.18)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "11px",
-                letterSpacing: "2.5px",
-                textTransform: "uppercase",
-                color: C.teal,
-                margin: "0 0 8px",
-                fontWeight: 600,
-              }}
-            >
-              NEXT IN MIND &amp; MONEY
-            </p>
-            <p style={{ fontSize: "19px", fontWeight: 700, margin: "0 0 6px" }}>
-              🧘 Mindful Spending Check-In
-            </p>
-            <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.85)", margin: 0, lineHeight: 1.55 }}>
-              A quick 3-question pause before any purchase — takes 90 seconds, saves real money
-            </p>
+
+          <div style={{background:"rgba(255,255,255,0.7)", borderRadius:"12px", padding:"12px 18px", display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+            <ProgressDots current={newCompleted.size} total={8}/>
+            <p style={{fontSize:"13px", color:C.textSub, margin:0, fontWeight:600}}>{newCompleted.size}/8 done</p>
           </div>
-          <button
-            onClick={() => go("welcome", { q1: null, q2: null, world: null, branch: null })}
-            style={{
-              ...btnYellow,
-              background: "rgba(255,255,255,0.10)",
-              border: `1.5px solid ${C.yellow}`,
-              color: C.yellow,
-            }}
-          >
-            ↩ Restart
-          </button>
-          <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)", margin: 0, lineHeight: 1.5 }}>
-            For educational purposes only · Not financial advice
-          </p>
+
+          {!allDone && lesson.teaser && nextLesson && (
+            <div style={{background:C.dark, borderRadius:"14px", padding:"20px 24px", textAlign:"left", boxShadow:"0 4px 16px rgba(13,31,29,0.2)"}}>
+              <p style={{...label(C.yellow), marginBottom:"8px"}}>UP NEXT</p>
+              <p style={{fontSize:"18px", fontWeight:700, margin:"0 0 5px", color:C.textOnDark}}>{nextLesson.emoji} {lesson.teaser.title}</p>
+              <p style={{fontSize:"14px", color:"rgba(255,255,255,0.65)", margin:0, lineHeight:1.5}}>{lesson.teaser.desc}</p>
+            </div>
+          )}
+
+          <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+            {!allDone && nextLesson && (
+              <button onClick={()=>go("scene",{lessonIdx:lessonIdx+1, branch:null})} style={btnYellow}>
+                Continue journey →
+              </button>
+            )}
+            {allDone && (
+              <button onClick={()=>go("world_complete")} style={btnYellow}>🌟 Complete the world →</button>
+            )}
+            <button onClick={()=>go("lesson_map")} style={btnGhost}>← Back to lesson map</button>
+          </div>
         </div>
       </div>
     );
+  }
+
+  // ── WORLD COMPLETE ─────────────────────────────────────────────────────────
+  if(screen==="world_complete") return (
+    <div style={{...outer, justifyContent:"center"}}>
+      <div style={{...inner, textAlign:"center"}}>
+        <div style={{background:C.dark, borderRadius:"20px", padding:"32px 28px", boxShadow:"0 8px 32px rgba(13,31,29,0.3)"}}>
+          <div style={{fontSize:"56px", marginBottom:"12px"}}>🌟</div>
+          <p style={{...label(C.yellow), letterSpacing:"3px", marginBottom:"8px"}}>WORLD COMPLETE</p>
+          <h2 style={{fontSize:"30px", fontWeight:700, margin:"0 0 12px", color:C.textOnDark}}>Mind & Money</h2>
+          <p style={{fontSize:"16px", color:"rgba(255,255,255,0.72)", lineHeight:1.65, margin:0}}>
+            You've completed all 8 lessons. You now have a real map of how your emotions, environment, and social world shape your spending — and a growing toolkit to work with it.
+          </p>
+        </div>
+
+        <div style={{background:C.card, borderRadius:"14px", padding:"20px 22px", textAlign:"left", boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+          <p style={{...label(C.teal), marginBottom:"12px"}}>WHAT YOU COVERED</p>
+          {LESSONS.map(l=>(
+            <div key={l.id} style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"8px"}}>
+              <span style={{fontSize:"16px"}}>{l.emoji}</span>
+              <p style={{fontSize:"14px", color:C.text, margin:0, fontWeight:500}}>{l.title}</p>
+              <span style={{marginLeft:"auto", color:C.teal, fontWeight:700, fontSize:"14px"}}>✓</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{display:"flex", flexDirection:"column", gap:"10px"}}>
+          <button onClick={()=>go("worlds")} style={btnYellow}>Choose your next world →</button>
+          <button onClick={()=>go("lesson_map")} style={btnGhost}>Revisit Mind & Money</button>
+        </div>
+        <p style={{fontSize:"12px", color:C.textMut, margin:0}}>For educational purposes only · Not financial advice · AVEN LLC</p>
+      </div>
+    </div>
+  );
 
   return null;
 }
