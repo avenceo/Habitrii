@@ -2,30 +2,59 @@ import { useState } from "react";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
-  bg: "#57b7a7", dark: "#1a3330", mid: "#2a4a44",
-  card: "#ffffff", cardHover: "#f0faf8", cardSelected: "#f5d924",
-  cardBorder: "rgba(26,51,48,0.14)", cardBorderSel: "rgba(26,51,48,0.35)",
-  text: "#0d1f1d", textSub: "rgba(13,31,29,0.65)", textMut: "rgba(13,31,29,0.45)",
-  textOnDark: "#ffffff", teal: "#57b7a7", yellow: "#f5d924", gray: "#a09e98",
+  bg:"#57b7a7", dark:"#1a3330", mid:"#2a4a44",
+  card:"#ffffff", cardHover:"#f0faf8", cardSelected:"#f5d924",
+  cardBorder:"rgba(26,51,48,0.14)", cardBorderSel:"rgba(26,51,48,0.35)",
+  text:"#0d1f1d", textSub:"rgba(13,31,29,0.65)", textMut:"rgba(13,31,29,0.45)",
+  textOnDark:"#ffffff", teal:"#57b7a7", yellow:"#f5d924", gray:"#a09e98",
 };
 
-// ─── Shared Styles ────────────────────────────────────────────────────────────
 const btnYellow = {
-  background: C.yellow, color: C.dark, border: "none", borderRadius: "12px",
-  padding: "15px 28px", fontSize: "16px", fontWeight: 700, cursor: "pointer",
-  width: "100%", fontFamily: "inherit", letterSpacing: "0.2px",
-  boxShadow: "0 2px 12px rgba(245,217,36,0.35)", transition: "all 0.15s ease",
+  background:C.yellow, color:C.dark, border:"none", borderRadius:"12px",
+  padding:"15px 28px", fontSize:"16px", fontWeight:700, cursor:"pointer",
+  width:"100%", fontFamily:"inherit", letterSpacing:"0.2px",
+  boxShadow:"0 2px 12px rgba(245,217,36,0.35)", transition:"all 0.15s ease",
 };
 const btnGhost = {
-  background: "rgba(255,255,255,0.5)", color: C.dark,
-  border: "1.5px solid rgba(26,51,48,0.22)", borderRadius: "12px",
-  padding: "15px 28px", fontSize: "16px", fontWeight: 600, cursor: "pointer",
-  width: "100%", fontFamily: "inherit", transition: "all 0.15s ease",
+  background:"rgba(255,255,255,0.5)", color:C.dark,
+  border:"1.5px solid rgba(26,51,48,0.22)", borderRadius:"12px",
+  padding:"15px 28px", fontSize:"16px", fontWeight:600, cursor:"pointer",
+  width:"100%", fontFamily:"inherit", transition:"all 0.15s ease",
 };
-const lbl = (color = C.dark) => ({
-  fontSize: "11px", letterSpacing: "2.5px", textTransform: "uppercase",
-  color, fontWeight: 600, margin: "0 0 8px",
+const lbl = (color=C.dark) => ({
+  fontSize:"11px", letterSpacing:"2.5px", textTransform:"uppercase",
+  color, fontWeight:600, margin:"0 0 8px",
 });
+
+// ─── Personality Data ─────────────────────────────────────────────────────────
+const MBTI_TYPES = [
+  {code:"INTJ",label:"Architect"},  {code:"INTP",label:"Thinker"},
+  {code:"ENTJ",label:"Commander"},  {code:"ENTP",label:"Debater"},
+  {code:"INFJ",label:"Advocate"},   {code:"INFP",label:"Mediator"},
+  {code:"ENFJ",label:"Protagonist"},{code:"ENFP",label:"Champion"},
+  {code:"ISTJ",label:"Inspector"},  {code:"ISFJ",label:"Defender"},
+  {code:"ESTJ",label:"Executive"},  {code:"ESFJ",label:"Consul"},
+  {code:"ISTP",label:"Virtuoso"},   {code:"ISFP",label:"Adventurer"},
+  {code:"ESTP",label:"Entrepreneur"},{code:"ESFP",label:"Entertainer"},
+];
+
+const WESTERN_SIGNS = [
+  {sign:"Aries",emoji:"♈"},{sign:"Taurus",emoji:"♉"},
+  {sign:"Gemini",emoji:"♊"},{sign:"Cancer",emoji:"♋"},
+  {sign:"Leo",emoji:"♌"},{sign:"Virgo",emoji:"♍"},
+  {sign:"Libra",emoji:"♎"},{sign:"Scorpio",emoji:"♏"},
+  {sign:"Sagittarius",emoji:"♐"},{sign:"Capricorn",emoji:"♑"},
+  {sign:"Aquarius",emoji:"♒"},{sign:"Pisces",emoji:"♓"},
+];
+
+const CHINESE_ZODIAC = [
+  {sign:"Rat",emoji:"🐭"},{sign:"Ox",emoji:"🐂"},
+  {sign:"Tiger",emoji:"🐯"},{sign:"Rabbit",emoji:"🐰"},
+  {sign:"Dragon",emoji:"🐲"},{sign:"Snake",emoji:"🐍"},
+  {sign:"Horse",emoji:"🐴"},{sign:"Goat",emoji:"🐑"},
+  {sign:"Monkey",emoji:"🐵"},{sign:"Rooster",emoji:"🐓"},
+  {sign:"Dog",emoji:"🐶"},{sign:"Pig",emoji:"🐷"},
+];
 
 // ─── Lesson Data ──────────────────────────────────────────────────────────────
 const LESSONS = [
@@ -163,7 +192,7 @@ const LESSONS = [
       c:{headline:"When loneliness is the trigger",body:"Loneliness is the hardest trigger to name and the most common driver of spending that doesn't satisfy. Packages provide anticipation. Shopping mimics participation. But the need underneath — to feel connected, seen, part of something — can't be met by an object. The alternatives require more vulnerability than clicking 'add to cart.' They also actually work.",tip:"The next time you feel the spending urge and loneliness might be underneath it, try texting one specific person before opening the app. Not a group chat — one person. The act of choosing someone is already a form of connection."},
     },
     reflection:"The next time you want to spend to feel better — pause and ask: what do I actually need right now? Name it specifically. Then ask: is there one thing I could try that gets closer to that need, before I open the app?",
-    teaser: null,
+    teaser:null,
   },
 ];
 
@@ -213,6 +242,42 @@ function ChoiceCard({ label, sub, selected, onClick }) {
   );
 }
 
+function MBTICard({ type, selected, onClick }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+      style={{
+        background:selected?C.cardSelected:hover?C.cardHover:C.card,
+        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(26,51,48,0.25)":C.cardBorder}`,
+        borderRadius:"12px",padding:"12px 6px",cursor:"pointer",
+        textAlign:"center",transition:"all 0.15s ease",
+        transform:hover&&!selected?"translateY(-2px)":"none",
+        boxShadow:selected?"0 3px 12px rgba(245,217,36,0.4)":hover?"0 3px 12px rgba(26,51,48,0.1)":"0 1px 4px rgba(26,51,48,0.06)",
+      }}>
+      <p style={{fontSize:"14px",fontWeight:700,margin:"0 0 3px",color:C.text,letterSpacing:"0.5px"}}>{type.code}</p>
+      <p style={{fontSize:"10px",color:C.textSub,margin:0,lineHeight:1.3}}>{type.label}</p>
+    </div>
+  );
+}
+
+function SignCard({ data, selected, onClick }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+      style={{
+        background:selected?C.cardSelected:hover?C.cardHover:C.card,
+        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(26,51,48,0.25)":C.cardBorder}`,
+        borderRadius:"12px",padding:"10px 4px",cursor:"pointer",
+        textAlign:"center",transition:"all 0.15s ease",
+        transform:hover&&!selected?"translateY(-2px)":"none",
+        boxShadow:selected?"0 3px 12px rgba(245,217,36,0.4)":"0 1px 4px rgba(26,51,48,0.06)",
+      }}>
+      <p style={{fontSize:"18px",margin:"0 0 3px",lineHeight:1}}>{data.emoji}</p>
+      <p style={{fontSize:"10px",color:C.text,margin:0,fontWeight:500,lineHeight:1.3}}>{data.sign}</p>
+    </div>
+  );
+}
+
 function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
   const [hover, setHover] = useState(false);
   return (
@@ -240,87 +305,90 @@ function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
   );
 }
 
+// ─── Profile Badge ─────────────────────────────────────────────────────────────
+function ProfileBadge({ q1, q2, mbti, westernSign, chineseSign }) {
+  const has = [mbti, westernSign, chineseSign].filter(Boolean);
+  if (!has.length) return null;
+  return (
+    <div style={{display:"flex",flexWrap:"wrap",gap:"6px",padding:"10px 14px",
+      background:"rgba(255,255,255,0.5)",borderRadius:"10px",
+      border:"1px solid rgba(26,51,48,0.12)"}}>
+      <p style={{fontSize:"11px",fontWeight:600,color:C.textSub,margin:"0 6px 0 0",letterSpacing:"1px",textTransform:"uppercase",alignSelf:"center"}}>Your profile:</p>
+      {mbti && <span style={{fontSize:"12px",fontWeight:700,padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.yellow}}>{mbti}</span>}
+      {westernSign && <span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{westernSign}</span>}
+      {chineseSign && <span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{chineseSign}</span>}
+    </div>
+  );
+}
+
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Habitrii() {
   const [screen, setScreen]         = useState("welcome");
   const [q1, setQ1]                 = useState(null);
   const [q2, setQ2]                 = useState(null);
+  const [mbti, setMbti]             = useState(null);
+  const [westernSign, setWesternSign] = useState(null);
+  const [chineseSign, setChineseSign] = useState(null);
   const [world, setWorld]           = useState(null);
   const [lessonIdx, setLessonIdx]   = useState(0);
   const [branch, setBranch]         = useState(null);
   const [completed, setCompleted]   = useState(new Set());
   const [fading, setFading]         = useState(false);
-
-  // ── Penny Check-in State ──────────────────────────────────────────────────
-  const [pennyChoice,  setPennyChoice]  = useState(null);
-  const [pennyText,    setPennyText]    = useState("");
+  const [pennyChoice, setPennyChoice]   = useState(null);
+  const [pennyText, setPennyText]       = useState("");
   const [pennyLoading, setPennyLoading] = useState(false);
-  const [pennyError,   setPennyError]   = useState(null);
+  const [pennyError, setPennyError]     = useState(null);
 
   const lesson = LESSONS[lessonIdx];
   const completedCount = completed.size;
 
-  const go = (next, updates = {}) => {
+  const go = (next, updates={}) => {
     setFading(true);
-    setTimeout(() => {
-      if (updates.q1 !== undefined)        setQ1(updates.q1);
-      if (updates.q2 !== undefined)        setQ2(updates.q2);
-      if (updates.world !== undefined)     setWorld(updates.world);
-      if (updates.lessonIdx !== undefined) setLessonIdx(updates.lessonIdx);
-      if (updates.branch !== undefined)    setBranch(updates.branch);
-      if (updates.complete)                setCompleted(prev => new Set([...prev, updates.complete]));
-      // Reset Penny state on lesson navigation
-      if (updates.resetPenny) {
-        setPennyChoice(null); setPennyText(""); setPennyLoading(false); setPennyError(null);
+    setTimeout(()=>{
+      if(updates.q1!==undefined)        setQ1(updates.q1);
+      if(updates.q2!==undefined)        setQ2(updates.q2);
+      if(updates.world!==undefined)     setWorld(updates.world);
+      if(updates.lessonIdx!==undefined) setLessonIdx(updates.lessonIdx);
+      if(updates.branch!==undefined)    setBranch(updates.branch);
+      if(updates.complete)              setCompleted(prev=>new Set([...prev,updates.complete]));
+      if(updates.resetPenny){
+        setPennyChoice(null);setPennyText("");setPennyLoading(false);setPennyError(null);
       }
-      setScreen(next);
-      setFading(false);
-    }, 220);
+      setScreen(next);setFading(false);
+    },220);
   };
 
-  // ── Call Penny (Claude API proxy) ─────────────────────────────────────────
   const callPenny = async (choice) => {
-    setPennyChoice(choice);
-    setPennyLoading(true);
-    setPennyError(null);
-    setPennyText("");
-
+    setPennyChoice(choice);setPennyLoading(true);setPennyError(null);setPennyText("");
     try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          profile: { q1, q2 },
-          lesson: { title: lesson.title, concept: lesson.concept },
+      const res = await fetch("/api/chat",{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          profile:{q1,q2,mbti,westernSign,chineseSign},
+          lesson:{title:lesson.title,concept:lesson.concept},
           choice,
         }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setPennyError(data.error ?? "Something went wrong. Please try again.");
-      } else {
-        setPennyText(data.text);
-      }
-    } catch {
-      setPennyError("Unable to connect right now. Please check your connection.");
-    } finally {
-      setPennyLoading(false);
-    }
+      if(!res.ok) setPennyError(data.error??"Something went wrong. Please try again.");
+      else setPennyText(data.text);
+    } catch { setPennyError("Unable to connect right now. Please check your connection."); }
+    finally { setPennyLoading(false); }
   };
 
   const outer = {
-    fontFamily: "'DM Sans', system-ui, -apple-system, sans-serif",
-    background: C.bg, minHeight: "100vh",
-    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start",
-    padding: "36px 24px 60px", boxSizing: "border-box",
-    opacity: fading ? 0 : 1, transition: "opacity 0.22s ease", color: C.text,
+    fontFamily:"'DM Sans', system-ui, -apple-system, sans-serif",
+    background:C.bg,minHeight:"100vh",
+    display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",
+    padding:"36px 24px 60px",boxSizing:"border-box",
+    opacity:fading?0:1,transition:"opacity 0.22s ease",color:C.text,
   };
-  const inner = { width: "100%", maxWidth: "560px", display: "flex", flexDirection: "column", gap: "18px" };
+  const inner = {width:"100%",maxWidth:"560px",display:"flex",flexDirection:"column",gap:"18px"};
 
   // ── WELCOME ───────────────────────────────────────────────────────────────
-  if (screen === "welcome") return (
-    <div style={{...outer, justifyContent:"center"}}>
-      <div style={{...inner, textAlign:"center"}}>
+  if(screen==="welcome") return (
+    <div style={{...outer,justifyContent:"center"}}>
+      <div style={{...inner,textAlign:"center"}}>
         <div style={{background:C.dark,borderRadius:"16px",padding:"32px 28px 36px",boxShadow:"0 8px 32px rgba(13,31,29,0.25)"}}>
           <p style={lbl(C.yellow)}>HABITRII</p>
           <h1 style={{fontSize:"38px",fontWeight:700,lineHeight:1.2,margin:"0 0 16px",color:C.textOnDark}}>
@@ -337,7 +405,7 @@ export default function Habitrii() {
   );
 
   // ── Q1 ────────────────────────────────────────────────────────────────────
-  if (screen === "q1") return (
+  if(screen==="q1") return (
     <div style={outer}>
       <div style={inner}>
         <OnboardingBar step={1} total={3}/>
@@ -351,14 +419,14 @@ export default function Habitrii() {
           {id:3,label:"I'm fairly knowledgeable",sub:"I want deeper insights into why I make the decisions I do"},
         ].map(o=>(
           <ChoiceCard key={o.id} label={o.label} sub={o.sub} selected={q1===o.id}
-            onClick={()=>{setQ1(o.id); setTimeout(()=>go("q2"),280);}}/>
+            onClick={()=>{setQ1(o.id);setTimeout(()=>go("q2"),280);}}/>
         ))}
       </div>
     </div>
   );
 
   // ── Q2 ────────────────────────────────────────────────────────────────────
-  if (screen === "q2") return (
+  if(screen==="q2") return (
     <div style={outer}>
       <div style={inner}>
         <OnboardingBar step={2} total={3}/>
@@ -372,17 +440,89 @@ export default function Habitrii() {
           {id:"c",label:"I'm mainly here for the financial lessons",sub:"Personality is a fun bonus, not a priority"},
         ].map(o=>(
           <ChoiceCard key={o.id} label={o.label} sub={o.sub} selected={q2===o.id}
-            onClick={()=>{setQ2(o.id); setTimeout(()=>go("worlds"),280);}}/>
+            onClick={()=>{
+              setQ2(o.id);
+              setTimeout(()=>go(o.id==="a"?"q3_mbti":"worlds"),280);
+            }}/>
         ))}
       </div>
     </div>
   );
 
+  // ── Q3: MBTI PICKER ───────────────────────────────────────────────────────
+  if(screen==="q3_mbti") return (
+    <div style={outer}>
+      <div style={inner}>
+        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
+          <p style={lbl(C.yellow)}>PERSONALIZE PENNY</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your MBTI type?</h2>
+          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to tailor responses to how you think and make decisions.</p>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
+          {MBTI_TYPES.map(t=>(
+            <MBTICard key={t.code} type={t} selected={mbti===t.code}
+              onClick={()=>{setMbti(t.code);setTimeout(()=>go("q4_astro"),320);}}/>
+          ))}
+        </div>
+        <button onClick={()=>go("q4_astro")} style={btnGhost}>I'm not sure — skip this →</button>
+      </div>
+    </div>
+  );
+
+  // ── Q4: ASTROLOGY PICKER ──────────────────────────────────────────────────
+  if(screen==="q4_astro") return (
+    <div style={outer}>
+      <div style={inner}>
+        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
+          <p style={lbl(C.yellow)}>PERSONALIZE PENNY</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What are your astrology signs?</h2>
+          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Skip anything you don't know — Penny will still personalize your experience.</p>
+        </div>
+
+        <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
+          <p style={{...lbl(C.teal),marginBottom:"12px"}}>WESTERN SIGN</p>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
+            {WESTERN_SIGNS.map(s=>(
+              <SignCard key={s.sign} data={s} selected={westernSign===s.sign}
+                onClick={()=>setWesternSign(westernSign===s.sign?null:s.sign)}/>
+            ))}
+          </div>
+        </div>
+
+        <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
+          <p style={{...lbl(C.teal),marginBottom:"12px"}}>CHINESE ZODIAC</p>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
+            {CHINESE_ZODIAC.map(s=>(
+              <SignCard key={s.sign} data={s} selected={chineseSign===s.sign}
+                onClick={()=>setChineseSign(chineseSign===s.sign?null:s.sign)}/>
+            ))}
+          </div>
+        </div>
+
+        {(mbti||westernSign||chineseSign) && (
+          <div style={{display:"flex",flexWrap:"wrap",gap:"6px",padding:"10px 14px",
+            background:"rgba(255,255,255,0.5)",borderRadius:"10px",
+            border:"1px solid rgba(26,51,48,0.12)"}}>
+            <p style={{fontSize:"11px",fontWeight:600,color:C.textSub,margin:"0 6px 0 0",letterSpacing:"1px",textTransform:"uppercase",alignSelf:"center"}}>Selected:</p>
+            {mbti&&<span style={{fontSize:"12px",fontWeight:700,padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.yellow}}>{mbti}</span>}
+            {westernSign&&<span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{westernSign}</span>}
+            {chineseSign&&<span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{chineseSign}</span>}
+          </div>
+        )}
+
+        <button onClick={()=>go("worlds")} style={btnYellow}>Let's go →</button>
+      </div>
+    </div>
+  );
+
   // ── WORLD SELECT ──────────────────────────────────────────────────────────
-  if (screen === "worlds") return (
+  if(screen==="worlds") return (
     <div style={outer}>
       <div style={inner}>
         <OnboardingBar step={3} total={3}/>
+        {(mbti||westernSign||chineseSign) && (
+          <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
+        )}
         <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>Choose your first Story World</h2>
           <p style={{fontSize:"15px",color:C.textSub,margin:0}}>Each world is a themed journey through a cluster of financial concepts.</p>
@@ -396,9 +536,9 @@ export default function Habitrii() {
         ].map(w=>(
           <div key={w.id} style={{position:"relative"}}>
             <ChoiceCard label={`${w.emoji}  ${w.title}`}
-              sub={w.live ? w.desc : `${w.desc} — Coming soon`}
+              sub={w.live?w.desc:`${w.desc} — Coming soon`}
               selected={world===w.id}
-              onClick={()=>{if(!w.live) return; setWorld(w.id); setTimeout(()=>go("lesson_map"),280);}}/>
+              onClick={()=>{if(!w.live)return;setWorld(w.id);setTimeout(()=>go("lesson_map"),280);}}/>
             {!w.live&&<div style={{position:"absolute",top:"14px",right:"16px",fontSize:"11px",padding:"3px 9px",borderRadius:"99px",background:"rgba(26,51,48,0.1)",color:C.textSub}}>Soon</div>}
           </div>
         ))}
@@ -407,7 +547,7 @@ export default function Habitrii() {
   );
 
   // ── LESSON MAP ────────────────────────────────────────────────────────────
-  if (screen === "lesson_map") return (
+  if(screen==="lesson_map") return (
     <div style={outer}>
       <div style={inner}>
         <div style={{background:C.dark,borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 20px rgba(13,31,29,0.2)"}}>
@@ -418,6 +558,9 @@ export default function Habitrii() {
             <p style={{fontSize:"13px",color:"rgba(255,255,255,0.6)",margin:0,fontWeight:500}}>{completedCount} of 8 complete</p>
           </div>
         </div>
+        {(mbti||westernSign||chineseSign) && (
+          <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
+        )}
         <p style={{fontSize:"15px",color:C.textSub,margin:0,lineHeight:1.65,fontWeight:500}}>
           Explore all 8 lessons in any order. Each one deepens your understanding of the relationship between feelings and spending.
         </p>
@@ -436,7 +579,7 @@ export default function Habitrii() {
   );
 
   // ── SCENE ─────────────────────────────────────────────────────────────────
-  if (screen === "scene") return (
+  if(screen==="scene") return (
     <div style={outer}>
       <div style={inner}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
@@ -460,7 +603,7 @@ export default function Habitrii() {
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
             {lesson.choices.map(ch=>(
               <ChoiceCard key={ch.id} label={`${ch.emoji}  ${ch.label}`} selected={branch===ch.id}
-                onClick={()=>{setBranch(ch.id); setTimeout(()=>go("branch",{branch:ch.id}),280);}}/>
+                onClick={()=>{setBranch(ch.id);setTimeout(()=>go("branch",{branch:ch.id}),280);}}/>
             ))}
           </div>
         </div>
@@ -469,8 +612,8 @@ export default function Habitrii() {
   );
 
   // ── BRANCH ────────────────────────────────────────────────────────────────
-  if (screen === "branch" && branch) {
-    const b = lesson.branches[branch];
+  if(screen==="branch"&&branch) {
+    const b=lesson.branches[branch];
     return (
       <div style={outer}>
         <div style={inner}>
@@ -491,7 +634,7 @@ export default function Habitrii() {
   }
 
   // ── REFLECT ───────────────────────────────────────────────────────────────
-  if (screen === "reflect") return (
+  if(screen==="reflect") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
         <div style={{fontSize:"52px"}}>💛</div>
@@ -502,81 +645,71 @@ export default function Habitrii() {
         <p style={{fontSize:"15px",color:C.textSub,lineHeight:1.65,margin:0,maxWidth:"420px",alignSelf:"center",fontWeight:500}}>
           Save this somewhere you'll see it. Even asking it once starts rewiring the habit.
         </p>
-        <button onClick={()=>go("penny_checkin",{resetPenny:true})} style={btnYellow}>I've got it — check in with Penny 💛</button>
+        <button onClick={()=>go("penny_checkin",{resetPenny:true})} style={btnYellow}>
+          I've got it — check in with Penny 💛
+        </button>
       </div>
     </div>
   );
 
-  // ── PENNY CHECK-IN ────────────────────────────────────────────────────────
-  if (screen === "penny_checkin") {
-    const checkinOptions = [
-      {id:"yes",     emoji:"💛", label:"Yes — this totally clicked"},
-      {id:"sort_of", emoji:"🤔", label:"Sort of — I get it but not fully"},
-      {id:"no",      emoji:"😅", label:"Not quite — I need a different angle"},
+  // ── PENNY CHECK-IN ─────────────────────────────────────────────────────────
+  if(screen==="penny_checkin") {
+    const opts=[
+      {id:"yes",     emoji:"💛",label:"Yes — this totally clicked"},
+      {id:"sort_of", emoji:"🤔",label:"Sort of — I get it but not fully"},
+      {id:"no",      emoji:"😅",label:"Not quite — I need a different angle"},
     ];
-
     return (
       <div style={outer}>
         <div style={inner}>
-
-          {/* Header */}
           <div style={{background:C.dark,borderRadius:"16px",padding:"18px 22px",boxShadow:"0 4px 20px rgba(13,31,29,0.2)"}}>
             <p style={lbl(C.yellow)}>PENNY CHECK-IN</p>
             <p style={{fontSize:"17px",color:C.textOnDark,margin:0,lineHeight:1.6,fontWeight:500}}>
               Did the <strong style={{color:C.yellow}}>{lesson.title}</strong> lesson click for you?
             </p>
+            {(mbti||westernSign) && (
+              <p style={{fontSize:"12px",color:"rgba(255,255,255,0.5)",margin:"8px 0 0",lineHeight:1.4}}>
+                Penny will personalize her response for you{mbti?` as an ${mbti}`:""}
+                {westernSign?` (${westernSign})`:""}.
+              </p>
+            )}
           </div>
-
-          {/* Choice buttons — only shown before a choice is made */}
-          {!pennyChoice && (
+          {!pennyChoice&&(
             <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-              {checkinOptions.map(opt=>(
+              {opts.map(opt=>(
                 <ChoiceCard key={opt.id} label={`${opt.emoji}  ${opt.label}`}
-                  selected={false}
-                  onClick={()=>callPenny(opt.id)}/>
+                  selected={false} onClick={()=>callPenny(opt.id)}/>
               ))}
             </div>
           )}
-
-          {/* Loading state */}
-          {pennyLoading && (
+          {pennyLoading&&(
             <div style={{background:C.card,borderRadius:"14px",padding:"28px 22px",textAlign:"center",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
-              <div style={{fontSize:"28px",marginBottom:"12px",animation:"spin 1.5s linear infinite"}}>✨</div>
+              <div style={{fontSize:"28px",marginBottom:"12px",display:"inline-block",animation:"spin 1.5s linear infinite"}}>✨</div>
               <p style={{fontSize:"15px",color:C.textSub,margin:0,fontWeight:500}}>Penny is personalizing a response for you…</p>
             </div>
           )}
-
-          {/* Error state */}
-          {pennyError && !pennyLoading && (
+          {pennyError&&!pennyLoading&&(
             <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
               <p style={{fontSize:"15px",color:C.text,margin:"0 0 14px",lineHeight:1.6}}>{pennyError}</p>
               <button onClick={()=>callPenny(pennyChoice)} style={btnGhost}>Try again</button>
             </div>
           )}
-
-          {/* Penny's response */}
-          {pennyText && !pennyLoading && (
+          {pennyText&&!pennyLoading&&(
             <>
               <div style={{background:C.card,borderRadius:"16px",padding:"22px 24px",borderLeft:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(26,51,48,0.1)"}}>
                 <p style={{...lbl(C.teal),marginBottom:"10px"}}>PENNY SAYS</p>
                 <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{pennyText}</p>
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-                <button onClick={()=>go("lesson_complete",{complete:lesson.id})} style={btnYellow}>
-                  Continue →
-                </button>
-                <button onClick={()=>{setPennyChoice(null);setPennyText("");setPennyError(null);}} style={btnGhost}>
-                  Ask from a different angle
-                </button>
+                <button onClick={()=>go("lesson_complete",{complete:lesson.id})} style={btnYellow}>Continue →</button>
+                <button onClick={()=>{setPennyChoice(null);setPennyText("");setPennyError(null);}} style={btnGhost}>Ask from a different angle</button>
               </div>
             </>
           )}
-
           <button onClick={()=>go("lesson_complete",{complete:lesson.id})}
             style={{...btnGhost,fontSize:"13px",padding:"10px 20px"}}>
             Skip and continue
           </button>
-
           <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
         </div>
       </div>
@@ -584,10 +717,10 @@ export default function Habitrii() {
   }
 
   // ── LESSON COMPLETE ───────────────────────────────────────────────────────
-  if (screen === "lesson_complete") {
-    const newCompleted = new Set([...completed, lesson.id]);
-    const allDone = newCompleted.size === 8;
-    const nextLesson = LESSONS[lessonIdx + 1];
+  if(screen==="lesson_complete") {
+    const newCompleted=new Set([...completed,lesson.id]);
+    const allDone=newCompleted.size===8;
+    const nextLesson=LESSONS[lessonIdx+1];
     return (
       <div style={{...outer,justifyContent:"center"}}>
         <div style={{...inner,textAlign:"center"}}>
@@ -613,9 +746,7 @@ export default function Habitrii() {
                 Continue journey →
               </button>
             )}
-            {allDone&&(
-              <button onClick={()=>go("world_complete")} style={btnYellow}>🌟 Complete the world →</button>
-            )}
+            {allDone&&<button onClick={()=>go("world_complete")} style={btnYellow}>🌟 Complete the world →</button>}
             <button onClick={()=>go("lesson_map")} style={btnGhost}>← Back to lesson map</button>
           </div>
         </div>
@@ -624,7 +755,7 @@ export default function Habitrii() {
   }
 
   // ── WORLD COMPLETE ────────────────────────────────────────────────────────
-  if (screen === "world_complete") return (
+  if(screen==="world_complete") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
         <div style={{background:C.dark,borderRadius:"20px",padding:"32px 28px",boxShadow:"0 8px 32px rgba(13,31,29,0.3)"}}>
