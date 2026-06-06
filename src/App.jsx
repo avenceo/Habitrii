@@ -332,6 +332,7 @@ export default function Habitrii() {
     return decodeURIComponent(params.get("email") || "");
   });
   const [emailInput, setEmailInput] = useState("");
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [q1, setQ1]                 = useState(null);
   const [q2, setQ2]                 = useState(null);
   const [mbti, setMbti]             = useState(null);
@@ -385,7 +386,7 @@ export default function Habitrii() {
   };
 
   const handleEmailSubmit = () => {
-    if (!emailInput.includes("@")) return;
+    if (!emailInput.includes("@") || !ageConfirmed) return;
     setEmail(emailInput);
     go("welcome");
   };
@@ -428,10 +429,24 @@ export default function Habitrii() {
               fontFamily:"inherit",
             }}
           />
+          <label style={{
+            display:"flex",alignItems:"flex-start",gap:"10px",
+            marginBottom:"20px",cursor:"pointer",textAlign:"left",
+          }}>
+            <input
+              type="checkbox"
+              checked={ageConfirmed}
+              onChange={e=>setAgeConfirmed(e.target.checked)}
+              style={{marginTop:"2px",accentColor:C.yellow,width:"16px",height:"16px",flexShrink:0,cursor:"pointer"}}
+            />
+            <span style={{fontSize:"13px",color:"rgba(255,255,255,0.7)",lineHeight:1.5}}>
+              I confirm that I am <strong style={{color:C.textOnDark}}>18 years of age or older</strong>. Habitrii is for adults only — no exceptions.
+            </span>
+          </label>
           <button
             onClick={handleEmailSubmit}
-            disabled={!emailInput.includes("@")}
-            style={{...btnYellow,opacity:emailInput.includes("@")?1:0.45}}
+            disabled={!emailInput.includes("@") || !ageConfirmed}
+            style={{...btnYellow,opacity:(emailInput.includes("@")&&ageConfirmed)?1:0.45}}
           >
             Start my journey →
           </button>
