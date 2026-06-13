@@ -1,4 +1,5 @@
 import { useState } from "react";
+import LandingPage from "./LandingPage";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -323,16 +324,16 @@ function ProfileBadge({ q1, q2, mbti, westernSign, chineseSign }) {
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
 export default function Habitrii() {
-  const [screen, setScreen]         = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("email") ? "welcome" : "email-gate";
-  });
-  const [email, setEmail]           = useState(() => {
-    const params = new URLSearchParams(window.location.search);
-    return decodeURIComponent(params.get("email") || "");
-  });
-  const [emailInput, setEmailInput] = useState("");
-  const [ageConfirmed, setAgeConfirmed] = useState(false);
+  // ── Landing Page Gate ────────────────────────────────────────────────────────
+  const [showLanding, setShowLanding] = useState(
+    () => !localStorage.getItem("habitrii_started")
+  );
+  const handleEnterApp = () => {
+    localStorage.setItem("habitrii_started", "1");
+    setShowLanding(false);
+  };
+
+  const [screen, setScreen]         = useState("welcome");
   const [q1, setQ1]                 = useState(null);
   const [q2, setQ2]                 = useState(null);
   const [mbti, setMbti]             = useState(null);
@@ -373,7 +374,7 @@ export default function Habitrii() {
       const res = await fetch("/api/chat",{
         method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
-          profile:{q1,q2,mbti,westernSign,chineseSign,email},
+          profile:{q1,q2,mbti,westernSign,chineseSign},
           lesson:{title:lesson.title,concept:lesson.concept},
           choice,
         }),
@@ -385,12 +386,6 @@ export default function Habitrii() {
     finally { setPennyLoading(false); }
   };
 
-  const handleEmailSubmit = () => {
-    if (!emailInput.includes("@") || !ageConfirmed) return;
-    setEmail(emailInput);
-    go("welcome");
-  };
-
   const outer = {
     fontFamily:"'DM Sans', system-ui, -apple-system, sans-serif",
     background:C.bg,minHeight:"100vh",
@@ -400,63 +395,8 @@ export default function Habitrii() {
   };
   const inner = {width:"100%",maxWidth:"560px",display:"flex",flexDirection:"column",gap:"18px"};
 
-  // ── EMAIL GATE ────────────────────────────────────────────────────────────
-  // Shown when no ?email= param is present in the URL (direct visits).
-  // When Audos passes email as a URL param, this screen is skipped entirely.
-  if(screen==="email-gate") return (
-    <div style={{...outer,justifyContent:"center"}}>
-      <div style={{...inner,textAlign:"center"}}>
-        <div style={{background:C.dark,borderRadius:"20px",padding:"36px 28px",boxShadow:"0 8px 32px rgba(13,31,29,0.25)"}}>
-          <p style={lbl(C.yellow)}>HABITRII</p>
-          <div style={{fontSize:"36px",marginBottom:"12px"}}>💛</div>
-          <h1 style={{fontSize:"26px",fontWeight:700,margin:"0 0 12px",color:C.textOnDark,lineHeight:1.3}}>
-            Financial literacy that actually <span style={{color:C.yellow}}>clicks.</span>
-          </h1>
-          <p style={{fontSize:"15px",color:"rgba(255,255,255,0.7)",lineHeight:1.65,margin:"0 0 28px"}}>
-            Enter your email to start your journey. We'll save your progress and send insights along the way.
-          </p>
-          <input
-            type="email"
-            placeholder="your@email.com"
-            value={emailInput}
-            onChange={e=>setEmailInput(e.target.value)}
-            onKeyDown={e=>{if(e.key==="Enter")handleEmailSubmit();}}
-            style={{
-              width:"100%",padding:"14px 16px",borderRadius:"12px",
-              border:"none",fontSize:"15px",
-              background:"rgba(255,255,255,0.15)",color:C.textOnDark,
-              marginBottom:"14px",boxSizing:"border-box",outline:"none",
-              fontFamily:"inherit",
-            }}
-          />
-          <label style={{
-            display:"flex",alignItems:"flex-start",gap:"10px",
-            marginBottom:"20px",cursor:"pointer",textAlign:"left",
-          }}>
-            <input
-              type="checkbox"
-              checked={ageConfirmed}
-              onChange={e=>setAgeConfirmed(e.target.checked)}
-              style={{marginTop:"2px",accentColor:C.yellow,width:"16px",height:"16px",flexShrink:0,cursor:"pointer"}}
-            />
-            <span style={{fontSize:"13px",color:"rgba(255,255,255,0.7)",lineHeight:1.5}}>
-              I confirm that I am <strong style={{color:C.textOnDark}}>18 years of age or older</strong>. Habitrii is for adults only — no exceptions.
-            </span>
-          </label>
-          <button
-            onClick={handleEmailSubmit}
-            disabled={!emailInput.includes("@") || !ageConfirmed}
-            style={{...btnYellow,opacity:(emailInput.includes("@")&&ageConfirmed)?1:0.45}}
-          >
-            Start my journey →
-          </button>
-        </div>
-        <p style={{fontSize:"12px",color:"rgba(13,31,29,0.5)",margin:0}}>
-          For educational purposes only · Not financial advice
-        </p>
-      </div>
-    </div>
-  );
+  // ── LANDING PAGE ─────────────────────────────────────────────────────────────
+  if (showLanding) return <LandingPage onStart={handleEnterApp} />;
 
   // ── WELCOME ───────────────────────────────────────────────────────────────
   if(screen==="welcome") return (
@@ -601,27 +541,18 @@ export default function Habitrii() {
           <p style={{fontSize:"15px",color:C.textSub,margin:0}}>Each world is a themed journey through a cluster of financial concepts.</p>
         </div>
         {[
-          {id:"mind",  emoji:"🧠",title:"Mind & Money",          desc:"Your emotional relationship with spending — and how to shift it",    live:true,  tier:null},
-          {id:"budget",emoji:"📐",title:"Budgeting Foundations", desc:"Build a system that actually works for your life",                   live:false, tier:"Growth"},
-          {id:"safety",emoji:"🛡️",title:"Safety & Stability",   desc:"Create a financial safety net from the ground up",                  live:false, tier:"Transformation"},
-          {id:"debt",  emoji:"💳",title:"Debt & Credit",         desc:"Take control of what you owe and build your score",                 live:false, tier:"Growth"},
-          {id:"values",emoji:"🌟",title:"Advanced & Values",     desc:"Align your spending with what actually matters to you",             live:false, tier:"Transformation"},
+          {id:"mind",  emoji:"🧠",title:"Mind & Money",         desc:"Your emotional relationship with spending — and how to shift it",live:true},
+          {id:"budget",emoji:"📐",title:"Budgeting Foundations",desc:"Build a system that actually works for your life"},
+          {id:"safety",emoji:"🛡️",title:"Safety & Stability",  desc:"Create a financial safety net from the ground up"},
+          {id:"debt",  emoji:"💳",title:"Debt & Credit",        desc:"Take control of what you owe and build your score"},
+          {id:"values",emoji:"🌟",title:"Advanced & Values",    desc:"Align your spending with what actually matters to you"},
         ].map(w=>(
           <div key={w.id} style={{position:"relative"}}>
             <ChoiceCard label={`${w.emoji}  ${w.title}`}
               sub={w.live?w.desc:`${w.desc} — Coming soon`}
               selected={world===w.id}
               onClick={()=>{if(!w.live)return;setWorld(w.id);setTimeout(()=>go("lesson_map"),280);}}/>
-            {!w.live&&(
-              <div style={{
-                position:"absolute",top:"14px",right:"16px",
-                fontSize:"11px",padding:"3px 10px",borderRadius:"99px",fontWeight:600,
-                background:w.tier==="Growth"?"#faeeda":"#eeedfe",
-                color:w.tier==="Growth"?"#854F0B":"#3C3489",
-              }}>
-                {w.tier}
-              </div>
-            )}
+            {!w.live&&<div style={{position:"absolute",top:"14px",right:"16px",fontSize:"11px",padding:"3px 9px",borderRadius:"99px",background:"rgba(26,51,48,0.1)",color:C.textSub}}>Soon</div>}
           </div>
         ))}
       </div>
