@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LandingPage from "./LandingPage";
 import { Turnstile } from "@marsidev/react-turnstile";
 
@@ -355,6 +355,12 @@ export default function Habitrii() {
   const [captchaToken, setCaptchaToken]   = useState("");
   const [emailError, setEmailError]       = useState(null);
 
+  // ── Tier State ────────────────────────────────────────────────────────────
+  // Tier is cached in React state for the browser session to avoid repeated Stripe API calls.
+  const [userTier, setUserTier]       = useState("foundation");
+  const [tierLoading, setTierLoading] = useState(false);
+  const [tierChecked, setTierChecked] = useState(false);
+
   const lesson = LESSONS[lessonIdx];
   const completedCount = completed.size;
 
@@ -391,6 +397,27 @@ export default function Habitrii() {
     } catch { setPennyError("Unable to connect right now. Please check your connection."); }
     finally { setPennyLoading(false); }
   };
+
+  // ── Tier Check Effect ─────────────────────────────────────────────────────
+  // Fires once per session when the World Select screen is first reached.
+  // On any failure or timeout (>5s), silently defaults to 'foundation'.
+  useEffect(() => {
+    if (screen !== "worlds") return;
+    if (tierChecked || !emailInput) return;
+    setTierLoading(true);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: emailInput }),
+      signal: controller.signal,
+    })
+      .then(r => r.json())
+      .then(data => { setUserTier(data.tier || "foundation"); setTierChecked(true); })
+      .catch(() => { setUserTier("foundation"); setTierChecked(true); })
+      .finally(() => { clearTimeout(timeout); setTierLoading(false); });
+  }, [screen, tierChecked, emailInput]);
 
   const handleEmailSubmit = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -595,35 +622,72 @@ export default function Habitrii() {
   );
 
   // ── WORLD SELECT ──────────────────────────────────────────────────────────
-  if(screen==="worlds") return (
-    <div style={outer}>
-      <div style={inner}>
-        <OnboardingBar step={3} total={3}/>
-        {(mbti||westernSign||chineseSign) && (
-          <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
-        )}
-        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
-          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>Choose your first Story World</h2>
-          <p style={{fontSize:"15px",color:C.textSub,margin:0}}>Each world is a themed journey through a cluster of financial concepts.</p>
-        </div>
-        {[
-          {id:"mind",  emoji:"🧠",title:"Mind & Money",         desc:"Your emotional relationship with spending — and how to shift it",live:true},
-          {id:"budget",emoji:"📐",title:"Budgeting Foundations",desc:"Build a system that actually works for your life"},
-          {id:"safety",emoji:"🛡️",title:"Safety & Stability",  desc:"Create a financial safety net from the ground up"},
-          {id:"debt",  emoji:"💳",title:"Debt & Credit",        desc:"Take control of what you owe and build your score"},
-          {id:"values",emoji:"🌟",title:"Advanced & Values",    desc:"Align your spending with what actually matters to you"},
-        ].map(w=>(
-          <div key={w.id} style={{position:"relative"}}>
-            <ChoiceCard label={`${w.emoji}  ${w.title}`}
-              sub={w.live?w.desc:`${w.desc} — Coming soon`}
-              selected={world===w.id}
-              onClick={()=>{if(!w.live)return;setWorld(w.id);setTimeout(()=>go("lesson_map"),280);}}/>
-            {!w.live&&<div style={{position:"absolute",top:"14px",right:"16px",fontSize:"11px",padding:"3px 9px",borderRadius:"99px",background:"rgba(26,51,48,0.1)",color:C.textSub}}>Soon</div>}
+  if(screen==="worlds") {
+    // World tier requirements
+    const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
+    const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
+    const userRank   = TIER_RANK[userTier] ?? 0;
+
+    const isLocked = (worldId) => userRank < (TIER_RANK[WORLD_TIER[worldId]] ?? 0);
+    const requiredLabel = (worldId) => WORLD_TIER[worldId] === "growth" ? "Growth" : "Transformation";
+    // Growth → amber badge; Transformation → purple badge
+    const badgeStyle = (worldId) => ({
+      position:"absolute", top:"14px", right:"16px",
+      fontSize:"11px", padding:"3px 10px", borderRadius:"99px", fontWeight:700,
+      background: WORLD_TIER[worldId]==="growth" ? "#f59e0b" : "#8b5cf6",
+      color:"#fff", letterSpacing:"0.4px",
+    });
+
+    const WORLDS = [
+      {id:"mind",  emoji:"🧠", title:"Mind & Money",          desc:"Your emotional relationship with spending — and how to shift it"},
+      {id:"budget",emoji:"📐", title:"Budgeting Foundations", desc:"Build a system that actually works for your life"},
+      {id:"safety",emoji:"🛡️", title:"Safety & Stability",   desc:"Create a financial safety net from the ground up"},
+      {id:"debt",  emoji:"💳", title:"Debt & Credit",         desc:"Take control of what you owe and build your score"},
+      {id:"values",emoji:"🌟", title:"Advanced & Values",     desc:"Align your spending with what actually matters to you"},
+    ];
+
+    return (
+      <div style={outer}>
+        <div style={inner}>
+          <OnboardingBar step={3} total={3}/>
+          {(mbti||westernSign||chineseSign) && (
+            <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
+          )}
+          <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+            <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>Choose your first Story World</h2>
+            <p style={{fontSize:"15px",color:C.textSub,margin:0}}>Each world is a themed journey through a cluster of financial concepts.</p>
           </div>
-        ))}
+          {WORLDS.map(w => {
+            const locked = isLocked(w.id);
+            return (
+              <div key={w.id} style={{position:"relative"}}>
+                <ChoiceCard
+                  label={`${w.emoji}  ${w.title}`}
+                  sub={locked ? `${w.desc} — ${requiredLabel(w.id)} plan` : w.desc}
+                  selected={world===w.id}
+                  onClick={()=>{
+                    if(locked){
+                      alert(`Upgrade to ${requiredLabel(w.id)} to unlock this world.`);
+                      return;
+                    }
+                    setWorld(w.id);
+                    setTimeout(()=>go("lesson_map"),280);
+                  }}
+                />
+                {locked && <div style={badgeStyle(w.id)}>{requiredLabel(w.id)}</div>}
+              </div>
+            );
+          })}
+          {/* Loading indicator — worlds remain visible and non-blocking during check */}
+          {tierLoading && (
+            <p style={{fontSize:"12px",color:C.textSub,textAlign:"center",margin:"2px 0 0"}}>
+              Checking your access…
+            </p>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   // ── LESSON MAP ────────────────────────────────────────────────────────────
   if(screen==="lesson_map") return (
