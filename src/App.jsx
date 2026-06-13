@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LandingPage from "./LandingPage";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -349,6 +350,11 @@ export default function Habitrii() {
   const [pennyLoading, setPennyLoading] = useState(false);
   const [pennyError, setPennyError]     = useState(null);
 
+  // ── Email Gate State ──────────────────────────────────────────────────────
+  const [emailInput, setEmailInput]       = useState("");
+  const [captchaToken, setCaptchaToken]   = useState("");
+  const [emailError, setEmailError]       = useState(null);
+
   const lesson = LESSONS[lessonIdx];
   const completedCount = completed.size;
 
@@ -386,6 +392,28 @@ export default function Habitrii() {
     finally { setPennyLoading(false); }
   };
 
+  const handleEmailSubmit = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailInput || !emailRegex.test(emailInput) || emailInput.length > 254) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    if (!captchaToken) {
+      setEmailError("Please complete the verification below.");
+      return;
+    }
+    setEmailError(null);
+    // Fire-and-forget — never block the user or surface errors on failure
+    fetch("/api/capture", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: emailInput, captchaToken }),
+    }).catch(() => {});
+    // Reset token so it cannot be reused
+    setCaptchaToken("");
+    go("q1");
+  };
+
   const outer = {
     fontFamily:"'DM Sans', system-ui, -apple-system, sans-serif",
     background:C.bg,minHeight:"100vh",
@@ -398,7 +426,7 @@ export default function Habitrii() {
   // ── LANDING PAGE ─────────────────────────────────────────────────────────────
   if (showLanding) return <LandingPage onStart={handleEnterApp} />;
 
-  // ── WELCOME ───────────────────────────────────────────────────────────────
+  // ── WELCOME / EMAIL GATE ──────────────────────────────────────────────────
   if(screen==="welcome") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
@@ -407,10 +435,48 @@ export default function Habitrii() {
           <h1 style={{fontSize:"38px",fontWeight:700,lineHeight:1.2,margin:"0 0 16px",color:C.textOnDark}}>
             Financial literacy<br/>that actually <span style={{color:C.yellow}}>clicks.</span>
           </h1>
-          <p style={{fontSize:"17px",color:"rgba(255,255,255,0.72)",lineHeight:1.65,margin:"0 0 32px"}}>
+          <p style={{fontSize:"17px",color:"rgba(255,255,255,0.72)",lineHeight:1.65,margin:"0 0 28px"}}>
             A choose-your-own-adventure journey through money — built around how you think, feel, and make decisions.
           </p>
-          <button onClick={()=>go("q1")} style={btnYellow}>Start your journey →</button>
+          <div style={{display:"flex",flexDirection:"column",gap:"12px",textAlign:"left"}}>
+            <input
+              type="email"
+              maxLength={254}
+              autoComplete="email"
+              placeholder="Enter your email to get started"
+              value={emailInput}
+              onChange={e=>{
+                const val=e.target.value.replace(/<[^>]*>/g,"").trim();
+                if(val.length>254)return;
+                setEmailInput(val);setEmailError(null);
+              }}
+              onKeyDown={e=>{if(e.key==="Enter")handleEmailSubmit();}}
+              style={{
+                width:"100%",boxSizing:"border-box",padding:"14px 16px",
+                borderRadius:"10px",border:"1.5px solid rgba(255,255,255,0.2)",
+                background:"rgba(255,255,255,0.1)",color:"#fff",
+                fontSize:"16px",fontFamily:"inherit",outline:"none",
+              }}
+            />
+            {emailError&&(
+              <p style={{fontSize:"13px",color:"#ffb3b3",margin:0,textAlign:"left"}}>{emailError}</p>
+            )}
+            <div style={{display:"flex",justifyContent:"center"}}>
+              <Turnstile
+                siteKey="habitriiproduction"
+                onSuccess={token=>setCaptchaToken(token)}
+                onExpire={()=>setCaptchaToken("")}
+                onError={()=>setCaptchaToken("")}
+                options={{theme:"dark"}}
+              />
+            </div>
+            <button
+              onClick={handleEmailSubmit}
+              style={{...btnYellow,opacity:captchaToken?1:0.6}}
+            >
+              Start your journey →
+            </button>
+          </div>
         </div>
         <p style={{fontSize:"12px",color:"rgba(13,31,29,0.5)",margin:0}}>For educational purposes only · Not financial advice</p>
       </div>
