@@ -16,22 +16,16 @@ const C = {
   textOnDark: "#ffffff",
 };
 
-// ─── Shared Button Bases ───────────────────────────────────────────────────────
-const btnYellowBase = {
+// ─── Button Base Styles ────────────────────────────────────────────────────────
+const btnYellow = {
   background: C.yellow, color: C.dark, border: "none", borderRadius: "12px",
   fontSize: "16px", fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
   letterSpacing: "0.2px", boxShadow: "0 2px 12px rgba(245,217,36,0.35)",
   transition: "all 0.15s ease",
 };
-const btnOutlineBase = {
+const btnOutline = {
   background: "transparent", color: C.dark,
-  border: `2px solid rgba(26,51,48,0.5)`, borderRadius: "12px",
-  fontSize: "16px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
-  transition: "all 0.15s ease",
-};
-const btnOutlineLightBase = {
-  background: "transparent", color: C.textOnDark,
-  border: "2px solid rgba(255,255,255,0.35)", borderRadius: "12px",
+  border: "2px solid rgba(26,51,48,0.5)", borderRadius: "12px",
   fontSize: "16px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
   transition: "all 0.15s ease",
 };
@@ -41,17 +35,17 @@ const STEPS = [
   {
     num: "01",
     title: "Choose your path",
-    desc: "Pick a Story World and let Penny tailor the experience to your knowledge level and personality.",
+    desc: "Pick a Story World. Penny tailors the experience to your knowledge level and personality.",
   },
   {
     num: "02",
     title: "Learn your way",
-    desc: "Each lesson follows a choose-your-own-adventure format. Your choices shape how concepts are explained.",
+    desc: "Each lesson is a choose-your-own-adventure. Your choices shape how concepts are explained.",
   },
   {
     num: "03",
     title: "Reflect with Penny",
-    desc: "After every lesson, Penny delivers a personalized 2–4 sentence check-in based on your MBTI type, Western zodiac, and Chinese zodiac.",
+    desc: "After every lesson, Penny delivers a 2–4 sentence personalized check-in based on your MBTI type, Western zodiac, and Chinese zodiac.",
   },
 ];
 
@@ -64,17 +58,18 @@ const FEATURES = [
   {
     emoji: "✨",
     title: "Penny, your AI companion",
-    desc: "Powered by Anthropic's Claude AI. Penny responds to how you learn, not a generic script.",
+    desc: "Powered by Anthropic's Claude API. Responds to how you learn, not a generic script.",
   },
   {
     emoji: "🔮",
     title: "Personality-driven personalization",
-    desc: "Your MBTI type and astrology signs shape the tone and examples of every lesson. For entertainment and self-reflection — not predictive.",
+    desc: "MBTI and astrology shape every lesson's tone and examples. For entertainment and self-reflection — not predictive.",
   },
 ];
 
 const WORLDS = [
   {
+    emoji: "🧠",
     name: "Mind & Money",
     tier: "FREE",
     desc: "Behavioral habits, emotional spending, impulse control.",
@@ -83,43 +78,47 @@ const WORLDS = [
     badgeColor: C.dark,
   },
   {
+    emoji: "📐",
     name: "Budgeting Foundations",
     tier: "GROWTH",
     desc: "50/30/20, zero-based budgeting, weekly money dates.",
     badge: "COMING SOON",
     badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.7)",
+    badgeColor: "rgba(255,255,255,0.65)",
   },
   {
+    emoji: "💳",
     name: "Debt & Credit",
     tier: "GROWTH",
     desc: "Snowball method, credit score decoded, negotiating rates.",
     badge: "COMING SOON",
     badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.7)",
+    badgeColor: "rgba(255,255,255,0.65)",
   },
   {
+    emoji: "🛡️",
     name: "Safety & Stability",
     tier: "TRANSFORMATION",
     desc: "Emergency funds, sinking funds, insurance basics.",
     badge: "COMING SOON",
     badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.7)",
+    badgeColor: "rgba(255,255,255,0.65)",
   },
   {
+    emoji: "🌟",
     name: "Advanced & Values",
     tier: "TRANSFORMATION",
     desc: "Values-based spending, intentional purchase protocol.",
     badge: "COMING SOON",
     badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.7)",
+    badgeColor: "rgba(255,255,255,0.65)",
   },
 ];
 
 const FAQS = [
   {
     q: "Is Habitrii real financial advice?",
-    a: "No. Habitrii is an educational and entertainment platform only. Nothing in the app constitutes financial, legal, or investment advice. Always consult a qualified financial professional for personal financial decisions.",
+    a: "No. Habitrii is an educational and entertainment platform only. Nothing constitutes financial, legal, or investment advice. Always consult a qualified professional for personal financial decisions.",
   },
   {
     q: "Who is Penny?",
@@ -127,7 +126,7 @@ const FAQS = [
   },
   {
     q: "What do MBTI and astrology have to do with money?",
-    a: "Habitrii uses personality frameworks as a lens for self-reflection — to help you understand your money habits, emotional triggers, and decision-making style. These insights are for entertainment and self-reflection only, not predictive or professional.",
+    a: "Habitrii uses personality frameworks for self-reflection — to help you understand your habits, emotional triggers, and decision-making style. For entertainment and self-reflection only, not predictive or professional.",
   },
   {
     q: "Can I use Habitrii if I'm under 18?",
@@ -135,12 +134,11 @@ const FAQS = [
   },
   {
     q: "How do I get support?",
-    a: "Email us at habitrii@aven4life.com and we'll respond within 2 business days.",
+    a: "Email habitrii@aven4life.com — we respond within 2 business days.",
   },
 ];
 
-// ─── Sub-components ────────────────────────────────────────────────────────────
-function PricingCheck({ dark }) {
+function CheckIcon({ dark }) {
   return (
     <span style={{ color: dark ? C.yellow : C.teal, fontWeight: 700, flexShrink: 0, marginTop: "2px" }}>
       ✓
@@ -152,6 +150,11 @@ function PricingCheck({ dark }) {
 export default function LandingPage({ onStart }) {
   const [openFaq, setOpenFaq] = useState(null);
 
+  const scrollToHowItWorks = (e) => {
+    e.preventDefault();
+    document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div style={{
       fontFamily: "'DM Sans', system-ui, -apple-system, sans-serif",
@@ -160,91 +163,96 @@ export default function LandingPage({ onStart }) {
       lineHeight: 1.5,
     }}>
 
-      {/* ═══════════════════ RESPONSIVE STYLES ═══════════════════ */}
+      {/* ══════════════════════ RESPONSIVE STYLES ══════════════════════ */}
       <style>{`
         *, *::before, *::after { box-sizing: border-box; }
-        body { margin: 0; }
         html { scroll-behavior: smooth; }
 
-        .lp-nav { position: sticky; top: 0; z-index: 200; }
+        /* Layout utilities */
+        .lp-section { padding: 96px 0; }
+        .lp-inner  { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+        .lp-section-header { text-align: center; margin-bottom: 60px; }
+
+        /* Nav */
+        .lp-nav {
+          position: sticky; top: 0; z-index: 200;
+          background: rgba(255,255,255,0.97);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(26,51,48,0.08);
+          box-shadow: 0 1px 10px rgba(0,0,0,0.05);
+        }
         .lp-nav-inner {
-          max-width: 1160px; margin: 0 auto; padding: 0 32px; height: 68px;
-          display: flex; align-items: center; justify-content: space-between;
+          max-width: 1160px; margin: 0 auto; padding: 0 32px;
+          height: 68px; display: flex; align-items: center;
+          justify-content: space-between;
         }
         .lp-nav-right { display: flex; align-items: center; gap: 14px; }
-        .lp-nav-signin { display: inline-block; }
+        .lp-signin { transition: color 0.15s ease !important; }
+        .lp-signin:hover { color: ${C.teal} !important; }
 
-        .lp-section-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-
-        .lp-hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
-
-        .lp-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .lp-grid-worlds {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
+        /* Hero buttons */
+        .lp-hero-btns {
+          display: flex; gap: 16px; flex-wrap: wrap;
+          justify-content: center; margin-bottom: 20px;
         }
+
+        /* Grids */
+        .lp-grid-3     { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .lp-grid-worlds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .lp-grid-pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
 
-        .lp-footer-links { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
-
-        /* Hover effects */
-        .lp-btn-yellow:hover { transform: translateY(-1px); box-shadow: 0 5px 22px rgba(245,217,36,0.55) !important; }
-        .lp-btn-outline:hover { background: rgba(26,51,48,0.07) !important; }
-        .lp-btn-outline-light:hover { background: rgba(255,255,255,0.1) !important; }
+        /* Hover states */
+        .lp-btn-y:hover  { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(245,217,36,0.55) !important; }
+        .lp-btn-o:hover  { background: rgba(26,51,48,0.07) !important; }
         .lp-world-card { transition: all 0.2s ease; }
         .lp-world-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.3) !important; }
-        .lp-pricing-card { transition: all 0.2s ease; }
-        .lp-pricing-card:hover { transform: translateY(-4px); }
+        .lp-p-card { transition: all 0.2s ease; }
+        .lp-p-card:hover { transform: translateY(-4px); }
+        .lp-faq-q { transition: color 0.15s ease; }
         .lp-faq-btn:hover .lp-faq-q { color: ${C.yellow}; }
-        .lp-footer-link:hover { color: rgba(255,255,255,0.9) !important; }
-        .lp-nav-signin:hover { color: ${C.teal} !important; }
+        .lp-footer-a { transition: color 0.15s ease !important; }
+        .lp-footer-a:hover { color: rgba(255,255,255,0.9) !important; }
 
+        /* Responsive breakpoints */
         @media (max-width: 900px) {
-          .lp-grid-3 { grid-template-columns: 1fr; }
+          .lp-grid-3     { grid-template-columns: 1fr; }
           .lp-grid-worlds { grid-template-columns: repeat(2, 1fr); }
           .lp-grid-pricing { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 600px) {
+          .lp-inner { padding: 0 18px; }
           .lp-nav-inner { padding: 0 20px; }
-          .lp-nav-signin { display: none; }
+          .lp-section { padding: 64px 0; }
+          .lp-signin-hide { display: none; }
           .lp-hero-btns { flex-direction: column; width: 100%; }
           .lp-hero-btns button { width: 100% !important; }
           .lp-grid-worlds { grid-template-columns: 1fr; }
-          .lp-section-inner { padding: 0 18px; }
         }
       `}</style>
 
-      {/* ═══════════════════ NAV ═══════════════════ */}
-      <nav className="lp-nav" style={{
-        background: "rgba(255,255,255,0.97)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(26,51,48,0.08)",
-        boxShadow: "0 1px 12px rgba(0,0,0,0.05)",
-      }}>
+      {/* ══════════════════════ NAV ══════════════════════ */}
+      <nav className="lp-nav">
         <div className="lp-nav-inner">
           <span style={{ fontSize: "22px", fontWeight: 800, color: C.teal, letterSpacing: "-0.5px" }}>
             Habitrii
           </span>
           <div className="lp-nav-right">
             <button
-              className="lp-nav-signin"
+              className="lp-signin lp-signin-hide"
               onClick={onStart}
               style={{
                 background: "none", border: "none", cursor: "pointer",
-                fontSize: "15px", fontWeight: 600, color: C.dark,
-                fontFamily: "inherit", transition: "color 0.15s ease",
+                fontSize: "15px", fontWeight: 600, color: C.dark, fontFamily: "inherit",
                 padding: "8px 4px",
               }}
             >
               Sign In
             </button>
             <button
-              className="lp-btn-yellow"
+              className="lp-btn-y"
               onClick={onStart}
-              style={{ ...btnYellowBase, padding: "10px 22px", fontSize: "15px" }}
+              style={{ ...btnYellow, padding: "10px 22px", fontSize: "15px" }}
             >
               Get Started Free
             </button>
@@ -252,24 +260,28 @@ export default function LandingPage({ onStart }) {
         </div>
       </nav>
 
-      {/* ═══════════════════ HERO ═══════════════════ */}
-      <section style={{ background: C.bg, minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 24px" }}>
+      {/* ══════════════════════ HERO ══════════════════════ */}
+      <section style={{
+        background: C.bg, minHeight: "90vh",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "80px 24px",
+      }}>
         <div style={{ maxWidth: "740px", width: "100%", textAlign: "center" }}>
-          {/* Badge */}
+          {/* Early access pill */}
           <div style={{
             display: "inline-block",
             background: C.dark, color: C.yellow,
             fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
             textTransform: "uppercase", padding: "6px 16px", borderRadius: "99px",
-            marginBottom: "32px",
+            marginBottom: "30px",
           }}>
             Now in Early Access
           </div>
 
           {/* Headline */}
           <h1 style={{
-            fontSize: "clamp(38px, 6.5vw, 66px)", fontWeight: 800,
-            lineHeight: 1.08, color: C.dark, marginBottom: "26px",
+            fontSize: "clamp(38px, 6.5vw, 64px)", fontWeight: 800,
+            lineHeight: 1.08, color: C.dark, marginBottom: "24px",
             letterSpacing: "-1.5px",
           }}>
             Financial literacy<br />
@@ -294,35 +306,34 @@ export default function LandingPage({ onStart }) {
           </p>
 
           {/* CTAs */}
-          <div className="lp-hero-btns" style={{ marginBottom: "22px" }}>
+          <div className="lp-hero-btns">
             <button
-              className="lp-btn-yellow"
+              className="lp-btn-y"
               onClick={onStart}
-              style={{ ...btnYellowBase, padding: "17px 40px", fontSize: "17px" }}
+              style={{ ...btnYellow, padding: "17px 40px", fontSize: "17px" }}
             >
               Start for Free
             </button>
             <button
-              className="lp-btn-outline"
-              onClick={onStart}
-              style={{ ...btnOutlineBase, padding: "17px 40px", fontSize: "17px" }}
+              className="lp-btn-o"
+              onClick={scrollToHowItWorks}
+              style={{ ...btnOutline, padding: "17px 40px", fontSize: "17px" }}
             >
               See How It Works
             </button>
           </div>
 
-          {/* Badge */}
-          <p style={{ fontSize: "12px", color: C.textMut, letterSpacing: "0.4px" }}>
+          {/* Disclaimer badge */}
+          <p style={{ fontSize: "12px", color: C.textMut, letterSpacing: "0.4px", margin: 0 }}>
             18+ only · Educational use only · Not financial advice
           </p>
         </div>
       </section>
 
-      {/* ═══════════════════ HOW IT WORKS ═══════════════════ */}
-      <section style={{ background: C.dark, padding: "100px 0" }}>
-        <div className="lp-section-inner">
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+      {/* ══════════════════════ HOW IT WORKS ══════════════════════ */}
+      <section id="how-it-works" className="lp-section" style={{ background: C.dark }}>
+        <div className="lp-inner">
+          <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
               textTransform: "uppercase", color: C.yellow, margin: "0 0 14px",
@@ -337,10 +348,9 @@ export default function LandingPage({ onStart }) {
             </h2>
           </div>
 
-          {/* Steps */}
           <div className="lp-grid-3">
-            {STEPS.map((step) => (
-              <div key={step.num} style={{
+            {STEPS.map((s) => (
+              <div key={s.num} style={{
                 background: C.mid, borderRadius: "18px", padding: "40px 32px",
                 borderTop: `4px solid ${C.yellow}`,
               }}>
@@ -348,16 +358,13 @@ export default function LandingPage({ onStart }) {
                   fontSize: "48px", fontWeight: 800, color: C.yellow,
                   margin: "0 0 14px", lineHeight: 1,
                 }}>
-                  {step.num}
+                  {s.num}
                 </p>
-                <h3 style={{
-                  fontSize: "20px", fontWeight: 700, color: C.textOnDark,
-                  margin: "0 0 12px",
-                }}>
-                  {step.title}
+                <h3 style={{ fontSize: "20px", fontWeight: 700, color: C.textOnDark, margin: "0 0 12px" }}>
+                  {s.title}
                 </h3>
                 <p style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(255,255,255,0.68)", margin: 0 }}>
-                  {step.desc}
+                  {s.desc}
                 </p>
               </div>
             ))}
@@ -365,11 +372,10 @@ export default function LandingPage({ onStart }) {
         </div>
       </section>
 
-      {/* ═══════════════════ FEATURES ═══════════════════ */}
-      <section style={{ background: C.bg, padding: "100px 0" }}>
-        <div className="lp-section-inner">
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+      {/* ══════════════════════ FEATURES ══════════════════════ */}
+      <section className="lp-section" style={{ background: C.bg }}>
+        <div className="lp-inner">
+          <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
               textTransform: "uppercase", color: "rgba(13,31,29,0.5)", margin: "0 0 14px",
@@ -384,16 +390,13 @@ export default function LandingPage({ onStart }) {
             </h2>
           </div>
 
-          {/* Cards */}
           <div className="lp-grid-3">
             {FEATURES.map((f) => (
               <div key={f.title} style={{
                 background: C.card, borderRadius: "18px", padding: "40px 32px",
                 boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
               }}>
-                <div style={{ fontSize: "44px", marginBottom: "18px", lineHeight: 1 }}>
-                  {f.emoji}
-                </div>
+                <div style={{ fontSize: "44px", marginBottom: "18px", lineHeight: 1 }}>{f.emoji}</div>
                 <h3 style={{ fontSize: "19px", fontWeight: 700, color: C.dark, margin: "0 0 12px" }}>
                   {f.title}
                 </h3>
@@ -406,11 +409,10 @@ export default function LandingPage({ onStart }) {
         </div>
       </section>
 
-      {/* ═══════════════════ STORY WORLDS ═══════════════════ */}
-      <section style={{ background: C.cardLight, padding: "100px 0" }}>
-        <div className="lp-section-inner">
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+      {/* ══════════════════════ STORY WORLDS ══════════════════════ */}
+      <section className="lp-section" style={{ background: C.cardLight }}>
+        <div className="lp-inner">
+          <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
               textTransform: "uppercase", color: C.teal, margin: "0 0 14px",
@@ -419,32 +421,23 @@ export default function LandingPage({ onStart }) {
             </p>
             <h2 style={{
               fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800,
-              color: C.dark, letterSpacing: "-0.8px", margin: "0 0 14px",
+              color: C.dark, letterSpacing: "-0.8px", margin: "0 0 12px",
             }}>
               Five worlds. One journey.
             </h2>
-            <p style={{ fontSize: "17px", color: C.textSub, margin: 0, maxWidth: "520px", marginLeft: "auto", marginRight: "auto" }}>
+            <p style={{ fontSize: "17px", color: C.textSub, margin: 0, maxWidth: "500px", marginLeft: "auto", marginRight: "auto" }}>
               Each Story World is a self-contained experience with its own tone, pacing, and lessons.
             </p>
           </div>
 
-          {/* World tiles */}
           <div className="lp-grid-worlds">
             {WORLDS.map((w) => (
               <div key={w.name} className="lp-world-card" style={{
                 background: C.dark, borderRadius: "16px", padding: "28px 24px",
                 boxShadow: "0 4px 18px rgba(0,0,0,0.18)",
               }}>
-                <div style={{
-                  display: "flex", justifyContent: "space-between",
-                  alignItems: "flex-start", marginBottom: "14px",
-                }}>
-                  <span style={{
-                    fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px",
-                    textTransform: "uppercase", color: "rgba(255,255,255,0.38)",
-                  }}>
-                    {w.tier}
-                  </span>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
+                  <span style={{ fontSize: "26px", lineHeight: 1 }}>{w.emoji}</span>
                   <span style={{
                     background: w.badgeBg, color: w.badgeColor,
                     fontSize: "10px", fontWeight: 700, letterSpacing: "1px",
@@ -453,6 +446,13 @@ export default function LandingPage({ onStart }) {
                     {w.badge}
                   </span>
                 </div>
+                <p style={{
+                  fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px",
+                  textTransform: "uppercase", color: "rgba(255,255,255,0.38)",
+                  margin: "0 0 6px",
+                }}>
+                  {w.tier}
+                </p>
                 <h3 style={{ fontSize: "17px", fontWeight: 700, color: C.textOnDark, margin: "0 0 8px" }}>
                   {w.name}
                 </h3>
@@ -465,11 +465,10 @@ export default function LandingPage({ onStart }) {
         </div>
       </section>
 
-      {/* ═══════════════════ PRICING ═══════════════════ */}
-      <section style={{ background: C.bg, padding: "100px 0" }}>
-        <div className="lp-section-inner">
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+      {/* ══════════════════════ PRICING ══════════════════════ */}
+      <section className="lp-section" style={{ background: C.bg }}>
+        <div className="lp-inner">
+          <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
               textTransform: "uppercase", color: "rgba(13,31,29,0.5)", margin: "0 0 14px",
@@ -484,18 +483,14 @@ export default function LandingPage({ onStart }) {
             </h2>
           </div>
 
-          {/* Cards */}
           <div className="lp-grid-pricing">
 
-            {/* Foundation */}
-            <div className="lp-pricing-card" style={{
+            {/* ── Foundation ── */}
+            <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
             }}>
-              <p style={{
-                fontSize: "11px", fontWeight: 700, letterSpacing: "2px",
-                textTransform: "uppercase", color: C.gray, margin: "0 0 10px",
-              }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.gray, margin: "0 0 10px" }}>
                 Foundation
               </p>
               <div style={{ marginBottom: "28px" }}>
@@ -509,49 +504,36 @@ export default function LandingPage({ onStart }) {
                   "Personality onboarding (MBTI + astrology)",
                 ].map(item => (
                   <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: C.textSub, lineHeight: 1.55 }}>
-                    <PricingCheck dark={false} />
-                    {item}
+                    <CheckIcon dark={false} />{item}
                   </li>
                 ))}
               </ul>
-              <button
-                className="lp-btn-outline"
-                onClick={onStart}
-                style={{ ...btnOutlineBase, padding: "14px 24px", width: "100%", textAlign: "center" }}
-              >
+              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%" }}>
                 Start for Free
               </button>
             </div>
 
-            {/* Growth — Most Popular */}
-            <div className="lp-pricing-card" style={{
+            {/* ── Growth (Most Popular) ── */}
+            <div className="lp-p-card" style={{
               background: C.dark, borderRadius: "20px", padding: "40px 32px",
-              boxShadow: "0 10px 48px rgba(26,51,48,0.38)",
-              position: "relative",
+              boxShadow: "0 10px 48px rgba(26,51,48,0.38)", position: "relative",
             }}>
               <div style={{
-                position: "absolute", top: "-15px", left: "50%",
-                transform: "translateX(-50%)",
+                position: "absolute", top: "-15px", left: "50%", transform: "translateX(-50%)",
                 background: C.yellow, color: C.dark,
-                fontSize: "11px", fontWeight: 800, letterSpacing: "1.5px",
-                textTransform: "uppercase", padding: "5px 18px", borderRadius: "99px",
-                whiteSpace: "nowrap",
+                fontSize: "11px", fontWeight: 800, letterSpacing: "1.5px", textTransform: "uppercase",
+                padding: "5px 18px", borderRadius: "99px", whiteSpace: "nowrap",
               }}>
                 Most Popular
               </div>
-              <p style={{
-                fontSize: "11px", fontWeight: 700, letterSpacing: "2px",
-                textTransform: "uppercase", color: "rgba(255,255,255,0.45)", margin: "0 0 10px",
-              }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", margin: "0 0 10px" }}>
                 Growth
               </p>
               <div style={{ marginBottom: "6px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.textOnDark, lineHeight: 1 }}>$9.99</span>
                 <span style={{ fontSize: "15px", color: "rgba(255,255,255,0.45)", marginLeft: "6px" }}>/month</span>
               </div>
-              <p style={{ fontSize: "13px", color: C.yellow, fontWeight: 600, margin: "0 0 28px" }}>
-                or $79/year
-              </p>
+              <p style={{ fontSize: "13px", color: C.yellow, fontWeight: 600, margin: "0 0 28px" }}>or $79/year</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
                   "Everything in Foundation",
@@ -559,38 +541,28 @@ export default function LandingPage({ onStart }) {
                   "Debt & Credit world (6 lessons)",
                 ].map(item => (
                   <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: "rgba(255,255,255,0.78)", lineHeight: 1.55 }}>
-                    <PricingCheck dark={true} />
-                    {item}
+                    <CheckIcon dark={true} />{item}
                   </li>
                 ))}
               </ul>
-              <button
-                className="lp-btn-yellow"
-                onClick={onStart}
-                style={{ ...btnYellowBase, padding: "14px 24px", width: "100%", textAlign: "center" }}
-              >
+              <button className="lp-btn-y" onClick={onStart} style={{ ...btnYellow, padding: "14px 24px", width: "100%" }}>
                 Get Growth
               </button>
             </div>
 
-            {/* Transformation */}
-            <div className="lp-pricing-card" style={{
+            {/* ── Transformation ── */}
+            <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
             }}>
-              <p style={{
-                fontSize: "11px", fontWeight: 700, letterSpacing: "2px",
-                textTransform: "uppercase", color: C.gray, margin: "0 0 10px",
-              }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.gray, margin: "0 0 10px" }}>
                 Transformation
               </p>
               <div style={{ marginBottom: "6px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>$19.99</span>
                 <span style={{ fontSize: "15px", color: C.gray, marginLeft: "6px" }}>/month</span>
               </div>
-              <p style={{ fontSize: "13px", color: C.teal, fontWeight: 600, margin: "0 0 28px" }}>
-                or $149/year
-              </p>
+              <p style={{ fontSize: "13px", color: C.teal, fontWeight: 600, margin: "0 0 28px" }}>or $149/year</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
                   "Everything in Growth",
@@ -600,28 +572,22 @@ export default function LandingPage({ onStart }) {
                   "Early access to new features",
                 ].map(item => (
                   <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: C.textSub, lineHeight: 1.55 }}>
-                    <PricingCheck dark={false} />
-                    {item}
+                    <CheckIcon dark={false} />{item}
                   </li>
                 ))}
               </ul>
-              <button
-                className="lp-btn-outline"
-                onClick={onStart}
-                style={{ ...btnOutlineBase, padding: "14px 24px", width: "100%", textAlign: "center" }}
-              >
+              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%" }}>
                 Get Transformation
               </button>
             </div>
 
           </div>
 
-          {/* Pricing note */}
+          {/* Pricing footnote */}
           <p style={{
-            textAlign: "center", fontSize: "13px",
-            color: "rgba(13,31,29,0.45)", marginTop: "36px",
-            maxWidth: "600px", marginLeft: "auto", marginRight: "auto",
-            lineHeight: 1.65,
+            textAlign: "center", fontSize: "13px", color: C.textMut,
+            marginTop: "36px", maxWidth: "600px",
+            marginLeft: "auto", marginRight: "auto", lineHeight: 1.65,
           }}>
             Personality insights (MBTI, Western astrology, Chinese astrology) are for
             entertainment and self-reflection only — not predictive or professional guidance.
@@ -629,7 +595,7 @@ export default function LandingPage({ onStart }) {
         </div>
       </section>
 
-      {/* ═══════════════════ LEGAL DISCLAIMER ═══════════════════ */}
+      {/* ══════════════════════ LEGAL DISCLAIMER ══════════════════════ */}
       <section style={{ background: C.dark, padding: "72px 24px" }}>
         <div style={{ maxWidth: "780px", margin: "0 auto", textAlign: "center" }}>
           <p style={{
@@ -638,10 +604,7 @@ export default function LandingPage({ onStart }) {
           }}>
             Legal Notice
           </p>
-          <p style={{
-            fontSize: "17px", lineHeight: 1.8,
-            color: "rgba(255,255,255,0.82)", margin: 0,
-          }}>
+          <p style={{ fontSize: "17px", lineHeight: 1.85, color: "rgba(255,255,255,0.82)", margin: 0 }}>
             Habitrii is for educational and entertainment purposes only. Content does not
             constitute financial, legal, or investment advice. Habitrii is strictly for users{" "}
             <strong style={{ color: C.textOnDark }}>18 years of age and older</strong>.
@@ -650,12 +613,11 @@ export default function LandingPage({ onStart }) {
         </div>
       </section>
 
-      {/* ═══════════════════ FAQ ═══════════════════ */}
-      <section style={{ background: C.mid, padding: "100px 0" }}>
-        <div className="lp-section-inner">
+      {/* ══════════════════════ FAQ ══════════════════════ */}
+      <section className="lp-section" style={{ background: C.mid }}>
+        <div className="lp-inner">
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-            {/* Header */}
-            <div style={{ textAlign: "center", marginBottom: "64px" }}>
+            <div className="lp-section-header">
               <p style={{
                 fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
                 textTransform: "uppercase", color: C.yellow, margin: "0 0 14px",
@@ -670,38 +632,29 @@ export default function LandingPage({ onStart }) {
               </h2>
             </div>
 
-            {/* Accordion */}
             <div>
               {FAQS.map((faq, i) => (
-                <div
-                  key={i}
-                  style={{
-                    borderBottom: i < FAQS.length - 1
-                      ? "1px solid rgba(255,255,255,0.1)"
-                      : "none",
-                  }}
-                >
+                <div key={i} style={{
+                  borderBottom: i < FAQS.length - 1 ? "1px solid rgba(255,255,255,0.1)" : "none",
+                }}>
                   <button
                     className="lp-faq-btn"
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     style={{
                       width: "100%", background: "none", border: "none",
-                      cursor: "pointer", textAlign: "left",
-                      padding: "24px 0", display: "flex",
-                      justifyContent: "space-between", alignItems: "center",
-                      fontFamily: "inherit",
-                      gap: "16px",
+                      cursor: "pointer", textAlign: "left", padding: "24px 0",
+                      display: "flex", justifyContent: "space-between",
+                      alignItems: "center", fontFamily: "inherit", gap: "16px",
                     }}
                   >
                     <span className="lp-faq-q" style={{
-                      fontSize: "17px", fontWeight: 600, color: C.textOnDark,
-                      lineHeight: 1.4, transition: "color 0.15s ease",
+                      fontSize: "17px", fontWeight: 600, color: C.textOnDark, lineHeight: 1.4,
                     }}>
                       {faq.q}
                     </span>
                     <span style={{
-                      fontSize: "26px", color: C.yellow, flexShrink: 0,
-                      lineHeight: 1, transition: "transform 0.2s ease",
+                      fontSize: "26px", color: C.yellow, flexShrink: 0, lineHeight: 1,
+                      transition: "transform 0.2s ease",
                       transform: openFaq === i ? "rotate(45deg)" : "rotate(0deg)",
                       display: "block",
                     }}>
@@ -724,7 +677,7 @@ export default function LandingPage({ onStart }) {
         </div>
       </section>
 
-      {/* ═══════════════════ FOOTER ═══════════════════ */}
+      {/* ══════════════════════ FOOTER ══════════════════════ */}
       <footer style={{ background: C.dark, padding: "64px 24px 44px", textAlign: "center" }}>
         <span style={{
           fontSize: "26px", fontWeight: 800, color: C.teal,
@@ -733,25 +686,18 @@ export default function LandingPage({ onStart }) {
           Habitrii
         </span>
 
-        <div className="lp-footer-links" style={{ marginBottom: "28px" }}>
-          <a href="#" className="lp-footer-link" style={{
-            color: "rgba(255,255,255,0.55)", fontSize: "14px",
-            textDecoration: "none", transition: "color 0.15s ease",
-          }}>
-            Privacy Policy
-          </a>
-          <a href="#" className="lp-footer-link" style={{
-            color: "rgba(255,255,255,0.55)", fontSize: "14px",
-            textDecoration: "none", transition: "color 0.15s ease",
-          }}>
-            Terms of Service
-          </a>
-          <a href="mailto:habitrii@aven4life.com" className="lp-footer-link" style={{
-            color: "rgba(255,255,255,0.55)", fontSize: "14px",
-            textDecoration: "none", transition: "color 0.15s ease",
-          }}>
-            habitrii@aven4life.com
-          </a>
+        <div style={{ display: "flex", gap: "24px", flexWrap: "wrap", justifyContent: "center", marginBottom: "28px" }}>
+          {[
+            { label: "Privacy Policy",         href: "#"  },
+            { label: "Terms of Service",        href: "#"  },
+            { label: "habitrii@aven4life.com",  href: "mailto:habitrii@aven4life.com" },
+          ].map(link => (
+            <a key={link.label} href={link.href} className="lp-footer-a" style={{
+              color: "rgba(255,255,255,0.55)", fontSize: "14px", textDecoration: "none",
+            }}>
+              {link.label}
+            </a>
+          ))}
         </div>
 
         <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "10px" }}>
