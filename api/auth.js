@@ -106,6 +106,7 @@ module.exports = async function handler(req, res) {
     log("auth_check", { emailDomain, tier: "foundation" });
     return res.status(200).json({ tier: "foundation" });
   }
+    if (!stripe) return res.status(200).json({ tier: "foundation" });
 
   try {
     // 1. Look up customer by email
