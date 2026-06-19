@@ -3,7 +3,6 @@
 //   STRIPE_SECRET_KEY               — Stripe secret key (sk_live_... or sk_test_...)
 //   STRIPE_GROWTH_PRICE_IDS         — comma-separated Stripe Price IDs for Growth tier
 //   STRIPE_TRANSFORMATION_PRICE_IDS — comma-separated Stripe Price IDs for Transformation tier
-h
 // IMPORTANT: If a Stripe webhook endpoint (/api/webhook) is added in the future,
 // it MUST verify the Stripe-Signature header using:
 //   stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET)
