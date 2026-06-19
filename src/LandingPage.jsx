@@ -10,10 +10,10 @@ const C = {
   yellow:     "#f5d924",
   teal:       "#57b7a7",
   gray:       "#a09e98",
+  grayText: "#5f5d57",
   text:       "#0d1f1d",
-  textSub:    "rgba(13,31,29,0.65)",
-  textMut:    "rgba(13,31,29,0.45)",
-  textOnDark: "#ffffff",
+  textSub:    "rgba(13,31,29,0.7)",
+  textMut: "rgba(13,31,29,0.62)",  textOnDark: "#ffffff",
 };
 
 // ─── Button Base Styles ────────────────────────────────────────────────────────
@@ -378,7 +378,7 @@ export default function LandingPage({ onStart }) {
           <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-              textTransform: "uppercase", color: "rgba(13,31,29,0.5)", margin: "0 0 14px",
+              textTransform: "uppercase", color: "rgba(13,31,29,0.72)", margin: "0 0 14px",
             }}>
               Features
             </p>
@@ -448,7 +448,7 @@ export default function LandingPage({ onStart }) {
                 </div>
                 <p style={{
                   fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px",
-                  textTransform: "uppercase", color: "rgba(255,255,255,0.38)",
+                  textTransform: "uppercase", color: "rgba(255,255,255,0.62)",
                   margin: "0 0 6px",
                 }}>
                   {w.tier}
@@ -456,7 +456,7 @@ export default function LandingPage({ onStart }) {
                 <h3 style={{ fontSize: "17px", fontWeight: 700, color: C.textOnDark, margin: "0 0 8px" }}>
                   {w.name}
                 </h3>
-                <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.58)", lineHeight: 1.65, margin: 0 }}>
+                <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.66)", lineHeight: 1.65, margin: 0 }}>
                   {w.desc}
                 </p>
               </div>
@@ -471,7 +471,7 @@ export default function LandingPage({ onStart }) {
           <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-              textTransform: "uppercase", color: "rgba(13,31,29,0.5)", margin: "0 0 14px",
+              textTransform: "uppercase", color: "rgba(13,31,29,0.72)", margin: "0 0 14px",
             }}>
               Pricing
             </p>
@@ -490,12 +490,12 @@ export default function LandingPage({ onStart }) {
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
             }}>
-              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.gray, margin: "0 0 10px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Foundation
               </p>
               <div style={{ marginBottom: "28px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>Free</span>
-                <span style={{ fontSize: "15px", color: C.gray, marginLeft: "8px" }}>forever</span>
+                <span style={{ fontSize: "15px", color: C.grayText, marginLeft: "8px" }}>forever</span>
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
@@ -555,12 +555,12 @@ export default function LandingPage({ onStart }) {
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
             }}>
-              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.gray, margin: "0 0 10px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Transformation
               </p>
               <div style={{ marginBottom: "6px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>$19.99</span>
-                <span style={{ fontSize: "15px", color: C.gray, marginLeft: "6px" }}>/month</span>
+                <span style={{ fontSize: "15px", color: C.grayText, marginLeft: "6px" }}>/month</span>
               </div>
               <p style={{ fontSize: "13px", color: C.teal, fontWeight: 600, margin: "0 0 28px" }}>or $149/year</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -700,10 +700,10 @@ export default function LandingPage({ onStart }) {
           ))}
         </div>
 
-        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "10px" }}>
+        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", marginBottom: "10px" }}>
           Educational and entertainment purposes only · Not financial advice · 18+ only
         </p>
-        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.28)", margin: 0 }}>
+        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", margin: 0 }}>
           © 2026 AVEN LLC. All rights reserved. Habitrii is a product of AVEN LLC, registered in Virginia.
         </p>
       </footer>
