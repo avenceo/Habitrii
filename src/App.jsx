@@ -7,7 +7,7 @@ const C = {
   bg:"#57b7a7", dark:"#1a3330", mid:"#2a4a44",
   card:"#ffffff", cardHover:"#f0faf8", cardSelected:"#f5d924",
   cardBorder:"rgba(26,51,48,0.14)", cardBorderSel:"rgba(26,51,48,0.35)",
-  text:"#0d1f1d", textSub:"rgba(13,31,29,0.65)", textMut:"rgba(13,31,29,0.45)",
+  text:"#0d1f1d", textSub:"rgba(13,31,29,0.7)", textMut:"rgba(13,31,29,0.62)",
   textOnDark:"#ffffff", teal:"#57b7a7", yellow:"#f5d924", gray:"#a09e98",
 };
 
@@ -505,7 +505,7 @@ export default function Habitrii() {
             </button>
           </div>
         </div>
-        <p style={{fontSize:"12px",color:"rgba(13,31,29,0.5)",margin:0}}>For educational purposes only · Not financial advice</p>
+        <p style={{fontSize:"12px",color:"rgba(13,31,29,0.72)",margin:0}}>For educational purposes only · Not financial advice</p>
       </div>
     </div>
   );
