@@ -3,7 +3,7 @@
 //   STRIPE_SECRET_KEY               — Stripe secret key (sk_live_... or sk_test_...)
 //   STRIPE_GROWTH_PRICE_IDS         — comma-separated Stripe Price IDs for Growth tier
 //   STRIPE_TRANSFORMATION_PRICE_IDS — comma-separated Stripe Price IDs for Transformation tier
-
+h
 // IMPORTANT: If a Stripe webhook endpoint (/api/webhook) is added in the future,
 // it MUST verify the Stripe-Signature header using:
 //   stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET)
@@ -13,7 +13,7 @@
 // ── STEP 1: CORS HARDENING ────────────────────────────────────────────────
 const ALLOWED_ORIGINS = [
   "https://habitrii.aven4life.com",
-  "http://localhost:5173",
+  "https://habitrii-c8qwvw9s2-haiden-s-projects.vercel.app",  "http://localhost:5173",
 ];
 
 // ── STEP 2: RATE LIMITING ─────────────────────────────────────────────────
