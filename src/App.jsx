@@ -335,6 +335,7 @@ export default function Habitrii() {
     localStorage.setItem("habitrii_started", "1");
     setShowLanding(false);
   };
+  const [legalDoc, setLegalDoc] = useState(null); // null | "terms" | "privacy"
 
   const [screen, setScreen]         = useState("welcome");
   const [q1, setQ1]                 = useState(null);
