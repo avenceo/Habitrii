@@ -147,7 +147,7 @@ function CheckIcon({ dark }) {
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
-export default function LandingPage({ onStart }) {
+export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
   const [openFaq, setOpenFaq] = useState(null);
 
   const scrollToHowItWorks = (e) => {
@@ -688,11 +688,11 @@ export default function LandingPage({ onStart }) {
 
         <div style={{ display: "flex", gap: "24px", flexWrap: "wrap", justifyContent: "center", marginBottom: "28px" }}>
           {[
-            { label: "Privacy Policy",         href: "#"  },
-            { label: "Terms of Service",        href: "#"  },
+      { label: "Privacy Policy", href: "#", onClick: onShowPrivacy },
+      { label: "Terms of Service", href: "#", onClick: onShowTerms },
             { label: "habitrii@aven4life.com",  href: "mailto:habitrii@aven4life.com" },
           ].map(link => (
-            <a key={link.label} href={link.href} className="lp-footer-a" style={{
+            <a key={link.label} href={link.href} className="lp-footer-a" onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick(); } : undefined} style={{
               color: "rgba(255,255,255,0.55)", fontSize: "14px", textDecoration: "none",
             }}>
               {link.label}
