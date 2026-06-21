@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import LandingPage from "./LandingPage";
 import { Turnstile } from "@marsidev/react-turnstile";
+import TermsOfService from "./TermsOfService";
+import PrivacyPolicy from "./PrivacyPolicy";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -450,8 +452,12 @@ export default function Habitrii() {
   };
   const inner = {width:"100%",maxWidth:"560px",display:"flex",flexDirection:"column",gap:"18px"};
 
-  // ── LANDING PAGE ─────────────────────────────────────────────────────────────
-  if (showLanding) return <LandingPage onStart={handleEnterApp} />;
+  // ── LEGAL DOCS
+  if (legalDoc === "terms") return <TermsOfService onBack={() => setLegalDoc(null)} />;
+  if (legalDoc === "privacy") return <PrivacyPolicy onBack={() => setLegalDoc(null)} />;
+
+  // ── LANDING PAGE
+  if (showLanding) return <LandingPage onStart={handleEnterApp} onShowTerms={() => setLegalDoc("terms")} onShowPrivacy={() => setLegalDoc("privacy")} />;
 
   // ── WELCOME / EMAIL GATE ──────────────────────────────────────────────────
   if(screen==="welcome") return (
