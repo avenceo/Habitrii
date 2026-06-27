@@ -524,7 +524,7 @@ export default function Habitrii() {
             </label>
             <div style={{display:"flex",justifyContent:"center"}}>
               <Turnstile
-                siteKey="habitriiproduction"
+                siteKey="1x00000000000000000000AA"
                 onSuccess={token=>setCaptchaToken(token)}
                 onExpire={()=>setCaptchaToken("")}
                 onError={()=>setCaptchaToken("")}
@@ -533,7 +533,7 @@ export default function Habitrii() {
             </div>
             <button
               onClick={handleEmailSubmit}
-              style={{...btnYellow,opacity:(captchaToken&&tosAgreed)?1:0.6}}
+              style={{...btnYellow,opacity:tosAgreed?1:0.6}}
             >
               Start your journey →
             </button>
