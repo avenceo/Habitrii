@@ -524,7 +524,7 @@ export default function Habitrii() {
             </label>
             <div style={{display:"flex",justifyContent:"center"}}>
               <Turnstile
-                siteKey="1x00000000000000000000AA"
+                siteKey="0x4AAAAAADr_TSPU6XirX62b"
                 onSuccess={token=>setCaptchaToken(token)}
                 onExpire={()=>setCaptchaToken("")}
                 onError={()=>setCaptchaToken("")}
