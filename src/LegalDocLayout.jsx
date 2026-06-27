@@ -30,6 +30,7 @@ export default function LegalDocLayout({
   lastUpdated,
   draftNotice,
   tocItems,
+  onBack,
   children,
 }) {
   const [activeId, setActiveId] = useState(tocItems?.[0]?.id ?? null);
@@ -117,6 +118,13 @@ export default function LegalDocLayout({
 
   return (
     <div className="hb-legal-page">
+      {onBack && (
+        <div className="hb-legal-back-top">
+          <button onClick={onBack} className="hb-legal-back-btn">
+            ← Back
+          </button>
+        </div>
+      )}
       <div className="hb-legal-header">
         <h1 className="hb-legal-title">{title}</h1>
         <p className="hb-legal-meta">Operated by AVEN LLC &middot; Sterling, Virginia</p>
@@ -147,6 +155,14 @@ export default function LegalDocLayout({
           {tocList}
         </nav>
       </div>
+
+      {onBack && (
+        <div className="hb-legal-back-bottom">
+          <button onClick={onBack} className="hb-legal-back-btn">
+            ← Back to Habitrii
+          </button>
+        </div>
+      )}
     </div>
   );
 }

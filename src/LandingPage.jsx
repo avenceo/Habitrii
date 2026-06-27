@@ -149,6 +149,13 @@ function CheckIcon({ dark }) {
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
   const [openFaq, setOpenFaq] = useState(null);
+  const [gdprDismissed, setGdprDismissed] = useState(
+    () => !!localStorage.getItem("hb_gdpr_accepted")
+  );
+  const handleGdprAccept = () => {
+    localStorage.setItem("hb_gdpr_accepted", "1");
+    setGdprDismissed(true);
+  };
 
   const scrollToHowItWorks = (e) => {
     e.preventDefault();
@@ -707,6 +714,57 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           © 2026 AVEN LLC. All rights reserved. Habitrii is a product of AVEN LLC, registered in Virginia.
         </p>
       </footer>
+
+      {/* GDPR / Cookie Consent Banner */}
+      {!gdprDismissed && (
+        <div style={{
+          position:"fixed", bottom:0, left:0, right:0, zIndex:9999,
+          background:"#1a3330",
+          borderTop:"1px solid rgba(255,255,255,0.12)",
+          padding:"14px 24px",
+          display:"flex", alignItems:"center", justifyContent:"space-between",
+          gap:"16px", flexWrap:"wrap",
+          boxShadow:"0 -4px 24px rgba(13,31,29,0.35)",
+        }}>
+          <p style={{
+            color:"rgba(255,255,255,0.78)", fontSize:"13px",
+            margin:0, lineHeight:1.55, flex:1, minWidth:"240px",
+          }}>
+            We use essential cookies to keep Habitrii running. By using this site
+            you agree to our{" "}
+            <span
+              onClick={onShowPrivacy}
+              style={{color:"#f5d924",textDecoration:"underline",cursor:"pointer"}}
+            >Privacy Policy</span>.
+            {" "}This site is operated by AVEN LLC (Virginia, USA) and is intended
+            for users 18 and older worldwide, including the EU/EEA.
+          </p>
+          <div style={{display:"flex",gap:"10px",flexShrink:0}}>
+            <button
+              onClick={handleGdprAccept}
+              style={{
+                background:"#f5d924", color:"#1a3330", border:"none",
+                borderRadius:"8px", padding:"9px 20px",
+                fontSize:"13px", fontWeight:700, cursor:"pointer",
+                fontFamily:"inherit",
+              }}
+            >
+              Accept & continue
+            </button>
+            <button
+              onClick={handleGdprAccept}
+              style={{
+                background:"transparent", color:"rgba(255,255,255,0.6)",
+                border:"1px solid rgba(255,255,255,0.2)", borderRadius:"8px",
+                padding:"9px 16px", fontSize:"13px", fontWeight:500,
+                cursor:"pointer", fontFamily:"inherit",
+              }}
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

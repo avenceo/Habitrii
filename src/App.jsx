@@ -357,6 +357,7 @@ export default function Habitrii() {
   const [emailInput, setEmailInput]       = useState("");
   const [captchaToken, setCaptchaToken]   = useState("");
   const [emailError, setEmailError]       = useState(null);
+  const [tosAgreed, setTosAgreed]         = useState(false);
 
   // ── Tier State ────────────────────────────────────────────────────────────
   // Tier is cached in React state for the browser session to avoid repeated Stripe API calls.
@@ -428,6 +429,10 @@ export default function Habitrii() {
       setEmailError("Please enter a valid email address.");
       return;
     }
+    if (!tosAgreed) {
+      setEmailError("Please agree to the Terms of Service and Privacy Policy to continue.");
+      return;
+    }
     if (!captchaToken) {
       setEmailError("Please complete the verification below.");
       return;
@@ -495,18 +500,40 @@ export default function Habitrii() {
             {emailError&&(
               <p style={{fontSize:"13px",color:"#ffb3b3",margin:0,textAlign:"left"}}>{emailError}</p>
             )}
+            {/* ToS + Privacy consent — required before continuing */}
+            <label style={{display:"flex",alignItems:"flex-start",gap:"10px",cursor:"pointer",textAlign:"left"}}>
+              <input
+                type="checkbox"
+                checked={tosAgreed}
+                onChange={e=>setTosAgreed(e.target.checked)}
+                style={{marginTop:"3px",accentColor:C.yellow,cursor:"pointer",flexShrink:0,width:"16px",height:"16px"}}
+              />
+              <span style={{fontSize:"13px",color:"rgba(255,255,255,0.72)",lineHeight:1.55}}>
+                I agree to the{" "}
+                <span
+                  onClick={e=>{e.stopPropagation();setLegalDoc("terms");}}
+                  style={{color:C.yellow,textDecoration:"underline",cursor:"pointer"}}
+                >Terms of Service</span>
+                {" "}and{" "}
+                <span
+                  onClick={e=>{e.stopPropagation();setLegalDoc("privacy");}}
+                  style={{color:C.yellow,textDecoration:"underline",cursor:"pointer"}}
+                >Privacy Policy</span>.
+                {" "}I confirm I am 18 years of age or older.
+              </span>
+            </label>
             <div style={{display:"flex",justifyContent:"center"}}>
               <Turnstile
                 siteKey="habitriiproduction"
                 onSuccess={token=>setCaptchaToken(token)}
                 onExpire={()=>setCaptchaToken("")}
                 onError={()=>setCaptchaToken("")}
-                options={{theme:"dark"}}
+                options={{theme:"light"}}
               />
             </div>
             <button
               onClick={handleEmailSubmit}
-              style={{...btnYellow,opacity:captchaToken?1:0.6}}
+              style={{...btnYellow,opacity:(captchaToken&&tosAgreed)?1:0.6}}
             >
               Start your journey →
             </button>

@@ -41,7 +41,7 @@ const TOC_ITEMS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export default function PrivacyPolicy() {
+export default function PrivacyPolicy({ onBack }) {
   return (
     <LegalDocLayout
       title="Privacy policy"
@@ -49,6 +49,7 @@ export default function PrivacyPolicy() {
       lastUpdated={LAST_UPDATED}
       draftNotice="Draft — pending review by a licensed Virginia attorney before publishing, including confirmation of VCDPA applicability."
       tocItems={TOC_ITEMS}
+      onBack={onBack}
     >
       <section id="introduction">
         <h2>1. Introduction</h2>

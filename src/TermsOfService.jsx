@@ -44,7 +44,7 @@ const TOC_ITEMS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-export default function TermsOfService() {
+export default function TermsOfService({ onBack }) {
   return (
     <LegalDocLayout
       title="Terms of service"
@@ -52,6 +52,7 @@ export default function TermsOfService() {
       lastUpdated={LAST_UPDATED}
       draftNotice="Draft — pending review by a licensed Virginia attorney before publishing."
       tocItems={TOC_ITEMS}
+      onBack={onBack}
     >
       <section id="acceptance">
         <h2>1. Acceptance of terms</h2>
