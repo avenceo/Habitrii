@@ -553,7 +553,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 ))}
               </ul>
               <button className="lp-btn-y" onClick={onStart} style={{ ...btnYellow, padding: "14px 24px", width: "100%" }}>
-                Get Growth
+                Coming Soon
               </button>
             </div>
 
@@ -584,7 +584,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 ))}
               </ul>
               <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%" }}>
-                Get Transformation
+                Coming Soon
               </button>
             </div>
 
