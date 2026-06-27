@@ -603,64 +603,63 @@ export default function Habitrii() {
       <div style={inner}>
         <button onClick={()=>go("q2")} style={btnBack}>← Back</button>
         <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
-          <p style={lbl(C.yellow)}>PERSONALIZE PENNY</p>
+          <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 1 OF 3</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your MBTI type?</h2>
           <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to tailor responses to how you think and make decisions.</p>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
           {MBTI_TYPES.map(t=>(
             <MBTICard key={t.code} type={t} selected={mbti===t.code}
-              onClick={()=>{setMbti(t.code);setTimeout(()=>go("q4_astro"),320);}}/>
+              onClick={()=>{setMbti(t.code);setTimeout(()=>go("q4_western"),320);}}/>
           ))}
         </div>
-        <button onClick={()=>go("q4_astro")} style={btnGhost}>I'm not sure — skip this →</button>
+        <button onClick={()=>{setMbti(null);go("q4_western");}} style={btnGhost}>I'm not sure — skip this →</button>
       </div>
     </div>
   );
 
-  // ── Q4: ASTROLOGY PICKER ──────────────────────────────────────────────────
-  if(screen==="q4_astro") return (
+  // ── Q4: WESTERN ZODIAC ───────────────────────────────────────────────────
+  if(screen==="q4_western") return (
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q3_mbti")} style={btnBack}>← Back</button>
         <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
-          <p style={lbl(C.yellow)}>PERSONALIZE PENNY</p>
-          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What are your astrology signs?</h2>
-          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Skip anything you don't know — Penny will still personalize your experience.</p>
+          <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 2 OF 3</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your Western zodiac sign?</h2>
+          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to add a personal touch to how your lessons are framed.</p>
         </div>
-
         <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
-          <p style={{...lbl(C.teal),marginBottom:"12px"}}>WESTERN SIGN</p>
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
             {WESTERN_SIGNS.map(s=>(
               <SignCard key={s.sign} data={s} selected={westernSign===s.sign}
-                onClick={()=>setWesternSign(westernSign===s.sign?null:s.sign)}/>
+                onClick={()=>{setWesternSign(s.sign);setTimeout(()=>go("q4_chinese"),280);}}/>
             ))}
           </div>
         </div>
+        <button onClick={()=>{setWesternSign(null);go("q4_chinese");}} style={btnGhost}>I'm not sure — skip this →</button>
+      </div>
+    </div>
+  );
 
+  // ── Q5: CHINESE ZODIAC ────────────────────────────────────────────────────
+  if(screen==="q4_chinese") return (
+    <div style={outer}>
+      <div style={inner}>
+        <button onClick={()=>go("q4_western")} style={btnBack}>← Back</button>
+        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
+          <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 3 OF 3</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your Chinese zodiac animal?</h2>
+          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Almost there — Penny will use this to complete your personality profile.</p>
+        </div>
         <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
-          <p style={{...lbl(C.teal),marginBottom:"12px"}}>CHINESE ZODIAC</p>
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
             {CHINESE_ZODIAC.map(s=>(
               <SignCard key={s.sign} data={s} selected={chineseSign===s.sign}
-                onClick={()=>setChineseSign(chineseSign===s.sign?null:s.sign)}/>
+                onClick={()=>{setChineseSign(s.sign);setTimeout(()=>go("worlds"),280);}}/>
             ))}
           </div>
         </div>
-
-        {(mbti||westernSign||chineseSign) && (
-          <div style={{display:"flex",flexWrap:"wrap",gap:"6px",padding:"10px 14px",
-            background:"rgba(255,255,255,0.5)",borderRadius:"10px",
-            border:"1px solid rgba(26,51,48,0.12)"}}>
-            <p style={{fontSize:"11px",fontWeight:600,color:C.textSub,margin:"0 6px 0 0",letterSpacing:"1px",textTransform:"uppercase",alignSelf:"center"}}>Selected:</p>
-            {mbti&&<span style={{fontSize:"12px",fontWeight:700,padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.yellow}}>{mbti}</span>}
-            {westernSign&&<span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{westernSign}</span>}
-            {chineseSign&&<span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{chineseSign}</span>}
-          </div>
-        )}
-
-        <button onClick={()=>go("worlds")} style={btnYellow}>Let's go →</button>
+        <button onClick={()=>{setChineseSign(null);go("worlds");}} style={btnGhost}>I'm not sure — skip this →</button>
       </div>
     </div>
   );
@@ -694,7 +693,7 @@ export default function Habitrii() {
       <div style={outer}>
         <div style={inner}>
           <OnboardingBar step={3} total={3}/>
-          <button onClick={()=>go(q2==="a"?"q4_astro":"q2")} style={btnBack}>← Back</button>
+          <button onClick={()=>go(q2==="a"?"q4_chinese":"q2")} style={btnBack}>← Back</button>
           {(mbti||westernSign||chineseSign) && (
             <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
           )}
