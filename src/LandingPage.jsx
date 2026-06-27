@@ -552,9 +552,17 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   </li>
                 ))}
               </ul>
-              <button className="lp-btn-y" onClick={onStart} style={{ ...btnYellow, padding: "14px 24px", width: "100%" }}>
+              <div style={{
+                padding: "14px 24px", width: "100%", boxSizing: "border-box",
+                borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
+                fontSize: "14px", fontWeight: 700, letterSpacing: "1.5px",
+                textTransform: "uppercase", cursor: "default",
+                background: "rgba(255,255,255,0.1)",
+                color: "rgba(255,255,255,0.38)",
+                border: "1.5px solid rgba(255,255,255,0.13)",
+              }}>
                 Coming Soon
-              </button>
+              </div>
             </div>
 
             {/* ── Transformation ── */}
@@ -583,9 +591,17 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   </li>
                 ))}
               </ul>
-              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%" }}>
+              <div style={{
+                padding: "14px 24px", width: "100%", boxSizing: "border-box",
+                borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
+                fontSize: "14px", fontWeight: 700, letterSpacing: "1.5px",
+                textTransform: "uppercase", cursor: "default",
+                background: "rgba(26,51,48,0.05)",
+                color: "rgba(26,51,48,0.28)",
+                border: "1.5px solid rgba(26,51,48,0.1)",
+              }}>
                 Coming Soon
-              </button>
+              </div>
             </div>
 
           </div>
