@@ -25,6 +25,12 @@ const btnGhost = {
   padding:"15px 28px", fontSize:"16px", fontWeight:600, cursor:"pointer",
   width:"100%", fontFamily:"inherit", transition:"all 0.15s ease",
 };
+const btnBack = {
+  background:C.yellow, color:C.dark, border:"none", borderRadius:"10px",
+  padding:"9px 18px", fontSize:"14px", fontWeight:700, cursor:"pointer",
+  fontFamily:"inherit", alignSelf:"flex-start", letterSpacing:"0.2px",
+  boxShadow:"0 2px 8px rgba(245,217,36,0.3)", transition:"all 0.15s ease",
+};
 const lbl = (color=C.dark) => ({
   fontSize:"11px", letterSpacing:"2.5px", textTransform:"uppercase",
   color, fontWeight:600, margin:"0 0 8px",
@@ -548,6 +554,7 @@ export default function Habitrii() {
   if(screen==="q1") return (
     <div style={outer}>
       <div style={inner}>
+        <button onClick={()=>go("welcome")} style={btnBack}>← Back</button>
         <OnboardingBar step={1} total={3}/>
         <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
           <p style={lbl(C.teal)}>QUESTION 1 OF 2</p>
@@ -569,6 +576,7 @@ export default function Habitrii() {
   if(screen==="q2") return (
     <div style={outer}>
       <div style={inner}>
+        <button onClick={()=>go("q1")} style={btnBack}>← Back</button>
         <OnboardingBar step={2} total={3}/>
         <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
           <p style={lbl(C.teal)}>QUESTION 2 OF 2</p>
@@ -593,6 +601,7 @@ export default function Habitrii() {
   if(screen==="q3_mbti") return (
     <div style={outer}>
       <div style={inner}>
+        <button onClick={()=>go("q2")} style={btnBack}>← Back</button>
         <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
           <p style={lbl(C.yellow)}>PERSONALIZE PENNY</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your MBTI type?</h2>
@@ -613,6 +622,7 @@ export default function Habitrii() {
   if(screen==="q4_astro") return (
     <div style={outer}>
       <div style={inner}>
+        <button onClick={()=>go("q3_mbti")} style={btnBack}>← Back</button>
         <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
           <p style={lbl(C.yellow)}>PERSONALIZE PENNY</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What are your astrology signs?</h2>
@@ -684,6 +694,7 @@ export default function Habitrii() {
       <div style={outer}>
         <div style={inner}>
           <OnboardingBar step={3} total={3}/>
+          <button onClick={()=>go(q2==="a"?"q4_astro":"q2")} style={btnBack}>← Back</button>
           {(mbti||westernSign||chineseSign) && (
             <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
           )}
