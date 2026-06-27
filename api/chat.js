@@ -79,9 +79,13 @@ function buildSystemPrompt(profile, lesson) {
   };
   const level = levelMap[profile.q1] ?? levelMap[2];
 
+  const hasPersonalityData = !!(profile.mbti || profile.westernSign || profile.chineseSign);
+
   const personalityStyle =
-    profile.q2 === "a"
-      ? "This person loves personality frameworks. Weave in MBTI and astrology insights naturally — they'll appreciate the self-awareness angle."
+    profile.q2 === "a" && hasPersonalityData
+      ? "This person loves personality frameworks. Weave in their specific MBTI and/or astrology insights naturally and warmly — they'll appreciate the self-awareness angle."
+      : profile.q2 === "a" && !hasPersonalityData
+      ? "This person was interested in personality frameworks but didn't share their types. Keep it warm and practical. You can gently invite them to look up their types later if they want."
       : profile.q2 === "b"
       ? "This person is curious about personality but new to it. Light references only — don't lead with it."
       : "This person is focused on practical outcomes. Skip personality references entirely.";
