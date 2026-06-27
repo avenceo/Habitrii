@@ -335,10 +335,10 @@ function ProfileBadge({ q1, q2, mbti, westernSign, chineseSign }) {
 export default function Habitrii() {
   // ── Landing Page Gate ────────────────────────────────────────────────────────
   const [showLanding, setShowLanding] = useState(
-    () => !localStorage.getItem("habitrii_started")
+    true
   );
   const handleEnterApp = () => {
-    localStorage.setItem("habitrii_started", "1");
+    true
     setShowLanding(false);
   };
   const [legalDoc, setLegalDoc] = useState(null); // null | "terms" | "privacy"
