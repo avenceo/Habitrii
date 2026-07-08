@@ -1,1 +1,1 @@
-Staging environment verification file — safe to delete. Created July 8, 2026 (WBS 1.2.2).
+Staging environment verification file - safe to delete. Updated July 8, 2026 to trigger redeploy for ANTHROPIC_API_KEY verification.
