@@ -14,9 +14,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
 
   // ── Validate API key ────────────────────────────────────────────────────
-  const apiKey = process.env.habitriiproduction;
+    const apiKey = process.env.ANTHROPIC_API_KEY || process.env.habitriiproduction;
   if (!apiKey) {
-    console.error("habitriiproduction is not set in environment variables");
+        console.error("ANTHROPIC_API_KEY is not set in environment variables");
     return res.status(500).json({ error: "API key not configured" });
   }
 
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
   const message = buildUserMessage(choice, lesson);
 
   // ── Call Anthropic API ──────────────────────────────────────────────────
-  console.log("API key present:", !!apiKey, "| Key prefix:", apiKey?.slice(0,7));
+    console.log("API key present:", !!apiKey);
   try {
     const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
