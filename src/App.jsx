@@ -5,6 +5,8 @@ import TermsOfService from "./TermsOfService";
 import PrivacyPolicy from "./PrivacyPolicy";
 import AuthFlow from "./AuthFlow";
 import { supabase } from "./lib/supabase";
+import PlanSelect from "./PlanSelect";
+import { fetchProfile, savePersonality, completeOnboarding, trialActive } from "./lib/profile";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -362,6 +364,20 @@ export default function Habitrii() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
+  // ── Profile (tier + trial) — Phase 04 ───────────────────────────────────
+  const [profile, setProfile] = useState(null);
+  useEffect(() => {
+    if (!session) { setProfile(null); return; }
+    fetchProfile().then(setProfile);
+  }, [session]);
+  useEffect(() => {
+    if (window.location.search.includes("checkout=success")) {
+      window.history.replaceState({}, "", window.location.pathname);
+      setShowLanding(false);
+      setScreen("worlds");
+    }
+  }, []);
+
   const [screen, setScreen]         = useState("welcome");
   const [q1, setQ1]                 = useState(null);
   const [q2, setQ2]                 = useState(null);
@@ -683,23 +699,38 @@ export default function Habitrii() {
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
             {CHINESE_ZODIAC.map(s=>(
               <SignCard key={s.sign} data={s} selected={chineseSign===s.sign}
-                onClick={()=>{setChineseSign(s.sign);setTimeout(()=>go("worlds"),280);}}/>
+                                onClick={()=>{setChineseSign(s.sign);savePersonality({mbti,westernSign,chineseSign:s.sign});setTimeout(()=>go(session?"plan":"worlds"),280);}}/>
             ))}
           </div>
         </div>
-        <button onClick={()=>{setChineseSign(null);go("worlds");}} style={btnGhost}>I'm not sure — skip this →</button>
+                <button onClick={()=>{setChineseSign(null);savePersonality({mbti,westernSign,chineseSign:null});go(session?"plan":"worlds");}} style={btnGhost}>I'm not sure — skip this →</button>
       </div>
     </div>
   );
 
-  // ── WORLD SELECT ──────────────────────────────────────────────────────────
+    // ── PLAN SELECT (Phase 04) ────────────────────────────────────────────────
+  if(screen==="plan") return (
+    <PlanSelect
+      email={session?.user?.email || emailInput}
+      onFree={() => { completeOnboarding(); go("worlds"); }}
+    />
+  );
+
+// ── WORLD SELECT ──────────────────────────────────────────────────────────
   if(screen==="worlds") {
     // World tier requirements
     const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
     const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
-    const userRank   = TIER_RANK[userTier] ?? 0;
+        const effectiveTier = profile?.tier || userTier;
+    const userRank   = TIER_RANK[effectiveTier] ?? 0;
 
-    const isLocked = (worldId) => userRank < (TIER_RANK[WORLD_TIER[worldId]] ?? 0);
+    // Hybrid trial: Mind & Money free forever; others unlock during the
+    // 30-day trial or with a sufficient paid tier.
+    const isLocked = (worldId) => {
+      if (worldId === "mind") return false;
+      if (profile && trialActive(profile)) return false;
+      return userRank < (TIER_RANK[WORLD_TIER[worldId]] ?? 0);
+    };
     const requiredLabel = (worldId) => WORLD_TIER[worldId] === "growth" ? "Growth" : "Transformation";
     // Growth → amber badge; Transformation → purple badge
     const badgeStyle = (worldId) => ({
