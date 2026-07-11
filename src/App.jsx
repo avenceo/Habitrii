@@ -3,6 +3,8 @@ import LandingPage from "./LandingPage";
 import { Turnstile } from "@marsidev/react-turnstile";
 import TermsOfService from "./TermsOfService";
 import PrivacyPolicy from "./PrivacyPolicy";
+import AuthFlow from "./AuthFlow";
+import { supabase } from "./lib/supabase";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -343,6 +345,23 @@ export default function Habitrii() {
   };
   const [legalDoc, setLegalDoc] = useState(null); // null | "terms" | "privacy"
 
+  // ── Supabase auth session (Phase 02) ────────────────────────────────────
+  const [session, setSession] = useState(null);
+  const [recoveryMode, setRecoveryMode] = useState(false);
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      setSession(s);
+      if (event === "PASSWORD_RECOVERY") {
+        setShowLanding(false);
+        setRecoveryMode(true);
+        setScreen("auth");
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
   const [screen, setScreen]         = useState("welcome");
   const [q1, setQ1]                 = useState(null);
   const [q2, setQ2]                 = useState(null);
@@ -452,7 +471,7 @@ export default function Habitrii() {
     }).catch(() => {});
     // Reset token so it cannot be reused
     setCaptchaToken("");
-    go("q1");
+        go(supabase && !session ? "auth" : "q1");
   };
 
   const outer = {
@@ -471,7 +490,16 @@ export default function Habitrii() {
   // ── LANDING PAGE
   if (showLanding) return <LandingPage onStart={handleEnterApp} onShowTerms={() => setLegalDoc("terms")} onShowPrivacy={() => setLegalDoc("privacy")} />;
 
-  // ── WELCOME / EMAIL GATE ──────────────────────────────────────────────────
+    // ── AUTH (Supabase Phase 02) ──────────────────────────────────────────────
+  if (screen === "auth") return (
+    <AuthFlow
+      initialEmail={emailInput}
+      recoveryMode={recoveryMode}
+      onAuthed={() => { setRecoveryMode(false); go("q1"); }}
+    />
+  );
+
+// ── WELCOME / EMAIL GATE ──────────────────────────────────────────────────
   if(screen==="welcome") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
