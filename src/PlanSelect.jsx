@@ -6,12 +6,12 @@ import { useState } from "react";
 
 const C = {
   bg: "#57b7a7", dark: "#232321", yellow: "#f5d924",
-  text: "#232321", textOnDark: "#ffffff", sub: "rgba(255,255,255,0.72)",
+  text: "#232321", textOnDark: "#232321", sub: "rgba(35,35,33,0.75)",
 };
 
 const cardStyle = (highlight) => ({
-  background: highlight ? "#2b2b28" : "#232321",
-  border: highlight ? "2px solid " + C.yellow : "2px solid rgba(255,255,255,0.08)",
+  background: highlight ? "#cfcfcc" : "#c3c3c3",
+  border: highlight ? "2px solid " + C.yellow : "2px solid rgba(35,35,33,0.15)",
   borderRadius: "16px", padding: "24px 22px", textAlign: "left",
   display: "flex", flexDirection: "column", gap: "10px",
   boxShadow: "0 8px 32px rgba(35,35,33,0.25)",

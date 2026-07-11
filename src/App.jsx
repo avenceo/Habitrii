@@ -519,12 +519,12 @@ export default function Habitrii() {
   if(screen==="welcome") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
-        <div style={{background:C.dark,borderRadius:"16px",padding:"32px 28px 36px",boxShadow:"0 8px 32px rgba(35,35,33,0.25)"}}>
-          <p style={lbl(C.yellow)}>HABITRII</p>
-          <h1 style={{fontSize:"38px",fontWeight:700,lineHeight:1.2,margin:"0 0 16px",color:C.textOnDark}}>
-            Financial literacy<br/>that actually <span style={{color:C.yellow}}>clicks.</span>
+        <div style={{background:"#c3c3c3",borderRadius:"16px",padding:"32px 28px 36px",boxShadow:"0 8px 32px rgba(35,35,33,0.25)"}}>
+          <p style={lbl("rgba(35,35,33,0.7)")}>HABITRII</p>
+          <h1 style={{fontSize:"38px",fontWeight:700,lineHeight:1.2,margin:"0 0 16px",color:C.text}}>
+            Financial literacy<br/>that actually <span style={{background:C.yellow,color:C.dark,borderRadius:"8px",padding:"0 10px",display:"inline-block"}}>clicks.</span>
           </h1>
-          <p style={{fontSize:"17px",color:"rgba(255,255,255,0.72)",lineHeight:1.65,margin:"0 0 28px"}}>
+          <p style={{fontSize:"17px",color:"rgba(35,35,33,0.75)",lineHeight:1.65,margin:"0 0 28px"}}>
             A choose-your-own-adventure journey through money — built around how you think, feel, and make decisions.
           </p>
           <div style={{display:"flex",flexDirection:"column",gap:"12px",textAlign:"left"}}>
@@ -542,8 +542,8 @@ export default function Habitrii() {
               onKeyDown={e=>{if(e.key==="Enter")handleEmailSubmit();}}
               style={{
                 width:"100%",boxSizing:"border-box",padding:"14px 16px",
-                borderRadius:"10px",border:"1.5px solid rgba(255,255,255,0.2)",
-                background:"rgba(255,255,255,0.1)",color:"#fff",
+                borderRadius:"10px",border:"1.5px solid rgba(35,35,33,0.3)",
+                background:"rgba(35,35,33,0.06)",color:"#1f1f1d",
                 fontSize:"16px",fontFamily:"inherit",outline:"none",
               }}
             />
@@ -558,16 +558,16 @@ export default function Habitrii() {
                 onChange={e=>setTosAgreed(e.target.checked)}
                 style={{marginTop:"3px",accentColor:C.yellow,cursor:"pointer",flexShrink:0,width:"16px",height:"16px"}}
               />
-              <span style={{fontSize:"13px",color:"rgba(255,255,255,0.72)",lineHeight:1.55}}>
+              <span style={{fontSize:"13px",color:"rgba(35,35,33,0.75)",lineHeight:1.55}}>
                 I agree to the{" "}
                 <span
                   onClick={e=>{e.stopPropagation();setLegalDoc("terms");}}
-                  style={{color:C.yellow,textDecoration:"underline",cursor:"pointer"}}
+                  style={{color:"#2f6f65",textDecoration:"underline",cursor:"pointer"}}
                 >Terms of Service</span>
                 {" "}and{" "}
                 <span
                   onClick={e=>{e.stopPropagation();setLegalDoc("privacy");}}
-                  style={{color:C.yellow,textDecoration:"underline",cursor:"pointer"}}
+                  style={{color:"#2f6f65",textDecoration:"underline",cursor:"pointer"}}
                 >Privacy Policy</span>.
                 {" "}I confirm I am 18 years of age or older.
               </span>
@@ -646,10 +646,10 @@ export default function Habitrii() {
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q2")} style={btnBack}>← Back</button>
-        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
-          <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 1 OF 3</p>
-          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your MBTI type?</h2>
-          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to tailor responses to how you think and make decisions.</p>
+        <div style={{background:"#c3c3c3",borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
+          <p style={lbl("rgba(35,35,33,0.7)")}>PERSONALIZE PENNY · 1 OF 3</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>What's your MBTI type?</h2>
+          <p style={{fontSize:"14px",color:"rgba(35,35,33,0.7)",margin:0,lineHeight:1.5}}>Penny uses this to tailor responses to how you think and make decisions.</p>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
           {MBTI_TYPES.map(t=>(
@@ -667,10 +667,10 @@ export default function Habitrii() {
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q3_mbti")} style={btnBack}>← Back</button>
-        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
-          <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 2 OF 3</p>
-          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your Western zodiac sign?</h2>
-          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to add a personal touch to how your lessons are framed.</p>
+        <div style={{background:"#c3c3c3",borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
+          <p style={lbl("rgba(35,35,33,0.7)")}>PERSONALIZE PENNY · 2 OF 3</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>What's your Western zodiac sign?</h2>
+          <p style={{fontSize:"14px",color:"rgba(35,35,33,0.7)",margin:0,lineHeight:1.5}}>Penny uses this to add a personal touch to how your lessons are framed.</p>
         </div>
         <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
@@ -690,10 +690,10 @@ export default function Habitrii() {
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q4_western")} style={btnBack}>← Back</button>
-        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
-          <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 3 OF 3</p>
-          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your Chinese zodiac animal?</h2>
-          <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Almost there — Penny will use this to complete your personality profile.</p>
+        <div style={{background:"#c3c3c3",borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
+          <p style={lbl("rgba(35,35,33,0.7)")}>PERSONALIZE PENNY · 3 OF 3</p>
+          <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>What's your Chinese zodiac animal?</h2>
+          <p style={{fontSize:"14px",color:"rgba(35,35,33,0.7)",margin:0,lineHeight:1.5}}>Almost there — Penny will use this to complete your personality profile.</p>
         </div>
         <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
@@ -796,12 +796,12 @@ export default function Habitrii() {
   if(screen==="lesson_map") return (
     <div style={outer}>
       <div style={inner}>
-        <div style={{background:C.dark,borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
-          <p style={lbl(C.yellow)}>STORY WORLD</p>
-          <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 16px",color:C.textOnDark}}>🧠 Mind & Money</h2>
+        <div style={{background:"#c3c3c3",borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
+          <p style={lbl("rgba(35,35,33,0.7)")}>STORY WORLD</p>
+          <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 16px",color:C.text}}>🧠 Mind & Money</h2>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <ProgressDots current={completedCount} total={8}/>
-            <p style={{fontSize:"13px",color:"rgba(255,255,255,0.6)",margin:0,fontWeight:500}}>{completedCount} of 8 complete</p>
+            <p style={{fontSize:"13px",color:"rgba(35,35,33,0.66)",margin:0,fontWeight:500}}>{completedCount} of 8 complete</p>
           </div>
         </div>
         {(mbti||westernSign||chineseSign) && (
@@ -870,8 +870,8 @@ export default function Habitrii() {
           <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
             <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{b.body}</p>
           </div>
-          <div style={{background:C.dark,borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px",boxShadow:"0 2px 10px rgba(35,35,33,0.18)"}}>
-            <p style={{fontSize:"14px",color:C.textOnDark,margin:0,lineHeight:1.7}}>{b.tip}</p>
+          <div style={{background:"#c3c3c3",borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px",boxShadow:"0 2px 10px rgba(35,35,33,0.18)"}}>
+            <p style={{fontSize:"14px",color:C.text,margin:0,lineHeight:1.7}}>{b.tip}</p>
           </div>
           <button onClick={()=>go("reflect")} style={btnYellow}>Continue →</button>
         </div>
@@ -885,8 +885,8 @@ export default function Habitrii() {
       <div style={{...inner,textAlign:"center"}}>
         <div style={{fontSize:"52px"}}>💛</div>
         <h2 style={{fontSize:"26px",fontWeight:700,margin:0,color:C.text,lineHeight:1.3}}>Reflection moment</h2>
-        <div style={{background:C.dark,borderRadius:"16px",padding:"24px 28px",boxShadow:"0 6px 24px rgba(35,35,33,0.22)"}}>
-          <p style={{fontSize:"19px",lineHeight:1.75,color:C.textOnDark,margin:0,fontStyle:"italic"}}>"{lesson.reflection}"</p>
+        <div style={{background:"#c3c3c3",borderRadius:"16px",padding:"24px 28px",boxShadow:"0 6px 24px rgba(35,35,33,0.22)"}}>
+          <p style={{fontSize:"19px",lineHeight:1.75,color:C.text,margin:0,fontStyle:"italic"}}>"{lesson.reflection}"</p>
         </div>
         <p style={{fontSize:"15px",color:C.textSub,lineHeight:1.65,margin:0,maxWidth:"420px",alignSelf:"center",fontWeight:500}}>
           Save this somewhere you'll see it. Even asking it once starts rewiring the habit.
@@ -908,13 +908,13 @@ export default function Habitrii() {
     return (
       <div style={outer}>
         <div style={inner}>
-          <div style={{background:C.dark,borderRadius:"16px",padding:"18px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
-            <p style={lbl(C.yellow)}>PENNY CHECK-IN</p>
-            <p style={{fontSize:"17px",color:C.textOnDark,margin:0,lineHeight:1.6,fontWeight:500}}>
-              Did the <strong style={{color:C.yellow}}>{lesson.title}</strong> lesson click for you?
+          <div style={{background:"#c3c3c3",borderRadius:"16px",padding:"18px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
+            <p style={lbl("rgba(35,35,33,0.7)")}>PENNY CHECK-IN</p>
+            <p style={{fontSize:"17px",color:C.text,margin:0,lineHeight:1.6,fontWeight:500}}>
+              Did the <strong style={{color:C.text}}>{lesson.title}</strong> lesson click for you?
             </p>
             {(mbti||westernSign) && (
-              <p style={{fontSize:"12px",color:"rgba(255,255,255,0.5)",margin:"8px 0 0",lineHeight:1.4}}>
+              <p style={{fontSize:"12px",color:"rgba(35,35,33,0.6)",margin:"8px 0 0",lineHeight:1.4}}>
                 Penny will personalize her response for you{mbti?` as an ${mbti}`:""}
                 {westernSign?` (${westernSign})`:""}.
               </p>
@@ -980,10 +980,10 @@ export default function Habitrii() {
             <p style={{fontSize:"13px",color:C.textSub,margin:0,fontWeight:600}}>{newCompleted.size}/8 done</p>
           </div>
           {!allDone&&lesson.teaser&&nextLesson&&(
-            <div style={{background:C.dark,borderRadius:"14px",padding:"20px 24px",textAlign:"left",boxShadow:"0 4px 16px rgba(35,35,33,0.2)"}}>
-              <p style={lbl(C.yellow)}>UP NEXT</p>
-              <p style={{fontSize:"18px",fontWeight:700,margin:"0 0 5px",color:C.textOnDark}}>{nextLesson.emoji} {lesson.teaser.title}</p>
-              <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>{lesson.teaser.desc}</p>
+            <div style={{background:"#c3c3c3",borderRadius:"14px",padding:"20px 24px",textAlign:"left",boxShadow:"0 4px 16px rgba(35,35,33,0.2)"}}>
+              <p style={lbl("rgba(35,35,33,0.7)")}>UP NEXT</p>
+              <p style={{fontSize:"18px",fontWeight:700,margin:"0 0 5px",color:C.text}}>{nextLesson.emoji} {lesson.teaser.title}</p>
+              <p style={{fontSize:"14px",color:"rgba(35,35,33,0.7)",margin:0,lineHeight:1.5}}>{lesson.teaser.desc}</p>
             </div>
           )}
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
@@ -1004,11 +1004,11 @@ export default function Habitrii() {
   if(screen==="world_complete") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
-        <div style={{background:C.dark,borderRadius:"20px",padding:"32px 28px",boxShadow:"0 8px 32px rgba(35,35,33,0.3)"}}>
+        <div style={{background:"#c3c3c3",borderRadius:"20px",padding:"32px 28px",boxShadow:"0 8px 32px rgba(35,35,33,0.3)"}}>
           <div style={{fontSize:"56px",marginBottom:"12px"}}>🌟</div>
-          <p style={{...lbl(C.yellow),letterSpacing:"3px",marginBottom:"8px"}}>WORLD COMPLETE</p>
-          <h2 style={{fontSize:"30px",fontWeight:700,margin:"0 0 12px",color:C.textOnDark}}>Mind & Money</h2>
-          <p style={{fontSize:"16px",color:"rgba(255,255,255,0.72)",lineHeight:1.65,margin:0}}>
+          <p style={{...lbl("rgba(35,35,33,0.7)"),letterSpacing:"3px",marginBottom:"8px"}}>WORLD COMPLETE</p>
+          <h2 style={{fontSize:"30px",fontWeight:700,margin:"0 0 12px",color:C.text}}>Mind & Money</h2>
+          <p style={{fontSize:"16px",color:"rgba(35,35,33,0.75)",lineHeight:1.65,margin:0}}>
             You've completed all 8 lessons. You now have a real map of how your emotions, environment, and social world shape your spending — and a growing toolkit to work with it.
           </p>
         </div>

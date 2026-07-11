@@ -7,17 +7,17 @@ import { supabase } from "./lib/supabase";
 
 const C = {
   bg: "#faf9f6", dark: "#232321", teal: "#57b7a7", tealDark: "#2f6f65",
-  yellow: "#f5d924", text: "#1f1f1d", textOnDark: "#ffffff",
+  yellow: "#f5d924", text: "#1f1f1d", textOnDark: "#1f1f1d",
 };
 
 const card = {
-  background: C.dark, borderRadius: "16px", padding: "32px 28px 36px",
+  background: "#c3c3c3", borderRadius: "16px", padding: "32px 28px 36px",
   boxShadow: "0 8px 32px rgba(35,35,33,0.25)", textAlign: "left",
 };
 const inputStyle = {
   width: "100%", boxSizing: "border-box", padding: "14px 16px",
-  borderRadius: "10px", border: "1.5px solid rgba(255,255,255,0.2)",
-  background: "rgba(255,255,255,0.1)", color: "#fff",
+  borderRadius: "10px", border: "1.5px solid rgba(35,35,33,0.3)",
+  background: "rgba(35,35,33,0.06)", color: "#1f1f1d",
   fontSize: "16px", fontFamily: "inherit", outline: "none",
 };
 const primaryBtn = {
@@ -25,10 +25,10 @@ const primaryBtn = {
   background: C.yellow, color: C.dark, fontSize: "16px", fontWeight: 700,
   fontFamily: "inherit", cursor: "pointer",
 };
-const linkStyle = { color: C.yellow, textDecoration: "underline", cursor: "pointer", background: "none", border: "none", font: "inherit", fontSize: "13px", padding: 0 };
-const mutedText = { fontSize: "13px", color: "rgba(255,255,255,0.72)", lineHeight: 1.55 };
-const errText = { fontSize: "13px", color: "#ffb3b3", margin: 0 };
-const okText = { fontSize: "13px", color: "#9fe0d5", margin: 0 };
+const linkStyle = { color: C.tealDark, textDecoration: "underline", cursor: "pointer", background: "none", border: "none", font: "inherit", fontSize: "13px", padding: 0 };
+const mutedText = { fontSize: "13px", color: "rgba(31,31,29,0.72)", lineHeight: 1.55 };
+const errText = { fontSize: "13px", color: "#8b2f2f", margin: 0 };
+const okText = { fontSize: "13px", color: "#1e6b5c", margin: 0 };
 const h2 = { fontSize: "26px", fontWeight: 700, margin: "0 0 8px", color: C.textOnDark };
 
 export default function AuthFlow({ initialEmail = "", consent, recoveryMode = false, onAuthed }) {
@@ -219,7 +219,7 @@ export default function AuthFlow({ initialEmail = "", consent, recoveryMode = fa
     }}>
       <div style={{ width: "100%", maxWidth: "440px" }}>
         <div style={{ ...card, display: "flex", flexDirection: "column", gap: "14px" }}>
-          <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: C.yellow, margin: 0 }}>HABITRII</p>
+          <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: "rgba(35,35,33,0.7)", margin: 0 }}>HABITRII</p>
           {body()}
         </div>
       </div>

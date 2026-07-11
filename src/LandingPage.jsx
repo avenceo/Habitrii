@@ -4,7 +4,8 @@ import { useState } from "react";
 const C = {
   bg:         "#57b7a7",
   dark:       "#232321",
-  mid:        "#32322f",
+  surface:    "#c3c3c3",
+  mid:        "#d2d2cf",
   card:       "#ffffff",
   cardLight:  "#f0faf8",
   yellow:     "#f5d924",
@@ -83,8 +84,8 @@ const WORLDS = [
     tier: "GROWTH",
     desc: "50/30/20, zero-based budgeting, weekly money dates.",
     badge: "COMING SOON",
-    badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.65)",
+    badgeBg: "rgba(35,35,33,0.12)",
+    badgeColor: "rgba(35,35,33,0.66)",
   },
   {
     emoji: "💳",
@@ -92,8 +93,8 @@ const WORLDS = [
     tier: "GROWTH",
     desc: "Snowball method, credit score decoded, negotiating rates.",
     badge: "COMING SOON",
-    badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.65)",
+    badgeBg: "rgba(35,35,33,0.12)",
+    badgeColor: "rgba(35,35,33,0.66)",
   },
   {
     emoji: "🛡️",
@@ -101,8 +102,8 @@ const WORLDS = [
     tier: "TRANSFORMATION",
     desc: "Emergency funds, sinking funds, insurance basics.",
     badge: "COMING SOON",
-    badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.65)",
+    badgeBg: "rgba(35,35,33,0.12)",
+    badgeColor: "rgba(35,35,33,0.66)",
   },
   {
     emoji: "🌟",
@@ -110,8 +111,8 @@ const WORLDS = [
     tier: "TRANSFORMATION",
     desc: "Values-based spending, intentional purchase protocol.",
     badge: "COMING SOON",
-    badgeBg: "rgba(255,255,255,0.12)",
-    badgeColor: "rgba(255,255,255,0.65)",
+    badgeBg: "rgba(35,35,33,0.12)",
+    badgeColor: "rgba(35,35,33,0.66)",
   },
 ];
 
@@ -219,7 +220,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
         .lp-faq-q { transition: color 0.15s ease; }
         .lp-faq-btn:hover .lp-faq-q { color: ${C.yellow}; }
         .lp-footer-a { transition: color 0.15s ease !important; }
-        .lp-footer-a:hover { color: rgba(255,255,255,0.9) !important; }
+        .lp-footer-a:hover { color: rgba(35,35,33,0.9) !important; }
 
         /* Responsive breakpoints */
         @media (max-width: 900px) {
@@ -271,9 +272,26 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       <section style={{
         background: C.bg, minHeight: "90vh",
         display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "80px 24px",
+        padding: "80px 24px", position: "relative", overflow: "hidden",
       }}>
-        <div style={{ maxWidth: "740px", width: "100%", textAlign: "center" }}>
+        {/* Full-bleed hero banner video */}
+        <video
+          src="/hero-banner.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
+            objectFit: "cover", zIndex: 0,
+          }}
+        />
+        {/* Readability wash over the video */}
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+          background: "rgba(250,249,246,0.62)", zIndex: 0,
+        }} />
+        <div style={{ maxWidth: "740px", width: "100%", textAlign: "center", position: "relative", zIndex: 1 }}>
           {/* Early access pill */}
           <div style={{
             display: "inline-block",
@@ -335,29 +353,16 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             18+ only · Educational use only · Not financial advice
           </p>
 
-          {/* Hero banner video */}
-          <video
-            src="/hero-banner.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{
-              width: "100%", maxWidth: "740px", borderRadius: "18px",
-              marginTop: "44px", display: "block",
-              boxShadow: "0 18px 60px rgba(35,35,33,0.28)",
-            }}
-          />
         </div>
       </section>
 
       {/* ══════════════════════ HOW IT WORKS ══════════════════════ */}
-      <section id="how-it-works" className="lp-section" style={{ background: C.dark }}>
+      <section id="how-it-works" className="lp-section" style={{ background: C.surface }}>
         <div className="lp-inner">
           <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-              textTransform: "uppercase", color: C.yellow, margin: "0 0 14px",
+              textTransform: "uppercase", color: C.dark, margin: "0 0 14px",
             }}>
               How It Works
             </p>
@@ -376,7 +381,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 borderTop: `4px solid ${C.yellow}`,
               }}>
                 <p style={{
-                  fontSize: "48px", fontWeight: 800, color: C.yellow,
+                  fontSize: "48px", fontWeight: 800, color: C.dark,
                   margin: "0 0 14px", lineHeight: 1,
                 }}>
                   {s.num}
@@ -384,7 +389,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 <h3 style={{ fontSize: "20px", fontWeight: 700, color: C.textOnDark, margin: "0 0 12px" }}>
                   {s.title}
                 </h3>
-                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(255,255,255,0.68)", margin: 0 }}>
+                <p style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(35,35,33,0.75)", margin: 0 }}>
                   {s.desc}
                 </p>
               </div>
@@ -454,7 +459,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           <div className="lp-grid-worlds">
             {WORLDS.map((w) => (
               <div key={w.name} className="lp-world-card" style={{
-                background: C.dark, borderRadius: "16px", padding: "28px 24px",
+                background: C.surface, borderRadius: "16px", padding: "28px 24px",
                 boxShadow: "0 4px 18px rgba(0,0,0,0.18)",
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
@@ -469,7 +474,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 </div>
                 <p style={{
                   fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px",
-                  textTransform: "uppercase", color: "rgba(255,255,255,0.62)",
+                  textTransform: "uppercase", color: "rgba(35,35,33,0.66)",
                   margin: "0 0 6px",
                 }}>
                   {w.tier}
@@ -477,7 +482,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 <h3 style={{ fontSize: "17px", fontWeight: 700, color: C.textOnDark, margin: "0 0 8px" }}>
                   {w.name}
                 </h3>
-                <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.66)", lineHeight: 1.65, margin: 0 }}>
+                <p style={{ fontSize: "14px", color: "rgba(35,35,33,0.75)", lineHeight: 1.65, margin: 0 }}>
                   {w.desc}
                 </p>
               </div>
@@ -536,7 +541,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
 
             {/* ── Growth (Most Popular) ── */}
             <div className="lp-p-card" style={{
-              background: C.dark, borderRadius: "20px", padding: "40px 32px",
+              background: C.surface, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 10px 48px rgba(35,35,33,0.38)", position: "relative",
             }}>
               <div style={{
@@ -547,21 +552,21 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               }}>
                 Most Popular
               </div>
-              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", margin: "0 0 10px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(35,35,33,0.6)", margin: "0 0 10px" }}>
                 Growth
               </p>
               <div style={{ marginBottom: "6px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.textOnDark, lineHeight: 1 }}>$9.99</span>
-                <span style={{ fontSize: "15px", color: "rgba(255,255,255,0.45)", marginLeft: "6px" }}>/month</span>
+                <span style={{ fontSize: "15px", color: "rgba(35,35,33,0.6)", marginLeft: "6px" }}>/month</span>
               </div>
-              <p style={{ fontSize: "13px", color: C.yellow, fontWeight: 600, margin: "0 0 28px" }}>or $79/year</p>
+              <p style={{ fontSize: "13px", color: "rgba(35,35,33,0.8)", fontWeight: 700, margin: "0 0 28px" }}>or $79/year</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
                   "Everything in Foundation",
                   "Budgeting Foundations world (6 lessons)",
                   "Debt & Credit world (6 lessons)",
                 ].map(item => (
-                  <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: "rgba(255,255,255,0.78)", lineHeight: 1.55 }}>
+                  <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: "rgba(35,35,33,0.8)", lineHeight: 1.55 }}>
                     <CheckIcon dark={true} />{item}
                   </li>
                 ))}
@@ -571,9 +576,9 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
                 fontSize: "14px", fontWeight: 700, letterSpacing: "1.5px",
                 textTransform: "uppercase", cursor: "default",
-                background: "rgba(255,255,255,0.1)",
-                color: "rgba(255,255,255,0.38)",
-                border: "1.5px solid rgba(255,255,255,0.13)",
+                background: "rgba(35,35,33,0.08)",
+                color: "rgba(35,35,33,0.45)",
+                border: "1.5px solid rgba(35,35,33,0.2)",
               }}>
                 Coming Soon
               </div>
@@ -633,15 +638,15 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ LEGAL DISCLAIMER ══════════════════════ */}
-      <section style={{ background: C.dark, padding: "72px 24px" }}>
+      <section style={{ background: C.surface, padding: "72px 24px" }}>
         <div style={{ maxWidth: "780px", margin: "0 auto", textAlign: "center" }}>
           <p style={{
             fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-            textTransform: "uppercase", color: C.yellow, margin: "0 0 22px",
+            textTransform: "uppercase", color: C.dark, margin: "0 0 22px",
           }}>
             Legal Notice
           </p>
-          <p style={{ fontSize: "17px", lineHeight: 1.85, color: "rgba(255,255,255,0.82)", margin: 0 }}>
+          <p style={{ fontSize: "17px", lineHeight: 1.85, color: "rgba(35,35,33,0.8)", margin: 0 }}>
             Habitrii is for educational and entertainment purposes only. Content does not
             constitute financial, legal, or investment advice. Habitrii is strictly for users{" "}
             <strong style={{ color: C.textOnDark }}>18 years of age and older</strong>.
@@ -657,7 +662,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <div className="lp-section-header">
               <p style={{
                 fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-                textTransform: "uppercase", color: C.yellow, margin: "0 0 14px",
+                textTransform: "uppercase", color: C.dark, margin: "0 0 14px",
               }}>
                 FAQ
               </p>
@@ -672,7 +677,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <div>
               {FAQS.map((faq, i) => (
                 <div key={i} style={{
-                  borderBottom: i < FAQS.length - 1 ? "1px solid rgba(255,255,255,0.1)" : "none",
+                  borderBottom: i < FAQS.length - 1 ? "1px solid rgba(35,35,33,0.08)" : "none",
                 }}>
                   <button
                     className="lp-faq-btn"
@@ -690,7 +695,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                       {faq.q}
                     </span>
                     <span style={{
-                      fontSize: "26px", color: C.yellow, flexShrink: 0, lineHeight: 1,
+                      fontSize: "26px", color: C.dark, flexShrink: 0, lineHeight: 1,
                       transition: "transform 0.2s ease",
                       transform: openFaq === i ? "rotate(45deg)" : "rotate(0deg)",
                       display: "block",
@@ -701,7 +706,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   {openFaq === i && (
                     <div style={{
                       paddingBottom: "24px",
-                      color: "rgba(255,255,255,0.72)",
+                      color: "rgba(35,35,33,0.75)",
                       fontSize: "15px", lineHeight: 1.75,
                     }}>
                       {faq.a}
@@ -715,7 +720,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ FOOTER ══════════════════════ */}
-      <footer style={{ background: C.dark, padding: "64px 24px 44px", textAlign: "center" }}>
+      <footer style={{ background: C.surface, padding: "64px 24px 44px", textAlign: "center" }}>
         <span style={{
           fontSize: "26px", fontWeight: 800, color: C.teal,
           display: "block", marginBottom: "36px", letterSpacing: "-0.5px",
@@ -730,17 +735,17 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             { label: "habitrii@aven4life.com",  href: "mailto:habitrii@aven4life.com" },
           ].map(link => (
             <a key={link.label} href={link.href} className="lp-footer-a" onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick(); } : undefined} style={{
-              color: "rgba(255,255,255,0.55)", fontSize: "14px", textDecoration: "none",
+              color: "rgba(35,35,33,0.66)", fontSize: "14px", textDecoration: "none",
             }}>
               {link.label}
             </a>
           ))}
         </div>
 
-        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", marginBottom: "10px" }}>
+        <p style={{ fontSize: "13px", color: "rgba(35,35,33,0.66)", marginBottom: "10px" }}>
           Educational and entertainment purposes only · Not financial advice · 18+ only
         </p>
-        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)", margin: 0 }}>
+        <p style={{ fontSize: "13px", color: "rgba(35,35,33,0.66)", margin: 0 }}>
           © 2026 AVEN LLC. All rights reserved. Habitrii is a product of AVEN LLC, registered in Virginia.
         </p>
       </footer>
@@ -749,15 +754,15 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       {!gdprDismissed && (
         <div style={{
           position:"fixed", bottom:0, left:0, right:0, zIndex:9999,
-          background:"#232321",
-          borderTop:"1px solid rgba(255,255,255,0.12)",
+          background:"#c3c3c3",
+          borderTop:"1px solid rgba(35,35,33,0.12)",
           padding:"14px 24px",
           display:"flex", alignItems:"center", justifyContent:"space-between",
           gap:"16px", flexWrap:"wrap",
           boxShadow:"0 -4px 24px rgba(35,35,33,0.35)",
         }}>
           <p style={{
-            color:"rgba(255,255,255,0.78)", fontSize:"13px",
+            color:"rgba(35,35,33,0.8)", fontSize:"13px",
             margin:0, lineHeight:1.55, flex:1, minWidth:"240px",
           }}>
             We use essential cookies to keep Habitrii running. By using this site
@@ -784,8 +789,8 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <button
               onClick={handleGdprAccept}
               style={{
-                background:"transparent", color:"rgba(255,255,255,0.6)",
-                border:"1px solid rgba(255,255,255,0.2)", borderRadius:"8px",
+                background:"transparent", color:"rgba(35,35,33,0.66)",
+                border:"1px solid rgba(35,35,33,0.3)", borderRadius:"8px",
                 padding:"9px 16px", fontSize:"13px", fontWeight:500,
                 cursor:"pointer", fontFamily:"inherit",
               }}
