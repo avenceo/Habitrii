@@ -10,10 +10,10 @@ import { fetchProfile, savePersonality, completeOnboarding, trialActive } from "
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
-  bg:"#57b7a7", dark:"#1a3330", mid:"#2a4a44",
+  bg:"#57b7a7", dark:"#232321", mid:"#32322f",
   card:"#ffffff", cardHover:"#f0faf8", cardSelected:"#f5d924",
-  cardBorder:"rgba(26,51,48,0.14)", cardBorderSel:"rgba(26,51,48,0.35)",
-  text:"#0d1f1d", textSub:"rgba(13,31,29,0.7)", textMut:"rgba(13,31,29,0.62)",
+  cardBorder:"rgba(35,35,33,0.14)", cardBorderSel:"rgba(35,35,33,0.35)",
+  text:"#232321", textSub:"rgba(35,35,33,0.7)", textMut:"rgba(35,35,33,0.62)",
   textOnDark:"#ffffff", teal:"#57b7a7", yellow:"#f5d924", gray:"#a09e98",
 };
 
@@ -25,7 +25,7 @@ const btnYellow = {
 };
 const btnGhost = {
   background:"rgba(255,255,255,0.5)", color:C.dark,
-  border:"1.5px solid rgba(26,51,48,0.22)", borderRadius:"12px",
+  border:"1.5px solid rgba(35,35,33,0.22)", borderRadius:"12px",
   padding:"15px 28px", fontSize:"16px", fontWeight:600, cursor:"pointer",
   width:"100%", fontFamily:"inherit", transition:"all 0.15s ease",
 };
@@ -244,11 +244,11 @@ function ChoiceCard({ label, sub, selected, onClick }) {
     <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
         background:selected?C.cardSelected:hover?C.cardHover:C.card,
-        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(26,51,48,0.25)":C.cardBorder}`,
+        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(35,35,33,0.25)":C.cardBorder}`,
         borderRadius:"14px",padding:"16px 20px",cursor:"pointer",
         transition:"all 0.15s ease",
         transform:hover&&!selected?"translateY(-2px)":"none",
-        boxShadow:selected?"0 3px 14px rgba(245,217,36,0.4)":hover?"0 4px 16px rgba(26,51,48,0.1)":"0 1px 4px rgba(26,51,48,0.07)",
+        boxShadow:selected?"0 3px 14px rgba(245,217,36,0.4)":hover?"0 4px 16px rgba(35,35,33,0.1)":"0 1px 4px rgba(35,35,33,0.07)",
       }}>
       <p style={{fontSize:"16px",fontWeight:selected?700:500,margin:"0 0 2px",color:C.text,lineHeight:1.4}}>{label}</p>
       {sub&&<p style={{fontSize:"14px",color:C.textSub,margin:0,lineHeight:1.4}}>{sub}</p>}
@@ -262,11 +262,11 @@ function MBTICard({ type, selected, onClick }) {
     <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
         background:selected?C.cardSelected:hover?C.cardHover:C.card,
-        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(26,51,48,0.25)":C.cardBorder}`,
+        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(35,35,33,0.25)":C.cardBorder}`,
         borderRadius:"12px",padding:"12px 6px",cursor:"pointer",
         textAlign:"center",transition:"all 0.15s ease",
         transform:hover&&!selected?"translateY(-2px)":"none",
-        boxShadow:selected?"0 3px 12px rgba(245,217,36,0.4)":hover?"0 3px 12px rgba(26,51,48,0.1)":"0 1px 4px rgba(26,51,48,0.06)",
+        boxShadow:selected?"0 3px 12px rgba(245,217,36,0.4)":hover?"0 3px 12px rgba(35,35,33,0.1)":"0 1px 4px rgba(35,35,33,0.06)",
       }}>
       <p style={{fontSize:"14px",fontWeight:700,margin:"0 0 3px",color:C.text,letterSpacing:"0.5px"}}>{type.code}</p>
       <p style={{fontSize:"10px",color:C.textSub,margin:0,lineHeight:1.3}}>{type.label}</p>
@@ -280,11 +280,11 @@ function SignCard({ data, selected, onClick }) {
     <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
         background:selected?C.cardSelected:hover?C.cardHover:C.card,
-        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(26,51,48,0.25)":C.cardBorder}`,
+        border:`1.5px solid ${selected?C.cardBorderSel:hover?"rgba(35,35,33,0.25)":C.cardBorder}`,
         borderRadius:"12px",padding:"10px 4px",cursor:"pointer",
         textAlign:"center",transition:"all 0.15s ease",
         transform:hover&&!selected?"translateY(-2px)":"none",
-        boxShadow:selected?"0 3px 12px rgba(245,217,36,0.4)":"0 1px 4px rgba(26,51,48,0.06)",
+        boxShadow:selected?"0 3px 12px rgba(245,217,36,0.4)":"0 1px 4px rgba(35,35,33,0.06)",
       }}>
       <p style={{fontSize:"18px",margin:"0 0 3px",lineHeight:1}}>{data.emoji}</p>
       <p style={{fontSize:"10px",color:C.text,margin:0,fontWeight:500,lineHeight:1.3}}>{data.sign}</p>
@@ -299,11 +299,11 @@ function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
       style={{
         display:"flex",alignItems:"center",gap:"16px",
         background:isCurrent?C.cardSelected:isComplete?"rgba(255,255,255,0.65)":C.card,
-        border:`1.5px solid ${isCurrent?C.cardBorderSel:isComplete?"rgba(26,51,48,0.2)":C.cardBorder}`,
+        border:`1.5px solid ${isCurrent?C.cardBorderSel:isComplete?"rgba(35,35,33,0.2)":C.cardBorder}`,
         borderRadius:"14px",padding:"14px 18px",cursor:"pointer",
         transition:"all 0.15s ease",
         transform:hover?"translateY(-1px)":"none",
-        boxShadow:isCurrent?"0 3px 14px rgba(245,217,36,0.4)":hover?"0 4px 16px rgba(26,51,48,0.1)":"0 1px 4px rgba(26,51,48,0.06)",
+        boxShadow:isCurrent?"0 3px 14px rgba(245,217,36,0.4)":hover?"0 4px 16px rgba(35,35,33,0.1)":"0 1px 4px rgba(35,35,33,0.06)",
       }}>
       <div style={{fontSize:"26px",minWidth:"32px",textAlign:"center"}}>{lesson.emoji}</div>
       <div style={{flex:1}}>
@@ -311,7 +311,7 @@ function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
         <p style={{fontSize:"13px",color:C.textSub,margin:0}}>{lesson.duration}</p>
       </div>
       <div style={{fontSize:"12px",fontWeight:700,padding:"4px 11px",borderRadius:"99px",letterSpacing:"0.3px",
-        background:isComplete?C.dark:isCurrent?C.dark:"rgba(26,51,48,0.1)",
+        background:isComplete?C.dark:isCurrent?C.dark:"rgba(35,35,33,0.1)",
         color:isComplete?C.textOnDark:isCurrent?C.yellow:C.textSub}}>
         {isComplete?"✓ Done":isCurrent?"Go →":"Soon"}
       </div>
@@ -326,7 +326,7 @@ function ProfileBadge({ q1, q2, mbti, westernSign, chineseSign }) {
   return (
     <div style={{display:"flex",flexWrap:"wrap",gap:"6px",padding:"10px 14px",
       background:"rgba(255,255,255,0.5)",borderRadius:"10px",
-      border:"1px solid rgba(26,51,48,0.12)"}}>
+      border:"1px solid rgba(35,35,33,0.12)"}}>
       <p style={{fontSize:"11px",fontWeight:600,color:C.textSub,margin:"0 6px 0 0",letterSpacing:"1px",textTransform:"uppercase",alignSelf:"center"}}>Your profile:</p>
       {mbti && <span style={{fontSize:"12px",fontWeight:700,padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.yellow}}>{mbti}</span>}
       {westernSign && <span style={{fontSize:"12px",padding:"3px 8px",borderRadius:"99px",background:C.dark,color:C.textOnDark}}>{westernSign}</span>}
@@ -519,7 +519,7 @@ export default function Habitrii() {
   if(screen==="welcome") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
-        <div style={{background:C.dark,borderRadius:"16px",padding:"32px 28px 36px",boxShadow:"0 8px 32px rgba(13,31,29,0.25)"}}>
+        <div style={{background:C.dark,borderRadius:"16px",padding:"32px 28px 36px",boxShadow:"0 8px 32px rgba(35,35,33,0.25)"}}>
           <p style={lbl(C.yellow)}>HABITRII</p>
           <h1 style={{fontSize:"38px",fontWeight:700,lineHeight:1.2,margin:"0 0 16px",color:C.textOnDark}}>
             Financial literacy<br/>that actually <span style={{color:C.yellow}}>clicks.</span>
@@ -589,7 +589,7 @@ export default function Habitrii() {
             </button>
           </div>
         </div>
-        <p style={{fontSize:"12px",color:"rgba(13,31,29,0.72)",margin:0}}>For educational purposes only · Not financial advice</p>
+        <p style={{fontSize:"12px",color:"rgba(35,35,33,0.72)",margin:0}}>For educational purposes only · Not financial advice</p>
       </div>
     </div>
   );
@@ -600,7 +600,7 @@ export default function Habitrii() {
       <div style={inner}>
         <button onClick={()=>go("welcome")} style={btnBack}>← Back</button>
         <OnboardingBar step={1} total={3}/>
-        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
           <p style={lbl(C.teal)}>QUESTION 1 OF 2</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:0,lineHeight:1.35,color:C.text}}>Where are you on your financial learning journey?</h2>
         </div>
@@ -622,7 +622,7 @@ export default function Habitrii() {
       <div style={inner}>
         <button onClick={()=>go("q1")} style={btnBack}>← Back</button>
         <OnboardingBar step={2} total={3}/>
-        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
           <p style={lbl(C.teal)}>QUESTION 2 OF 2</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:0,lineHeight:1.35,color:C.text}}>Habitrii uses personality frameworks to personalize your journey. Which sounds like you?</h2>
         </div>
@@ -646,7 +646,7 @@ export default function Habitrii() {
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q2")} style={btnBack}>← Back</button>
-        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
+        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
           <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 1 OF 3</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your MBTI type?</h2>
           <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to tailor responses to how you think and make decisions.</p>
@@ -667,12 +667,12 @@ export default function Habitrii() {
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q3_mbti")} style={btnBack}>← Back</button>
-        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
+        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
           <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 2 OF 3</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your Western zodiac sign?</h2>
           <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Penny uses this to add a personal touch to how your lessons are framed.</p>
         </div>
-        <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
+        <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
             {WESTERN_SIGNS.map(s=>(
               <SignCard key={s.sign} data={s} selected={westernSign===s.sign}
@@ -690,12 +690,12 @@ export default function Habitrii() {
     <div style={outer}>
       <div style={inner}>
         <button onClick={()=>go("q4_western")} style={btnBack}>← Back</button>
-        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(13,31,29,0.2)"}}>
+        <div style={{background:C.dark,borderRadius:"14px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(35,35,33,0.2)"}}>
           <p style={lbl(C.yellow)}>PERSONALIZE PENNY · 3 OF 3</p>
           <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.textOnDark,lineHeight:1.3}}>What's your Chinese zodiac animal?</h2>
           <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>Almost there — Penny will use this to complete your personality profile.</p>
         </div>
-        <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
+        <div style={{background:C.card,borderRadius:"14px",padding:"16px 18px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
             {CHINESE_ZODIAC.map(s=>(
               <SignCard key={s.sign} data={s} selected={chineseSign===s.sign}
@@ -756,7 +756,7 @@ export default function Habitrii() {
           {(mbti||westernSign||chineseSign) && (
             <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
           )}
-          <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+          <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
             <h2 style={{fontSize:"22px",fontWeight:700,margin:"0 0 6px",color:C.text,lineHeight:1.3}}>Choose your first Story World</h2>
             <p style={{fontSize:"15px",color:C.textSub,margin:0}}>Each world is a themed journey through a cluster of financial concepts.</p>
           </div>
@@ -796,7 +796,7 @@ export default function Habitrii() {
   if(screen==="lesson_map") return (
     <div style={outer}>
       <div style={inner}>
-        <div style={{background:C.dark,borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 20px rgba(13,31,29,0.2)"}}>
+        <div style={{background:C.dark,borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
           <p style={lbl(C.yellow)}>STORY WORLD</p>
           <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 16px",color:C.textOnDark}}>🧠 Mind & Money</h2>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -830,18 +830,18 @@ export default function Habitrii() {
       <div style={inner}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
           <button onClick={()=>go("lesson_map")}
-            style={{background:"rgba(255,255,255,0.5)",border:"1.5px solid rgba(26,51,48,0.18)",borderRadius:"99px",padding:"5px 14px",color:C.text,cursor:"pointer",fontSize:"13px",fontWeight:600,fontFamily:"inherit"}}>
+            style={{background:"rgba(255,255,255,0.5)",border:"1.5px solid rgba(35,35,33,0.18)",borderRadius:"99px",padding:"5px 14px",color:C.text,cursor:"pointer",fontSize:"13px",fontWeight:600,fontFamily:"inherit"}}>
             ← Map
           </button>
           <ProgressDots current={lessonIdx} total={8}/>
-          <span style={{fontSize:"12px",fontWeight:600,padding:"3px 9px",borderRadius:"99px",background:"rgba(26,51,48,0.1)",color:C.textSub}}>{lessonIdx+1}/8</span>
+          <span style={{fontSize:"12px",fontWeight:600,padding:"3px 9px",borderRadius:"99px",background:"rgba(35,35,33,0.1)",color:C.textSub}}>{lessonIdx+1}/8</span>
         </div>
-        <div style={{background:C.card,borderRadius:"16px",padding:"20px 22px",borderTop:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(26,51,48,0.1)"}}>
+        <div style={{background:C.card,borderRadius:"16px",padding:"20px 22px",borderTop:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}>
           <p style={lbl(C.teal)}>🧠 MIND & MONEY · LESSON {lessonIdx+1} OF 8</p>
           <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 14px",color:C.text,lineHeight:1.2}}>{lesson.emoji} {lesson.title}</h2>
           <p style={{fontSize:"16px",color:C.textSub,margin:0,lineHeight:1.72,fontStyle:"italic"}}>"{lesson.hook}"</p>
         </div>
-        <div style={{background:"rgba(255,255,255,0.6)",borderRadius:"14px",padding:"18px 20px",boxShadow:"0 1px 6px rgba(26,51,48,0.07)"}}>
+        <div style={{background:"rgba(255,255,255,0.6)",borderRadius:"14px",padding:"18px 20px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <p style={{fontSize:"16px",lineHeight:1.78,color:C.text,margin:0}}>{lesson.concept}</p>
         </div>
         <div>
@@ -863,14 +863,14 @@ export default function Habitrii() {
     return (
       <div style={outer}>
         <div style={inner}>
-          <div style={{background:C.cardSelected,border:"1.5px solid rgba(26,51,48,0.25)",borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 18px rgba(245,217,36,0.35)"}}>
+          <div style={{background:C.cardSelected,border:"1.5px solid rgba(35,35,33,0.25)",borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 18px rgba(245,217,36,0.35)"}}>
             <p style={lbl(C.dark)}>YOUR PATH</p>
             <h3 style={{fontSize:"24px",fontWeight:700,margin:0,color:C.dark}}>{b.headline}</h3>
           </div>
-          <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+          <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
             <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{b.body}</p>
           </div>
-          <div style={{background:C.dark,borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px",boxShadow:"0 2px 10px rgba(13,31,29,0.18)"}}>
+          <div style={{background:C.dark,borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px",boxShadow:"0 2px 10px rgba(35,35,33,0.18)"}}>
             <p style={{fontSize:"14px",color:C.textOnDark,margin:0,lineHeight:1.7}}>{b.tip}</p>
           </div>
           <button onClick={()=>go("reflect")} style={btnYellow}>Continue →</button>
@@ -885,7 +885,7 @@ export default function Habitrii() {
       <div style={{...inner,textAlign:"center"}}>
         <div style={{fontSize:"52px"}}>💛</div>
         <h2 style={{fontSize:"26px",fontWeight:700,margin:0,color:C.text,lineHeight:1.3}}>Reflection moment</h2>
-        <div style={{background:C.dark,borderRadius:"16px",padding:"24px 28px",boxShadow:"0 6px 24px rgba(13,31,29,0.22)"}}>
+        <div style={{background:C.dark,borderRadius:"16px",padding:"24px 28px",boxShadow:"0 6px 24px rgba(35,35,33,0.22)"}}>
           <p style={{fontSize:"19px",lineHeight:1.75,color:C.textOnDark,margin:0,fontStyle:"italic"}}>"{lesson.reflection}"</p>
         </div>
         <p style={{fontSize:"15px",color:C.textSub,lineHeight:1.65,margin:0,maxWidth:"420px",alignSelf:"center",fontWeight:500}}>
@@ -908,7 +908,7 @@ export default function Habitrii() {
     return (
       <div style={outer}>
         <div style={inner}>
-          <div style={{background:C.dark,borderRadius:"16px",padding:"18px 22px",boxShadow:"0 4px 20px rgba(13,31,29,0.2)"}}>
+          <div style={{background:C.dark,borderRadius:"16px",padding:"18px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
             <p style={lbl(C.yellow)}>PENNY CHECK-IN</p>
             <p style={{fontSize:"17px",color:C.textOnDark,margin:0,lineHeight:1.6,fontWeight:500}}>
               Did the <strong style={{color:C.yellow}}>{lesson.title}</strong> lesson click for you?
@@ -929,20 +929,20 @@ export default function Habitrii() {
             </div>
           )}
           {pennyLoading&&(
-            <div style={{background:C.card,borderRadius:"14px",padding:"28px 22px",textAlign:"center",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+            <div style={{background:C.card,borderRadius:"14px",padding:"28px 22px",textAlign:"center",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
               <div style={{fontSize:"28px",marginBottom:"12px",display:"inline-block",animation:"spin 1.5s linear infinite"}}>✨</div>
               <p style={{fontSize:"15px",color:C.textSub,margin:0,fontWeight:500}}>Penny is personalizing a response for you…</p>
             </div>
           )}
           {pennyError&&!pennyLoading&&(
-            <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+            <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
               <p style={{fontSize:"15px",color:C.text,margin:"0 0 14px",lineHeight:1.6}}>{pennyError}</p>
               <button onClick={()=>callPenny(pennyChoice)} style={btnGhost}>Try again</button>
             </div>
           )}
           {pennyText&&!pennyLoading&&(
             <>
-              <div style={{background:C.card,borderRadius:"16px",padding:"22px 24px",borderLeft:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(26,51,48,0.1)"}}>
+              <div style={{background:C.card,borderRadius:"16px",padding:"22px 24px",borderLeft:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}>
                 <p style={{...lbl(C.teal),marginBottom:"10px"}}>PENNY SAYS</p>
                 <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{pennyText}</p>
               </div>
@@ -973,14 +973,14 @@ export default function Habitrii() {
           <div style={{background:C.cardSelected,borderRadius:"20px",padding:"28px 24px",boxShadow:"0 6px 24px rgba(245,217,36,0.4)"}}>
             <div style={{fontSize:"48px",marginBottom:"12px"}}>✅</div>
             <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 8px",color:C.dark}}>Lesson {lessonIdx+1} complete</h2>
-            <p style={{fontSize:"15px",color:"rgba(13,31,29,0.7)",margin:0}}>{lesson.emoji} {lesson.title}</p>
+            <p style={{fontSize:"15px",color:"rgba(35,35,33,0.7)",margin:0}}>{lesson.emoji} {lesson.title}</p>
           </div>
           <div style={{background:"rgba(255,255,255,0.7)",borderRadius:"12px",padding:"12px 18px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
             <ProgressDots current={newCompleted.size} total={8}/>
             <p style={{fontSize:"13px",color:C.textSub,margin:0,fontWeight:600}}>{newCompleted.size}/8 done</p>
           </div>
           {!allDone&&lesson.teaser&&nextLesson&&(
-            <div style={{background:C.dark,borderRadius:"14px",padding:"20px 24px",textAlign:"left",boxShadow:"0 4px 16px rgba(13,31,29,0.2)"}}>
+            <div style={{background:C.dark,borderRadius:"14px",padding:"20px 24px",textAlign:"left",boxShadow:"0 4px 16px rgba(35,35,33,0.2)"}}>
               <p style={lbl(C.yellow)}>UP NEXT</p>
               <p style={{fontSize:"18px",fontWeight:700,margin:"0 0 5px",color:C.textOnDark}}>{nextLesson.emoji} {lesson.teaser.title}</p>
               <p style={{fontSize:"14px",color:"rgba(255,255,255,0.65)",margin:0,lineHeight:1.5}}>{lesson.teaser.desc}</p>
@@ -1004,7 +1004,7 @@ export default function Habitrii() {
   if(screen==="world_complete") return (
     <div style={{...outer,justifyContent:"center"}}>
       <div style={{...inner,textAlign:"center"}}>
-        <div style={{background:C.dark,borderRadius:"20px",padding:"32px 28px",boxShadow:"0 8px 32px rgba(13,31,29,0.3)"}}>
+        <div style={{background:C.dark,borderRadius:"20px",padding:"32px 28px",boxShadow:"0 8px 32px rgba(35,35,33,0.3)"}}>
           <div style={{fontSize:"56px",marginBottom:"12px"}}>🌟</div>
           <p style={{...lbl(C.yellow),letterSpacing:"3px",marginBottom:"8px"}}>WORLD COMPLETE</p>
           <h2 style={{fontSize:"30px",fontWeight:700,margin:"0 0 12px",color:C.textOnDark}}>Mind & Money</h2>
@@ -1012,7 +1012,7 @@ export default function Habitrii() {
             You've completed all 8 lessons. You now have a real map of how your emotions, environment, and social world shape your spending — and a growing toolkit to work with it.
           </p>
         </div>
-        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",textAlign:"left",boxShadow:"0 2px 8px rgba(26,51,48,0.08)"}}>
+        <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",textAlign:"left",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
           <p style={lbl(C.teal)}>WHAT YOU COVERED</p>
           {LESSONS.map(l=>(
             <div key={l.id} style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"8px"}}>

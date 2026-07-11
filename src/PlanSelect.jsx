@@ -5,16 +5,16 @@
 import { useState } from "react";
 
 const C = {
-  bg: "#57b7a7", dark: "#0d1f1d", yellow: "#f5d924",
-  text: "#0d1f1d", textOnDark: "#ffffff", sub: "rgba(255,255,255,0.72)",
+  bg: "#57b7a7", dark: "#232321", yellow: "#f5d924",
+  text: "#232321", textOnDark: "#ffffff", sub: "rgba(255,255,255,0.72)",
 };
 
 const cardStyle = (highlight) => ({
-  background: highlight ? "#13302c" : "#0d1f1d",
+  background: highlight ? "#2b2b28" : "#232321",
   border: highlight ? "2px solid " + C.yellow : "2px solid rgba(255,255,255,0.08)",
   borderRadius: "16px", padding: "24px 22px", textAlign: "left",
   display: "flex", flexDirection: "column", gap: "10px",
-  boxShadow: "0 8px 32px rgba(13,31,29,0.25)",
+  boxShadow: "0 8px 32px rgba(35,35,33,0.25)",
 });
 const btn = (primary) => ({
   width: "100%", padding: "13px 16px", borderRadius: "10px",
@@ -73,7 +73,7 @@ export default function PlanSelect({ email, onFree }) {
         <div style={{ textAlign: "center", marginBottom: "4px" }}>
           <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: C.dark, margin: "0 0 6px" }}>HABITRII</p>
           <h1 style={{ fontSize: "30px", fontWeight: 700, color: C.dark, margin: "0 0 8px" }}>Choose your journey</h1>
-          <p style={{ fontSize: "15px", color: "rgba(13,31,29,0.7)", margin: 0 }}>
+          <p style={{ fontSize: "15px", color: "rgba(35,35,33,0.7)", margin: 0 }}>
             Start free — every new account gets 30 days of full access.
           </p>
           <label style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginTop: "12px", cursor: "pointer" }}>
@@ -101,7 +101,7 @@ export default function PlanSelect({ email, onFree }) {
         ))}
 
         {error && <p style={{ fontSize: "13px", color: "#7f1d1d", background: "#fecaca", borderRadius: "8px", padding: "10px 14px", margin: 0 }}>{error}</p>}
-        <p style={{ fontSize: "12px", color: "rgba(13,31,29,0.6)", textAlign: "center", margin: 0 }}>
+        <p style={{ fontSize: "12px", color: "rgba(35,35,33,0.6)", textAlign: "center", margin: 0 }}>
           Cancel anytime. Educational content only — not financial advice.
         </p>
       </div>

@@ -6,13 +6,13 @@ import { useState } from "react";
 import { supabase } from "./lib/supabase";
 
 const C = {
-  bg: "#faf9f6", dark: "#0d1f1d", teal: "#57b7a7", tealDark: "#2f6f65",
+  bg: "#faf9f6", dark: "#232321", teal: "#57b7a7", tealDark: "#2f6f65",
   yellow: "#f5d924", text: "#1f1f1d", textOnDark: "#ffffff",
 };
 
 const card = {
   background: C.dark, borderRadius: "16px", padding: "32px 28px 36px",
-  boxShadow: "0 8px 32px rgba(13,31,29,0.25)", textAlign: "left",
+  boxShadow: "0 8px 32px rgba(35,35,33,0.25)", textAlign: "left",
 };
 const inputStyle = {
   width: "100%", boxSizing: "border-box", padding: "14px 16px",

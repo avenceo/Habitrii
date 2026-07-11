@@ -3,17 +3,17 @@ import { useState } from "react";
 // ─── Brand Colors ──────────────────────────────────────────────────────────────
 const C = {
   bg:         "#57b7a7",
-  dark:       "#1a3330",
-  mid:        "#2a4a44",
+  dark:       "#232321",
+  mid:        "#32322f",
   card:       "#ffffff",
   cardLight:  "#f0faf8",
   yellow:     "#f5d924",
   teal:       "#57b7a7",
   gray:       "#a09e98",
   grayText: "#5f5d57",
-  text:       "#0d1f1d",
-  textSub:    "rgba(13,31,29,0.7)",
-  textMut: "rgba(13,31,29,0.62)",  textOnDark: "#ffffff",
+  text:       "#232321",
+  textSub:    "rgba(35,35,33,0.7)",
+  textMut: "rgba(35,35,33,0.62)",  textOnDark: "#ffffff",
 };
 
 // ─── Button Base Styles ────────────────────────────────────────────────────────
@@ -25,7 +25,7 @@ const btnYellow = {
 };
 const btnOutline = {
   background: "transparent", color: C.dark,
-  border: "2px solid rgba(26,51,48,0.5)", borderRadius: "12px",
+  border: "2px solid rgba(35,35,33,0.5)", borderRadius: "12px",
   fontSize: "16px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
   transition: "all 0.15s ease",
 };
@@ -186,7 +186,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           background: rgba(255,255,255,0.97);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(26,51,48,0.08);
+          border-bottom: 1px solid rgba(35,35,33,0.08);
           box-shadow: 0 1px 10px rgba(0,0,0,0.05);
         }
         .lp-nav-inner {
@@ -211,7 +211,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
 
         /* Hover states */
         .lp-btn-y:hover  { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(245,217,36,0.55) !important; }
-        .lp-btn-o:hover  { background: rgba(26,51,48,0.07) !important; }
+        .lp-btn-o:hover  { background: rgba(35,35,33,0.07) !important; }
         .lp-world-card { transition: all 0.2s ease; }
         .lp-world-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.3) !important; }
         .lp-p-card { transition: all 0.2s ease; }
@@ -304,7 +304,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           {/* Subheadline */}
           <p style={{
             fontSize: "clamp(17px, 2.5vw, 20px)", lineHeight: 1.7,
-            color: "rgba(13,31,29,0.72)", maxWidth: "600px",
+            color: "rgba(35,35,33,0.72)", maxWidth: "600px",
             margin: "0 auto 44px",
           }}>
             Habitrii is an AI-powered, choose-your-own-adventure financial education app.
@@ -334,6 +334,20 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           <p style={{ fontSize: "12px", color: C.textMut, letterSpacing: "0.4px", margin: 0 }}>
             18+ only · Educational use only · Not financial advice
           </p>
+
+          {/* Hero banner video */}
+          <video
+            src="/hero-banner.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{
+              width: "100%", maxWidth: "740px", borderRadius: "18px",
+              marginTop: "44px", display: "block",
+              boxShadow: "0 18px 60px rgba(35,35,33,0.28)",
+            }}
+          />
         </div>
       </section>
 
@@ -385,7 +399,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-              textTransform: "uppercase", color: "rgba(13,31,29,0.72)", margin: "0 0 14px",
+              textTransform: "uppercase", color: "rgba(35,35,33,0.72)", margin: "0 0 14px",
             }}>
               Features
             </p>
@@ -401,7 +415,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             {FEATURES.map((f) => (
               <div key={f.title} style={{
                 background: C.card, borderRadius: "18px", padding: "40px 32px",
-                boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
+                boxShadow: "0 4px 24px rgba(35,35,33,0.09)",
               }}>
                 <div style={{ fontSize: "44px", marginBottom: "18px", lineHeight: 1 }}>{f.emoji}</div>
                 <h3 style={{ fontSize: "19px", fontWeight: 700, color: C.dark, margin: "0 0 12px" }}>
@@ -478,7 +492,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           <div className="lp-section-header">
             <p style={{
               fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
-              textTransform: "uppercase", color: "rgba(13,31,29,0.72)", margin: "0 0 14px",
+              textTransform: "uppercase", color: "rgba(35,35,33,0.72)", margin: "0 0 14px",
             }}>
               Pricing
             </p>
@@ -495,7 +509,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             {/* ── Foundation ── */}
             <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
-              boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
+              boxShadow: "0 4px 24px rgba(35,35,33,0.09)",
             }}>
               <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Foundation
@@ -523,7 +537,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             {/* ── Growth (Most Popular) ── */}
             <div className="lp-p-card" style={{
               background: C.dark, borderRadius: "20px", padding: "40px 32px",
-              boxShadow: "0 10px 48px rgba(26,51,48,0.38)", position: "relative",
+              boxShadow: "0 10px 48px rgba(35,35,33,0.38)", position: "relative",
             }}>
               <div style={{
                 position: "absolute", top: "-15px", left: "50%", transform: "translateX(-50%)",
@@ -568,7 +582,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             {/* ── Transformation ── */}
             <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
-              boxShadow: "0 4px 24px rgba(26,51,48,0.09)",
+              boxShadow: "0 4px 24px rgba(35,35,33,0.09)",
             }}>
               <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Transformation
@@ -596,9 +610,9 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
                 fontSize: "14px", fontWeight: 700, letterSpacing: "1.5px",
                 textTransform: "uppercase", cursor: "default",
-                background: "rgba(26,51,48,0.05)",
-                color: "rgba(26,51,48,0.28)",
-                border: "1.5px solid rgba(26,51,48,0.1)",
+                background: "rgba(35,35,33,0.05)",
+                color: "rgba(35,35,33,0.28)",
+                border: "1.5px solid rgba(35,35,33,0.1)",
               }}>
                 Coming Soon
               </div>
@@ -735,12 +749,12 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       {!gdprDismissed && (
         <div style={{
           position:"fixed", bottom:0, left:0, right:0, zIndex:9999,
-          background:"#1a3330",
+          background:"#232321",
           borderTop:"1px solid rgba(255,255,255,0.12)",
           padding:"14px 24px",
           display:"flex", alignItems:"center", justifyContent:"space-between",
           gap:"16px", flexWrap:"wrap",
-          boxShadow:"0 -4px 24px rgba(13,31,29,0.35)",
+          boxShadow:"0 -4px 24px rgba(35,35,33,0.35)",
         }}>
           <p style={{
             color:"rgba(255,255,255,0.78)", fontSize:"13px",
@@ -759,7 +773,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <button
               onClick={handleGdprAccept}
               style={{
-                background:"#f5d924", color:"#1a3330", border:"none",
+                background:"#f5d924", color:"#232321", border:"none",
                 borderRadius:"8px", padding:"9px 20px",
                 fontSize:"13px", fontWeight:700, cursor:"pointer",
                 fontFamily:"inherit",
