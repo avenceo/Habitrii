@@ -40,6 +40,7 @@ export default function AuthFlow({ initialEmail = "", consent, recoveryMode = fa
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [notice, setNotice] = useState(null);
+  const [showPw, setShowPw] = useState(false);
 
   if (!supabase) {
     // Env vars missing — fail soft and let the caller continue the old flow.
@@ -109,6 +110,18 @@ export default function AuthFlow({ initialEmail = "", consent, recoveryMode = fa
 
   const field = (props) => <input style={inputStyle} {...props} />;
   const onEnter = (fn) => (e) => { if (e.key === "Enter") fn(); };
+  const pwType = showPw ? "text" : "password";
+  const showPwRow = (
+    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+      <input
+        type="checkbox"
+        checked={showPw}
+        onChange={(e) => setShowPw(e.target.checked)}
+        style={{ accentColor: C.yellow, cursor: "pointer", width: "15px", height: "15px" }}
+      />
+      <span style={mutedText}>Show password</span>
+    </label>
+  );
 
   const body = () => {
     if (mode === "verify") return (
@@ -151,10 +164,11 @@ export default function AuthFlow({ initialEmail = "", consent, recoveryMode = fa
     if (mode === "new-password") return (
       <>
         <h2 style={h2}>Set a new password</h2>
-        {field({ type: "password", placeholder: "New password (8+ characters)", value: password, autoComplete: "new-password",
+        {field({ type: pwType, placeholder: "New password (8+ characters)", value: password, autoComplete: "new-password",
           onChange: (e) => setPassword(e.target.value) })}
-        {field({ type: "password", placeholder: "Repeat new password", value: password2, autoComplete: "new-password",
+        {field({ type: pwType, placeholder: "Repeat new password", value: password2, autoComplete: "new-password",
           onChange: (e) => setPassword2(e.target.value), onKeyDown: onEnter(handleNewPassword) })}
+        {showPwRow}
         {notice && <p style={okText}>{notice}</p>}
         {error && <p style={errText}>{error}</p>}
         <button style={primaryBtn} disabled={busy} onClick={handleNewPassword}>{busy ? "Saving…" : "Save new password"}</button>
@@ -170,12 +184,13 @@ export default function AuthFlow({ initialEmail = "", consent, recoveryMode = fa
         </p>
         {field({ type: "email", placeholder: "you@example.com", value: email, autoComplete: "email",
           onChange: (e) => setEmail(e.target.value.trim()) })}
-        {field({ type: "password", placeholder: isSignup ? "Password (8+ characters)" : "Password", value: password,
+        {field({ type: pwType, placeholder: isSignup ? "Password (8+ characters)" : "Password", value: password,
           autoComplete: isSignup ? "new-password" : "current-password",
           onChange: (e) => setPassword(e.target.value),
           onKeyDown: isSignup ? undefined : onEnter(handleSignIn) })}
-        {isSignup && field({ type: "password", placeholder: "Repeat password", value: password2, autoComplete: "new-password",
+        {isSignup && field({ type: pwType, placeholder: "Repeat password", value: password2, autoComplete: "new-password",
           onChange: (e) => setPassword2(e.target.value), onKeyDown: onEnter(handleSignUp) })}
+        {showPwRow}
         {error && <p style={errText}>{error}</p>}
         <button style={primaryBtn} disabled={busy} onClick={isSignup ? handleSignUp : handleSignIn}>
           {busy ? "One moment…" : isSignup ? "Create account →" : "Sign in →"}
