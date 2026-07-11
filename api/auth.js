@@ -14,6 +14,7 @@ function isAllowedOrigin(origin) {
     if (!origin) return false;
     const allowed = [
           "https://habitrii.aven4life.com",
+          "https://staging.habitrii.aven4life.com",
           "http://localhost:5173",
         ];
     if (allowed.includes(origin)) return true;
