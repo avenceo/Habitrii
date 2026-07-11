@@ -51,6 +51,14 @@ async function findProfileByEmail(email) {
     { headers: sbHeaders() }
   );
   const rows = await res.json();
+  if (!Array.isArray(rows) || !rows[0]) {
+    log("warn", "profile_lookup_debug", {
+      httpStatus: res.status,
+      isArray: Array.isArray(rows),
+      rowCount: Array.isArray(rows) ? rows.length : null,
+      errCode: rows && !Array.isArray(rows) && rows.code ? rows.code : null,
+    });
+  }
   return Array.isArray(rows) && rows[0] ? rows[0] : null;
 }
 
