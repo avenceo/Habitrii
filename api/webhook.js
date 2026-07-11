@@ -1,161 +1,197 @@
-// Habitrii — Stripe Webhook Handler
-// Control 3.1: Webhook signature verification
+// Habitrii — Stripe Webhook Handler (Phase 05)
+// Verifies signatures, then syncs subscription state into Supabase
+// (subscriptions + profiles.tier via service role) and updates Mailchimp tags.
 //
-// Verifies that incoming webhook events genuinely originate from Stripe
-// before processing them. Without this, an attacker can POST a fake
-// 'payment_intent.succeeded' and trigger unauthorized access.
-//
-// Setup:
-//   1. Stripe Dashboard → Developers → Webhooks → Add endpoint
-//   2. Endpoint URL: https://habitrii.aven4life.com/api/webhook
-//   3. Events to listen for: payment_intent.succeeded, customer.subscription.created,
-//      customer.subscription.updated, customer.subscription.deleted,
-//      invoice.payment_failed
-//   4. Copy the Signing secret (starts with whsec_)
-//   5. Add to Vercel env vars as: STRIPE_WEBHOOK_SECRET (mark Sensitive)
+// Env:
+//   STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET (whsec_, per environment)
+//   STRIPE_GROWTH_PRICE_IDS, STRIPE_TRANSFORMATION_PRICE_IDS ("monthly,yearly")
+//   VITE_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (per environment)
+//   MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID, MAILCHIMP_SERVER_PREFIX (optional)
 
 import Stripe from "stripe";
+import crypto from "crypto";
 
-// Vercel must receive the raw body as a Buffer for signature verification.
-// Add this export to disable the default body parser.
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const config = { api: { bodyParser: false } };
 
-// ── Helper: read raw body as Buffer ─────────────────────────────────────────
 async function getRawBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end",  () => resolve(Buffer.concat(chunks)));
+    req.on("data", (c) => chunks.push(c));
+    req.on("end", () => resolve(Buffer.concat(chunks)));
     req.on("error", reject);
   });
 }
 
-// ── Handler ─────────────────────────────────────────────────────────────────
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+const log = (level, event, extra = {}) =>
+  console.log(JSON.stringify({ level, event, path: "/api/webhook", timestamp: new Date().toISOString(), ...extra }));
+
+// ── Price → tier mapping ─────────────────────────────────────────────────────
+function priceToTier(priceId) {
+  const inList = (env) => (env || "").split(",").map((s) => s.trim()).includes(priceId);
+  if (inList(process.env.STRIPE_GROWTH_PRICE_IDS)) return "growth";
+  if (inList(process.env.STRIPE_TRANSFORMATION_PRICE_IDS)) return "transformation";
+  return null;
+}
+
+// ── Supabase admin REST helpers (service role bypasses RLS) ─────────────────
+function sbHeaders() {
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+    "Content-Type": "application/json",
+    Prefer: "resolution=merge-duplicates,return=representation",
+  };
+}
+const sbUrl = () => process.env.VITE_SUPABASE_URL;
+
+async function findProfileByEmail(email) {
+  const res = await fetch(
+    `${sbUrl()}/rest/v1/profiles?email=eq.${encodeURIComponent(email)}&select=id,email,tier`,
+    { headers: sbHeaders() }
+  );
+  const rows = await res.json();
+  return Array.isArray(rows) && rows[0] ? rows[0] : null;
+}
+
+async function syncSupabase(profileId, fields) {
+  const { tier, status, stripeCustomerId, stripeSubscriptionId, currentPeriodEnd } = fields;
+  const subRes = await fetch(`${sbUrl()}/rest/v1/subscriptions`, {
+    method: "POST",
+    headers: sbHeaders(),
+    body: JSON.stringify({
+      user_id: profileId,
+      stripe_customer_id: stripeCustomerId || null,
+      stripe_subscription_id: stripeSubscriptionId || null,
+      tier,
+      status,
+      current_period_end: currentPeriodEnd || null,
+    }),
+  });
+  if (!subRes.ok) log("error", "supabase_subscription_upsert_failed", { status: subRes.status });
+
+  const profRes = await fetch(`${sbUrl()}/rest/v1/profiles?id=eq.${profileId}`, {
+    method: "PATCH",
+    headers: sbHeaders(),
+    body: JSON.stringify({ tier }),
+  });
+  if (!profRes.ok) log("error", "supabase_profile_update_failed", { status: profRes.status });
+}
+
+// ── Mailchimp tier tags (best effort, never blocks) ─────────────────────────
+async function syncMailchimpTags(email, tier) {
+  const { MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID, MAILCHIMP_SERVER_PREFIX } = process.env;
+  if (!MAILCHIMP_API_KEY || !MAILCHIMP_LIST_ID || !MAILCHIMP_SERVER_PREFIX) return;
+  try {
+    const hash = crypto.createHash("md5").update(email.toLowerCase()).digest("hex");
+    const tags = ["foundation", "growth", "transformation"].map((t) => ({
+      name: `tier:${t}`,
+      status: t === tier ? "active" : "inactive",
+    }));
+    await fetch(
+      `https://${MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${MAILCHIMP_LIST_ID}/members/${hash}/tags`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${Buffer.from(`anystring:${MAILCHIMP_API_KEY}`).toString("base64")}`,
+        },
+        body: JSON.stringify({ tags }),
+      }
+    );
+    log("info", "mailchimp_tags_synced", { tier });
+  } catch (err) {
+    log("warn", "mailchimp_tags_failed", { message: err.message });
   }
+}
+
+// ── Shared: apply a subscription state to Supabase + Mailchimp ──────────────
+async function applySubscription(stripe, subscription) {
+  const priceId = subscription.items?.data?.[0]?.price?.id;
+  const mappedTier = priceToTier(priceId);
+  const statusMap = { active: "active", trialing: "active", past_due: "past_due" };
+  const status = statusMap[subscription.status] || "cancelled";
+  const cancelled = status === "cancelled";
+  const tier = cancelled || !mappedTier ? "foundation" : mappedTier;
+
+  const customer = await stripe.customers.retrieve(subscription.customer);
+  const email = customer?.email;
+  if (!email) { log("warn", "customer_missing_email", { customerId: subscription.customer }); return; }
+
+  const profile = await findProfileByEmail(email);
+  if (!profile) { log("warn", "profile_not_found_for_webhook"); return; }
+
+  await syncSupabase(profile.id, {
+    tier,
+    status,
+    stripeCustomerId: subscription.customer,
+    stripeSubscriptionId: subscription.id,
+    currentPeriodEnd: subscription.current_period_end
+      ? new Date(subscription.current_period_end * 1000).toISOString()
+      : null,
+  });
+  await syncMailchimpTags(email, tier);
+  log("info", "tier_synced", { tier, status });
+}
+
+// ── Handler ──────────────────────────────────────────────────────────────────
+export default async function handler(req, res) {
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  const stripeSecret  = process.env.STRIPE_SECRET_KEY;
-
-  if (!webhookSecret || !stripeSecret) {
-    console.error(JSON.stringify({
-      level: "error",
-      event: "webhook_config_missing",
-      path:  "/api/webhook",
-      timestamp: new Date().toISOString(),
-    }));
+  const stripeSecret = process.env.STRIPE_SECRET_KEY;
+  if (!webhookSecret || !stripeSecret || !process.env.SUPABASE_SERVICE_ROLE_KEY || !sbUrl()) {
+    log("error", "webhook_config_missing");
     return res.status(500).json({ error: "Webhook not configured" });
   }
 
   const stripe = new Stripe(stripeSecret, { apiVersion: "2024-11-20.acacia" });
 
-  // ── Read raw body — required for signature verification ──────────────────
   let rawBody;
-  try {
-    rawBody = await getRawBody(req);
-  } catch (err) {
-    console.error(JSON.stringify({
-      level: "error", event: "webhook_body_read_failed",
-      path: "/api/webhook", timestamp: new Date().toISOString(),
-    }));
-    return res.status(400).json({ error: "Failed to read request body" });
-  }
+  try { rawBody = await getRawBody(req); }
+  catch { log("error", "webhook_body_read_failed"); return res.status(400).json({ error: "Failed to read request body" }); }
 
-  // ── Verify Stripe signature ───────────────────────────────────────────────
-  const sig = req.headers["stripe-signature"];
   let event;
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+    event = stripe.webhooks.constructEvent(rawBody, req.headers["stripe-signature"], webhookSecret);
   } catch (err) {
-    console.warn(JSON.stringify({
-      level: "warn",
-      event: "webhook_signature_invalid",
-      path: "/api/webhook",
-      timestamp: new Date().toISOString(),
-      message: err.message,
-    }));
+    log("warn", "webhook_signature_invalid", { message: err.message });
     return res.status(400).json({ error: "Invalid signature" });
   }
 
-  // ── Route verified events ─────────────────────────────────────────────────
-  console.log(JSON.stringify({
-    level: "info",
-    event: "webhook_received",
-    stripeEvent: event.type,
-    path: "/api/webhook",
-    timestamp: new Date().toISOString(),
-  }));
+  log("info", "webhook_received", { stripeEvent: event.type });
 
   try {
     switch (event.type) {
-
-      case "payment_intent.succeeded": {
-        const paymentIntent = event.data.object;
-        // TODO: Unlock paid tier access for the customer
-        // Reference: paymentIntent.customer, paymentIntent.metadata
-        console.log(JSON.stringify({
-          level: "info", event: "payment_succeeded",
-          customerId: paymentIntent.customer,
-          path: "/api/webhook", timestamp: new Date().toISOString(),
-        }));
+      case "checkout.session.completed": {
+        const session = event.data.object;
+        if (session.mode === "subscription" && session.subscription) {
+          const subscription = await stripe.subscriptions.retrieve(session.subscription);
+          await applySubscription(stripe, subscription);
+        }
         break;
       }
-
       case "customer.subscription.created":
-      case "customer.subscription.updated": {
-        const subscription = event.data.object;
-        // TODO: Update user's tier in Audos based on subscription.items.data[0].price.id
-        console.log(JSON.stringify({
-          level: "info", event: "subscription_updated",
-          customerId: subscription.customer,
-          status: subscription.status,
-          path: "/api/webhook", timestamp: new Date().toISOString(),
-        }));
-        break;
-      }
-
+      case "customer.subscription.updated":
       case "customer.subscription.deleted": {
-        const subscription = event.data.object;
-        // TODO: Downgrade user to free tier in Audos
-        console.log(JSON.stringify({
-          level: "info", event: "subscription_cancelled",
-          customerId: subscription.customer,
-          path: "/api/webhook", timestamp: new Date().toISOString(),
-        }));
+        await applySubscription(stripe, event.data.object);
         break;
       }
-
       case "invoice.payment_failed": {
         const invoice = event.data.object;
-        // TODO: Send payment failure notification to customer
-        console.log(JSON.stringify({
-          level: "warn", event: "payment_failed",
-          customerId: invoice.customer,
-          path: "/api/webhook", timestamp: new Date().toISOString(),
-        }));
+        log("warn", "payment_failed", { customerId: invoice.customer });
+        if (invoice.subscription) {
+          const subscription = await stripe.subscriptions.retrieve(invoice.subscription);
+          await applySubscription(stripe, subscription);
+        }
         break;
       }
-
       default:
-        // Unhandled event type — acknowledge receipt to stop Stripe retries
-        break;
+        log("info", "webhook_ignored", { stripeEvent: event.type });
     }
-
     return res.status(200).json({ received: true });
-
   } catch (err) {
-    console.error(JSON.stringify({
-      level: "error", event: "webhook_handler_threw",
-      message: err.message,
-      stripeEvent: event.type,
-      path: "/api/webhook", timestamp: new Date().toISOString(),
-    }));
+    log("error", "webhook_processing_failed", { message: err.message });
     return res.status(500).json({ error: "Webhook processing failed" });
   }
 }
