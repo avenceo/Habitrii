@@ -35,13 +35,16 @@ function priceToTier(priceId) {
 
 // ── Supabase admin REST helpers (service role bypasses RLS) ─────────────────
 function sbHeaders() {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  return {
+  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+  const headers = {
     apikey: key,
-    Authorization: `Bearer ${key}`,
     "Content-Type": "application/json",
     Prefer: "resolution=merge-duplicates,return=representation",
   };
+  // Legacy JWT service_role keys also go in the Authorization header.
+  // New-style sb_secret_ keys are not JWTs and must be sent via apikey only.
+  if (key.startsWith("eyJ")) headers.Authorization = `Bearer ${key}`;
+  return headers;
 }
 const sbUrl = () => process.env.VITE_SUPABASE_URL;
 
