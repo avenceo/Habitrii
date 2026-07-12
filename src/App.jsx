@@ -570,13 +570,13 @@ export default function Habitrii() {
               onKeyDown={e=>{if(e.key==="Enter")handleEmailSubmit();}}
               style={{
                 width:"100%",boxSizing:"border-box",padding:"14px 16px",
-                borderRadius:"10px",border:"1.5px solid rgba(35,35,33,0.3)",
-                background:"rgba(35,35,33,0.06)",color:"#1f1f1d",
+                borderRadius:"10px",border:"1.5px solid rgba(35,35,33,0.35)",
+                background:"#ffffff",color:"#1f1f1d",
                 fontSize:"16px",fontFamily:"inherit",outline:"none",
               }}
             />
             {emailError&&(
-              <p style={{fontSize:"13px",color:"#ffb3b3",margin:0,textAlign:"left"}}>{emailError}</p>
+              <p style={{fontSize:"13px",color:"#8b2f2f",margin:0,textAlign:"left"}}>{emailError}</p>
             )}
             {/* ToS + Privacy consent — required before continuing */}
             <label style={{display:"flex",alignItems:"flex-start",gap:"10px",cursor:"pointer",textAlign:"left"}}>
