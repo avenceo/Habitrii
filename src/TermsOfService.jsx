@@ -132,15 +132,17 @@ export default function TermsOfService({ onBack }) {
 
       <section id="subscription-tiers">
         <h2>6. Subscription tiers and pricing</h2>
-        <h3>6.1 Free trial and Foundation tier</h3>
+        <h3>6.1 Foundation (free) tier</h3>
         <p>
-          New accounts receive full access to all Habitrii content for thirty
-          (30) days from account creation (the &quot;Trial Period&quot;), at no
-          charge and with no payment information required. When the Trial
-          Period ends, accounts without a paid subscription retain permanent
-          free access to the Mind &amp; Money world; other worlds require a
-          paid subscription. We may modify the content included in any tier
-          and will communicate material changes in advance.
+          The Foundation tier is free, requires no payment information, and
+          does not expire. It includes permanent access to the first three (3)
+          lessons of the Mind &amp; Money world, Penny AI check-ins for those
+          lessons, and optional personality onboarding. Access to the remaining
+          Mind &amp; Money lessons and to all other worlds requires a paid
+          subscription. Additional worlds are released over time and become
+          available to the subscription tiers indicated at purchase. We may
+          modify the content included in any tier and will communicate
+          material changes in advance.
         </p>
         <table>
           <thead>
@@ -154,12 +156,12 @@ export default function TermsOfService({ onBack }) {
             <tr>
               <td>Foundation</td>
               <td>Free</td>
-              <td>Full access to all worlds for the first 30 days after account creation; thereafter Mind &amp; Money world (8 lessons), Penny AI check-ins, optional personality onboarding</td>
+              <td>First 3 lessons of the Mind &amp; Money world (free forever), Penny AI check-ins for those lessons, optional personality onboarding</td>
             </tr>
             <tr>
               <td>Growth</td>
               <td>$9.99/month or $79/year</td>
-              <td>Everything in Foundation, plus Budgeting Foundations, Debt &amp; Credit, and progress dashboard</td>
+              <td>Full Mind &amp; Money world (8 lessons), plus Budgeting Foundations, Debt &amp; Credit, and progress dashboard as released</td>
             </tr>
             <tr>
               <td>Transformation</td>

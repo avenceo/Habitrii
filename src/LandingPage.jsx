@@ -525,13 +525,12 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               <div style={{ marginBottom: "28px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>Free</span>
                 <p style={{ fontSize: "14px", color: C.grayText, margin: "8px 0 0", lineHeight: 1.5 }}>
-                  Full access for 30 days — Mind &amp; Money free forever after.
+                  Your first 3 lessons, free forever. No credit card.
                 </p>
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
-                  "Every world unlocked for your first 30 days",
-                  "Mind & Money world free forever (8 lessons)",
+                  "First 3 Mind & Money lessons, free forever",
                   "Penny AI check-ins after every lesson",
                   "Personality onboarding (MBTI + astrology)",
                 ].map(item => (
@@ -568,9 +567,9 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               <p style={{ fontSize: "13px", color: "rgba(35,35,33,0.8)", fontWeight: 700, margin: "0 0 28px" }}>or $79/year</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
-                  "Everything in Foundation",
-                  "Budgeting Foundations world (6 lessons)",
-                  "Debt & Credit world (6 lessons)",
+                  "Full Mind & Money world (8 lessons)",
+                  "Budgeting Foundations world (coming soon)",
+                  "Debt & Credit world (coming soon)",
                 ].map(item => (
                   <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: "rgba(35,35,33,0.8)", lineHeight: 1.55 }}>
                     <CheckIcon dark={true} />{item}
