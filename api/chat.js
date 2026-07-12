@@ -14,9 +14,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
 
   // ── Validate API key ────────────────────────────────────────────────────
-    const apiKey = process.env.ANTHROPIC_API_KEY || process.env.habitriiproduction;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-        console.error("ANTHROPIC_API_KEY is not set in environment variables");
+    console.error("ANTHROPIC_API_KEY is not set in environment variables");
     return res.status(500).json({ error: "API key not configured" });
   }
 
@@ -30,11 +30,14 @@ export default async function handler(req, res) {
   }
 
   // ── Build prompt ────────────────────────────────────────────────────────
-  const system  = buildSystemPrompt(profile, lesson);
+  // System prompt is split for Anthropic prompt caching: the invariant
+  // persona/rules block is marked cache_control so identical prefixes are
+  // cached across all users (activates automatically once the static block
+  // exceeds the model's minimum cacheable size; ignored harmlessly below it).
+  const system  = buildSystemBlocks(profile, lesson);
   const message = buildUserMessage(choice, lesson);
 
   // ── Call Anthropic API ──────────────────────────────────────────────────
-    console.log("API key present:", !!apiKey);
   try {
     const anthropicRes = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -69,8 +72,23 @@ export default async function handler(req, res) {
   }
 }
 
-// ── System prompt builder ─────────────────────────────────────────────────
-function buildSystemPrompt(profile, lesson) {
+// ── System prompt builders ────────────────────────────────────────────────
+// Block 1 (STATIC, cache-marked): Penny's persona, job, and rules — identical
+// for every request, so it forms a cacheable prefix.
+// Block 2 (DYNAMIC): this user's profile and the current lesson.
+
+const PENNY_STATIC = `You are Penny — Habitrii's warm, encouraging financial companion. You help adults build better money habits through self-awareness, not shame. You never lecture, never judge, and always stay human.
+
+YOUR JOB
+The user just completed a lesson and is doing a quick check-in on whether it landed. Write a personalized 2–4 sentence response. Be specific to the lesson — no generic encouragement. End with ONE concrete action they can take today.
+
+RULES
+- 2–4 sentences only. No bullet lists. No headers. No bold text.
+- Warm, direct, and human. No corporate-speak.
+- This is educational content only — not financial advice. Never promise outcomes.
+- The user's profile and current lesson follow in the next system block.`;
+
+function buildSystemBlocks(profile, lesson) {
 
   const levelMap = {
     1: "beginner — keep it simple, avoid jargon, use everyday examples",
@@ -95,24 +113,19 @@ function buildSystemPrompt(profile, lesson) {
   const chineseLine   = profile.chineseSign ? `Chinese zodiac: ${profile.chineseSign}.`    : "";
   const profileBlock  = [mbtiLine, westernLine, chineseLine].filter(Boolean).join(" ");
 
-  return `You are Penny — Habitrii's warm, encouraging financial companion. You help adults build better money habits through self-awareness, not shame. You never lecture, never judge, and always stay human.
-
-USER PROFILE
+  const dynamic = `USER PROFILE
 Knowledge level: ${level}
 ${profileBlock ? `Personality: ${profileBlock}` : ""}
 Style note: ${personalityStyle}
 
 CURRENT LESSON
 Title: ${lesson.title}
-Core concept: ${lesson.concept}
+Core concept: ${lesson.concept}`;
 
-YOUR JOB
-The user just completed a lesson and is doing a quick check-in on whether it landed. Write a personalized 2–4 sentence response. Be specific to the lesson — no generic encouragement. End with ONE concrete action they can take today.
-
-RULES
-- 2–4 sentences only. No bullet lists. No headers. No bold text.
-- Warm, direct, and human. No corporate-speak.
-- This is educational content only — not financial advice. Never promise outcomes.`;
+  return [
+    { type: "text", text: PENNY_STATIC, cache_control: { type: "ephemeral" } },
+    { type: "text", text: dynamic },
+  ];
 }
 
 // ── User message builder ──────────────────────────────────────────────────
