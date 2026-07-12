@@ -228,7 +228,23 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           .lp-grid-worlds { grid-template-columns: repeat(2, 1fr); }
           .lp-grid-pricing { grid-template-columns: 1fr; }
         }
+        .lp-hero-video {
+          position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+          object-fit: cover; z-index: 0;
+        }
+        .lp-hero-wash {
+          position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(250,249,246,0.62); z-index: 0;
+        }
         @media (max-width: 600px) {
+          .lp-hero { flex-direction: column; min-height: 0 !important; padding-top: 32px !important; }
+          .lp-hero-video {
+            position: static; width: 100%; height: auto; aspect-ratio: 16 / 9;
+            border-radius: 16px; margin-bottom: 28px;
+            box-shadow: 0 12px 40px rgba(35,35,33,0.25);
+          }
+          .lp-hero-wash { display: none; }
+        }
           .lp-inner { padding: 0 18px; }
           .lp-nav-inner { padding: 0 20px; }
           .lp-section { padding: 64px 0; }
@@ -269,28 +285,15 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </nav>
 
       {/* ══════════════════════ HERO ══════════════════════ */}
-      <section style={{
+      <section className="lp-hero" style={{
         background: C.bg, minHeight: "90vh",
         display: "flex", alignItems: "center", justifyContent: "center",
         padding: "80px 24px", position: "relative", overflow: "hidden",
       }}>
-        {/* Full-bleed hero banner video */}
-        <video
-          src="/hero-banner.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
-            objectFit: "cover", zIndex: 0,
-          }}
-        />
-        {/* Readability wash over the video */}
-        <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(250,249,246,0.62)", zIndex: 0,
-        }} />
+        {/* Hero banner video: full-bleed background on desktop, in-flow banner on mobile */}
+        <video className="lp-hero-video" src="/hero-banner.mp4" autoPlay muted loop playsInline />
+        {/* Readability wash over the video (desktop only) */}
+        <div className="lp-hero-wash" />
         <div style={{ maxWidth: "740px", width: "100%", textAlign: "center", position: "relative", zIndex: 1 }}>
           {/* Early access pill */}
           <div style={{
