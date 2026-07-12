@@ -54,32 +54,6 @@ async function findProfileByEmail(email) {
     { headers: sbHeaders() }
   );
   const rows = await res.json();
-  if (!Array.isArray(rows) || !rows[0]) {
-    const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
-    let keyKind = "other";
-    if (key.startsWith("sb_secret_")) keyKind = "sb_secret";
-    else if (key.startsWith("sb_publishable_")) keyKind = "sb_publishable";
-    else if (key.startsWith("eyJ")) keyKind = "jwt";
-    let jwtRef = null, jwtRole = null;
-    if (keyKind === "jwt") {
-      try {
-        const payload = JSON.parse(Buffer.from(key.split(".")[1], "base64").toString());
-        jwtRef = payload.ref || null;
-        jwtRole = payload.role || null;
-      } catch { /* ignore */ }
-    }
-    log("warn", "profile_lookup_debug", {
-      httpStatus: res.status,
-      isArray: Array.isArray(rows),
-      rowCount: Array.isArray(rows) ? rows.length : null,
-      errCode: rows && !Array.isArray(rows) && rows.code ? rows.code : null,
-      keyKind,
-      keyLength: key.length,
-      jwtRef,
-      jwtRole,
-      urlHost: (() => { try { return new URL(sbUrl()).host; } catch { return null; } })(),
-    });
-  }
   return Array.isArray(rows) && rows[0] ? rows[0] : null;
 }
 
@@ -170,12 +144,7 @@ export default async function handler(req, res) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   const stripeSecret = process.env.STRIPE_SECRET_KEY;
   if (!webhookSecret || !stripeSecret || !process.env.SUPABASE_SERVICE_ROLE_KEY || !sbUrl()) {
-    log("error", "webhook_config_missing", {
-      hasWebhookSecret: Boolean(webhookSecret),
-      hasStripeSecret: Boolean(stripeSecret),
-      hasServiceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-      hasSupabaseUrl: Boolean(sbUrl()),
-    });
+    log("error", "webhook_config_missing");
     return res.status(500).json({ error: "Webhook not configured" });
   }
 
