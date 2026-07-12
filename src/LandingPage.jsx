@@ -14,7 +14,7 @@ const C = {
   grayText: "#5f5d57",
   text:       "#232321",
   textSub:    "rgba(35,35,33,0.7)",
-  textMut: "rgba(35,35,33,0.62)",  textOnDark: "#ffffff",
+  textMut: "rgba(35,35,33,0.62)",  textOnDark: "#232321",
 };
 
 // ─── Button Base Styles ────────────────────────────────────────────────────────
@@ -357,7 +357,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ HOW IT WORKS ══════════════════════ */}
-      <section id="how-it-works" className="lp-section" style={{ background: C.surface }}>
+      <section id="how-it-works" className="lp-section" style={{ background: C.bg }}>
         <div className="lp-inner">
           <div className="lp-section-header">
             <p style={{
@@ -377,7 +377,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           <div className="lp-grid-3">
             {STEPS.map((s) => (
               <div key={s.num} style={{
-                background: C.mid, borderRadius: "18px", padding: "40px 32px",
+                background: C.card, borderRadius: "18px", padding: "40px 32px",
                 borderTop: `4px solid ${C.yellow}`,
               }}>
                 <p style={{
@@ -541,12 +541,12 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
 
             {/* ── Growth (Most Popular) ── */}
             <div className="lp-p-card" style={{
-              background: C.surface, borderRadius: "20px", padding: "40px 32px",
+              background: C.yellow, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 10px 48px rgba(35,35,33,0.38)", position: "relative",
             }}>
               <div style={{
                 position: "absolute", top: "-15px", left: "50%", transform: "translateX(-50%)",
-                background: C.yellow, color: C.dark,
+                background: C.dark, color: C.yellow,
                 fontSize: "11px", fontWeight: 800, letterSpacing: "1.5px", textTransform: "uppercase",
                 padding: "5px 18px", borderRadius: "99px", whiteSpace: "nowrap",
               }}>
@@ -638,7 +638,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ LEGAL DISCLAIMER ══════════════════════ */}
-      <section style={{ background: C.surface, padding: "72px 24px" }}>
+      <section style={{ background: C.yellow, padding: "72px 24px" }}>
         <div style={{ maxWidth: "780px", margin: "0 auto", textAlign: "center" }}>
           <p style={{
             fontSize: "11px", fontWeight: 700, letterSpacing: "2.5px",
@@ -656,7 +656,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ FAQ ══════════════════════ */}
-      <section className="lp-section" style={{ background: C.mid }}>
+      <section className="lp-section" style={{ background: "#faf9f6" }}>
         <div className="lp-inner">
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <div className="lp-section-header">
@@ -720,7 +720,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ FOOTER ══════════════════════ */}
-      <footer style={{ background: C.surface, padding: "64px 24px 44px", textAlign: "center" }}>
+      <footer style={{ background: C.bg, padding: "64px 24px 44px", textAlign: "center" }}>
         <span style={{
           fontSize: "26px", fontWeight: 800, color: C.teal,
           display: "block", marginBottom: "36px", letterSpacing: "-0.5px",
