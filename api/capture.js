@@ -12,6 +12,7 @@
 // ── STEP 1: CORS HARDENING ────────────────────────────────────────────────
 const ALLOWED_ORIGINS = [
   "https://habitrii.aven4life.com",
+  "https://staging.habitrii.aven4life.com",
   "http://localhost:5173",
 ];
 
