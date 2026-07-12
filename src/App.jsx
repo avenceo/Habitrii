@@ -401,6 +401,27 @@ export default function Habitrii() {
   const [tosAgreed, setTosAgreed]         = useState(false);
 
   // ── Tier State ────────────────────────────────────────────────────────────
+  // ── VCDPA account deletion (one request clears Supabase + Mailchimp) ─────
+  const [deleteArm, setDeleteArm] = useState(false);
+  const [deleteBusy, setDeleteBusy] = useState(false);
+  const [deleteErr, setDeleteErr] = useState(null);
+  const handleDeleteAccount = async () => {
+    if (!session) return;
+    setDeleteBusy(true); setDeleteErr(null);
+    try {
+      const res = await fetch("/api/delete-account", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (!res.ok) throw new Error("Deletion failed. Please try again or email support@aven4life.com.");
+      if (supabase) await supabase.auth.signOut();
+      window.location.href = "/";
+    } catch (e) {
+      setDeleteErr(e.message);
+      setDeleteBusy(false);
+    }
+  };
+
   // Tier is cached in React state for the browser session to avoid repeated Stripe API calls.
   const [userTier, setUserTier]       = useState("foundation");
   const [tierLoading, setTierLoading] = useState(false);
@@ -786,6 +807,35 @@ export default function Habitrii() {
             <p style={{fontSize:"12px",color:C.textSub,textAlign:"center",margin:"2px 0 0"}}>
               Checking your access…
             </p>
+          )}
+          {session && (
+            <div style={{textAlign:"center",marginTop:"22px"}}>
+              {!deleteArm ? (
+                <button onClick={()=>setDeleteArm(true)}
+                  style={{background:"none",border:"none",cursor:"pointer",fontSize:"12px",color:C.textMut,textDecoration:"underline",fontFamily:"inherit"}}>
+                  Delete my account
+                </button>
+              ) : (
+                <div style={{background:"rgba(255,255,255,0.7)",borderRadius:"12px",padding:"16px 18px",display:"inline-block",textAlign:"left",maxWidth:"440px",boxShadow:"0 2px 10px rgba(35,35,33,0.1)"}}>
+                  <p style={{fontSize:"13px",color:C.text,margin:"0 0 12px",lineHeight:1.55}}>
+                    This permanently deletes your account, personality profile, and subscription
+                    records from Habitrii and removes you from our email list. Any active
+                    subscription is cancelled. This cannot be undone.
+                  </p>
+                  {deleteErr && <p style={{fontSize:"12px",color:"#8b2f2f",margin:"0 0 10px"}}>{deleteErr}</p>}
+                  <div style={{display:"flex",gap:"10px",flexWrap:"wrap"}}>
+                    <button disabled={deleteBusy} onClick={handleDeleteAccount}
+                      style={{background:"#8b2f2f",color:"#fff",border:"none",borderRadius:"8px",padding:"9px 16px",fontSize:"13px",fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>
+                      {deleteBusy ? "Deleting…" : "Yes, delete everything"}
+                    </button>
+                    <button disabled={deleteBusy} onClick={()=>{setDeleteArm(false);setDeleteErr(null);}}
+                      style={{background:"none",border:"1.5px solid rgba(35,35,33,0.25)",borderRadius:"8px",padding:"9px 16px",fontSize:"13px",fontWeight:600,cursor:"pointer",fontFamily:"inherit",color:C.text}}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
