@@ -6,7 +6,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import AuthFlow from "./AuthFlow";
 import { supabase } from "./lib/supabase";
 import PlanSelect from "./PlanSelect";
-import { fetchProfile, savePersonality, completeOnboarding, trialActive } from "./lib/profile";
+import { fetchProfile, savePersonality, completeOnboarding } from "./lib/profile";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -71,6 +71,8 @@ const CHINESE_ZODIAC = [
 ];
 
 // ─── Lesson Data ──────────────────────────────────────────────────────────────
+const FREE_LESSONS = 3; // Foundation tier: first N Mind & Money lessons free forever
+
 const LESSONS = [
   {
     id:"L01",number:"01",title:"The 24-Hour Rule",emoji:"⏰",duration:"3 min",
@@ -292,12 +294,13 @@ function SignCard({ data, selected, onClick }) {
   );
 }
 
-function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
+function LessonCard({ lesson, isComplete, isCurrent, locked, onClick }) {
   const [hover, setHover] = useState(false);
   return (
     <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
         display:"flex",alignItems:"center",gap:"16px",
+        opacity:locked?0.62:1,
         background:isCurrent?C.cardSelected:isComplete?"rgba(255,255,255,0.65)":C.card,
         border:`1.5px solid ${isCurrent?C.cardBorderSel:isComplete?"rgba(35,35,33,0.2)":C.cardBorder}`,
         borderRadius:"14px",padding:"14px 18px",cursor:"pointer",
@@ -305,7 +308,7 @@ function LessonCard({ lesson, isComplete, isCurrent, onClick }) {
         transform:hover?"translateY(-1px)":"none",
         boxShadow:isCurrent?"0 3px 14px rgba(245,217,36,0.4)":hover?"0 4px 16px rgba(35,35,33,0.1)":"0 1px 4px rgba(35,35,33,0.06)",
       }}>
-      <div style={{fontSize:"26px",minWidth:"32px",textAlign:"center"}}>{lesson.emoji}</div>
+      <div style={{fontSize:"26px",minWidth:"32px",textAlign:"center"}}>{locked?"🔒":lesson.emoji}</div>
       <div style={{flex:1}}>
         <p style={{fontSize:"15px",fontWeight:600,margin:"0 0 2px",color:C.text,lineHeight:1.3}}>{lesson.title}</p>
         <p style={{fontSize:"13px",color:C.textSub,margin:0}}>{lesson.duration}</p>
@@ -424,6 +427,10 @@ export default function Habitrii() {
 
   // Tier is cached in React state for the browser session to avoid repeated Stripe API calls.
   const [userTier, setUserTier]       = useState("foundation");
+  // Free-slice model: Foundation = first FREE_LESSONS of Mind & Money, forever.
+  // Any paid tier unlocks the full world. No trial clock.
+  const hasPaidTier = (profile?.tier || userTier) !== "foundation";
+  const lessonLocked = (i) => i >= FREE_LESSONS && !hasPaidTier;
   const [tierLoading, setTierLoading] = useState(false);
   const [tierChecked, setTierChecked] = useState(false);
 
@@ -745,11 +752,10 @@ export default function Habitrii() {
         const effectiveTier = profile?.tier || userTier;
     const userRank   = TIER_RANK[effectiveTier] ?? 0;
 
-    // Hybrid trial: Mind & Money free forever; others unlock during the
-    // 30-day trial or with a sufficient paid tier.
+    // Free-slice model: Mind & Money world always enterable (lesson gate inside);
+    // other worlds require a sufficient paid tier.
     const isLocked = (worldId) => {
       if (worldId === "mind") return false;
-      if (profile && trialActive(profile)) return false;
       return userRank < (TIER_RANK[WORLD_TIER[worldId]] ?? 0);
     };
     const requiredLabel = (worldId) => WORLD_TIER[worldId] === "growth" ? "Growth" : "Transformation";
@@ -858,13 +864,16 @@ export default function Habitrii() {
           <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
         )}
         <p style={{fontSize:"15px",color:C.textSub,margin:0,lineHeight:1.65,fontWeight:500}}>
-          Explore all 8 lessons in any order. Each one deepens your understanding of the relationship between feelings and spending.
+          {hasPaidTier
+            ? "Explore all 8 lessons in any order. Each one deepens your understanding of the relationship between feelings and spending."
+            : `Your first ${FREE_LESSONS} lessons are free, forever. Unlock all 8 with Growth.`}
         </p>
         <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
           {LESSONS.map((l,i)=>(
             <LessonCard key={l.id} lesson={l} isComplete={completed.has(l.id)}
               isCurrent={!completed.has(l.id)&&completedCount===i}
-              onClick={()=>go("scene",{lessonIdx:i,branch:null,resetPenny:true})}/>
+              locked={lessonLocked(i)}
+              onClick={()=>lessonLocked(i)?go("plan"):go("scene",{lessonIdx:i,branch:null,resetPenny:true})}/>
           ))}
         </div>
         {completedCount===8&&(
@@ -875,6 +884,22 @@ export default function Habitrii() {
   );
 
   // ── SCENE ─────────────────────────────────────────────────────────────────
+  if(screen==="scene"&&lessonLocked(lessonIdx)) return (
+    <div style={{...outer,justifyContent:"center"}}>
+      <div style={{...inner,textAlign:"center"}}>
+        <div style={{background:C.card,borderRadius:"16px",padding:"32px 26px",boxShadow:"0 4px 20px rgba(35,35,33,0.12)"}}>
+          <div style={{fontSize:"44px",marginBottom:"10px"}}>🔒</div>
+          <h2 style={{fontSize:"24px",fontWeight:700,margin:"0 0 10px",color:C.text}}>This lesson is part of Growth</h2>
+          <p style={{fontSize:"15px",color:C.textSub,margin:"0 0 22px",lineHeight:1.6}}>
+            Your first {FREE_LESSONS} Mind &amp; Money lessons are free forever. Upgrade to unlock all 8 lessons — and every new world as it launches.
+          </p>
+          <button onClick={()=>go("plan")} style={btnYellow}>See plans →</button>
+        </div>
+        <button onClick={()=>go("lesson_map")} style={btnGhost}>← Back to lesson map</button>
+      </div>
+    </div>
+  );
+
   if(screen==="scene") return (
     <div style={outer}>
       <div style={inner}>
@@ -1038,8 +1063,8 @@ export default function Habitrii() {
           )}
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
             {!allDone&&nextLesson&&(
-              <button onClick={()=>go("scene",{lessonIdx:lessonIdx+1,branch:null,resetPenny:true})} style={btnYellow}>
-                Continue journey →
+              <button onClick={()=>lessonLocked(lessonIdx+1)?go("plan"):go("scene",{lessonIdx:lessonIdx+1,branch:null,resetPenny:true})} style={btnYellow}>
+                {lessonLocked(lessonIdx+1)?"Unlock the next lesson →":"Continue journey →"}
               </button>
             )}
             {allDone&&<button onClick={()=>go("world_complete")} style={btnYellow}>🌟 Complete the world →</button>}

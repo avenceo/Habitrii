@@ -1,5 +1,5 @@
 // Habitrii — Plan selection (Phase 04)
-// Shown after the personality quiz. Foundation continues free (30-day full trial,
+// Shown after the personality quiz. Foundation = first 3 Mind & Money lessons free forever,
 // Mind & Money free forever); paid plans go to Stripe Checkout.
 
 import { useState } from "react";
@@ -29,15 +29,15 @@ const sub = { fontSize: "13px", color: C.sub, lineHeight: 1.55, margin: 0 };
 const PLANS = [
   {
     id: "foundation", name: "Foundation", monthly: "Free",
-    blurb: "Full access for 30 days, then Mind & Money stays free forever.",
+    blurb: "Your first 3 Mind & Money lessons, free forever. No credit card.",
   },
   {
     id: "growth", name: "Growth", monthly: "$9.99/mo", yearly: "$79/yr",
-    blurb: "Everything in Foundation plus Budgeting Foundations and Debt & Credit.",
+    blurb: "The full Mind & Money world (8 lessons) today — plus Budgeting Foundations and Debt & Credit when they launch soon.",
   },
   {
     id: "transformation", name: "Transformation", monthly: "$19.99/mo", yearly: "$149/yr",
-    blurb: "The whole journey: Safety & Stability plus Advanced & Values.",
+    blurb: "Everything in Growth, plus Safety & Stability and Advanced & Values as they launch.",
   },
 ];
 
@@ -74,7 +74,7 @@ export default function PlanSelect({ email, onFree }) {
           <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: C.dark, margin: "0 0 6px" }}>HABITRII</p>
           <h1 style={{ fontSize: "30px", fontWeight: 700, color: C.dark, margin: "0 0 8px" }}>Choose your journey</h1>
           <p style={{ fontSize: "15px", color: "rgba(35,35,33,0.7)", margin: 0 }}>
-            Start free — every new account gets 30 days of full access.
+            Start free — your first 3 lessons are on us, forever.
           </p>
           <label style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginTop: "12px", cursor: "pointer" }}>
             <input type="checkbox" checked={yearly} onChange={(e) => setYearly(e.target.checked)}
@@ -91,7 +91,7 @@ export default function PlanSelect({ email, onFree }) {
             </div>
             <p style={sub}>{p.blurb}</p>
             {p.id === "foundation" ? (
-              <button style={btn(true)} onClick={onFree}>Start my free month →</button>
+              <button style={btn(true)} onClick={onFree}>Start for free →</button>
             ) : (
               <button style={btn(false)} disabled={!!busy} onClick={() => checkout(p.id)}>
                 {busy === p.id ? "Opening checkout…" : `Choose ${p.name}`}
