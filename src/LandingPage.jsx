@@ -524,11 +524,14 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               </p>
               <div style={{ marginBottom: "28px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>Free</span>
-                <span style={{ fontSize: "15px", color: C.grayText, marginLeft: "8px" }}>forever</span>
+                <p style={{ fontSize: "14px", color: C.grayText, margin: "8px 0 0", lineHeight: 1.5 }}>
+                  Full access for 30 days — Mind &amp; Money free forever after.
+                </p>
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
-                  "Full Mind & Money world (8 lessons)",
+                  "Every world unlocked for your first 30 days",
+                  "Mind & Money world free forever (8 lessons)",
                   "Penny AI check-ins after every lesson",
                   "Personality onboarding (MBTI + astrology)",
                 ].map(item => (
