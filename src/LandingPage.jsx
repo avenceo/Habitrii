@@ -568,8 +568,8 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
                   "Full Mind & Money world (8 lessons)",
-                  "Budgeting Foundations world (coming soon)",
-                  "Debt & Credit world (coming soon)",
+                  "Budgeting Foundations world (6 lessons)",
+                  "Debt & Credit world (6 lessons)",
                 ].map(item => (
                   <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: "rgba(35,35,33,0.8)", lineHeight: 1.55 }}>
                     <CheckIcon dark={true} />{item}
