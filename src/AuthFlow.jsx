@@ -16,8 +16,8 @@ const card = {
 };
 const inputStyle = {
   width: "100%", boxSizing: "border-box", padding: "14px 16px",
-  borderRadius: "10px", border: "1.5px solid rgba(35,35,33,0.3)",
-  background: "rgba(35,35,33,0.06)", color: "#1f1f1d",
+  borderRadius: "10px", border: "1.5px solid rgba(35,35,33,0.35)",
+  background: "#ffffff", color: "#1f1f1d",
   fontSize: "16px", fontFamily: "inherit", outline: "none",
 };
 const primaryBtn = {
