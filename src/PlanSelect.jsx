@@ -18,12 +18,12 @@ const cardStyle = (highlight) => ({
 });
 const btn = (primary) => ({
   width: "100%", padding: "13px 16px", borderRadius: "10px",
-  border: primary ? "none" : "1.5px solid rgba(255,255,255,0.25)",
-  background: primary ? C.yellow : "transparent",
-  color: primary ? C.dark : C.textOnDark,
+  border: primary ? "none" : "1.5px solid rgba(35,35,33,0.4)",
+  background: primary ? C.yellow : "#ffffff",
+  color: C.dark,
   fontSize: "15px", fontWeight: 700, fontFamily: "inherit", cursor: "pointer",
 });
-const price = { fontSize: "26px", fontWeight: 700, color: "#fff", margin: 0 };
+const price = { fontSize: "26px", fontWeight: 700, color: C.dark, margin: 0 };
 const sub = { fontSize: "13px", color: C.sub, lineHeight: 1.55, margin: 0 };
 
 const PLANS = [
@@ -86,7 +86,7 @@ export default function PlanSelect({ email, onFree }) {
         {PLANS.map((p) => (
           <div key={p.id} style={cardStyle(p.id === "foundation")}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-              <h2 style={{ fontSize: "19px", fontWeight: 700, color: "#fff", margin: 0 }}>{p.name}</h2>
+              <h2 style={{ fontSize: "19px", fontWeight: 700, color: C.dark, margin: 0 }}>{p.name}</h2>
               <p style={price}>{p.id === "foundation" ? p.monthly : (yearly ? p.yearly : p.monthly)}</p>
             </div>
             <p style={sub}>{p.blurb}</p>
