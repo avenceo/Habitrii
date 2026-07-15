@@ -6,7 +6,7 @@ import PrivacyPolicy from "./PrivacyPolicy";
 import AuthFlow from "./AuthFlow";
 import { supabase } from "./lib/supabase";
 import PlanSelect from "./PlanSelect";
-import { fetchProfile, savePersonality, completeOnboarding } from "./lib/profile";
+import { fetchProfile, savePersonality, completeOnboarding, fetchPersonality, trialActive } from "./lib/profile";
 
 // ─── Color System ─────────────────────────────────────────────────────────────
 const C = {
@@ -372,7 +372,21 @@ export default function Habitrii() {
   useEffect(() => {
     if (!session) { setProfile(null); return; }
     fetchProfile().then(setProfile);
+    // Rehydrate saved personality so Penny stays personalized across visits.
+    fetchPersonality().then(p => {
+      if (!p) return;
+      if (p.mbti_type)      setMbti(m => m ?? p.mbti_type);
+      if (p.western_zodiac) setWesternSign(w => w ?? p.western_zodiac);
+      if (p.chinese_zodiac) setChineseSign(c => c ?? p.chinese_zodiac);
+    });
   }, [session]);
+  // Returning users skip the funnel entirely: land on Story World select.
+  useEffect(() => {
+    if (session && !recoveryMode) {
+      setShowLanding(false);
+      setScreen(sc => (sc === "welcome" ? "worlds" : sc));
+    }
+  }, [session, recoveryMode]);
   useEffect(() => {
     if (window.location.search.includes("checkout=success")) {
       window.history.replaceState({}, "", window.location.pathname);
@@ -430,7 +444,10 @@ export default function Habitrii() {
   // Free-slice model: Foundation = first FREE_LESSONS of Mind & Money, forever.
   // Any paid tier unlocks the full world. No trial clock.
   const hasPaidTier = (profile?.tier || userTier) !== "foundation";
-  const lessonLocked = (i) => i >= FREE_LESSONS && !hasPaidTier;
+  // First month after signup: all 8 Mind & Money lessons open (trial_ends_at,
+  // default now()+30d). After that, free accounts keep the first FREE_LESSONS.
+  const fullAccessWindow = !!(profile && trialActive(profile));
+  const lessonLocked = (i) => i >= FREE_LESSONS && !hasPaidTier && !fullAccessWindow;
   const [tierLoading, setTierLoading] = useState(false);
   const [tierChecked, setTierChecked] = useState(false);
 
@@ -852,6 +869,7 @@ export default function Habitrii() {
   if(screen==="lesson_map") return (
     <div style={outer}>
       <div style={inner}>
+        <button onClick={()=>go("worlds")} style={btnBack}>← Story Worlds</button>
         <div style={{background:"#c3c3c3",borderRadius:"16px",padding:"20px 22px",boxShadow:"0 4px 20px rgba(35,35,33,0.2)"}}>
           <p style={lbl("rgba(35,35,33,0.7)")}>STORY WORLD</p>
           <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 16px",color:C.text}}>🧠 Mind & Money</h2>
@@ -866,6 +884,8 @@ export default function Habitrii() {
         <p style={{fontSize:"15px",color:C.textSub,margin:0,lineHeight:1.65,fontWeight:500}}>
           {hasPaidTier
             ? "Explore all 8 lessons in any order. Each one deepens your understanding of the relationship between feelings and spending."
+            : fullAccessWindow
+            ? `All 8 lessons are unlocked for your first month — your first ${FREE_LESSONS} stay free forever after.`
             : `Your first ${FREE_LESSONS} lessons are free, forever. Unlock all 8 with Growth.`}
         </p>
         <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>

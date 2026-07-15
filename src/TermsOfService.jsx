@@ -135,9 +135,11 @@ export default function TermsOfService({ onBack }) {
         <h3>6.1 Foundation (free) tier</h3>
         <p>
           The Foundation tier is free, requires no payment information, and
-          does not expire. It includes permanent access to the first three (3)
-          lessons of the Mind &amp; Money world, Penny AI check-ins for those
-          lessons, and optional personality onboarding. Access to the remaining
+          does not expire. For the first thirty (30) days after account
+          creation, it includes full access to the Mind &amp; Money world (8
+          lessons). Thereafter, it includes permanent access to the first
+          three (3) lessons of the Mind &amp; Money world, Penny AI check-ins
+          for those lessons, and optional personality onboarding. Access to the remaining
           Mind &amp; Money lessons and to all other worlds requires a paid
           subscription. Additional worlds are released over time and become
           available to the subscription tiers indicated at purchase. We may
@@ -156,7 +158,7 @@ export default function TermsOfService({ onBack }) {
             <tr>
               <td>Foundation</td>
               <td>Free</td>
-              <td>First 3 lessons of the Mind &amp; Money world (free forever), Penny AI check-ins for those lessons, optional personality onboarding</td>
+              <td>Full Mind &amp; Money world (8 lessons) for the first 30 days; thereafter the first 3 lessons free forever, Penny AI check-ins, optional personality onboarding</td>
             </tr>
             <tr>
               <td>Growth</td>
