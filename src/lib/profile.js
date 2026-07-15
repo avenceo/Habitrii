@@ -14,7 +14,7 @@ export async function fetchProfile() {
   return data;
 }
 
-export async function savePersonality({ mbti, westernSign, chineseSign }) {
+export async function savePersonality({ mbti, westernSign, chineseSign, q1, q2 }) {
   if (!supabase) return;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
@@ -23,6 +23,8 @@ export async function savePersonality({ mbti, westernSign, chineseSign }) {
     mbti_type: mbti || null,
     western_zodiac: westernSign || null,
     chinese_zodiac: chineseSign || null,
+    knowledge_level: q1 ?? null,
+    framework_pref: q2 ?? null,
     updated_at: new Date().toISOString(),
   });
   if (error) console.warn("savePersonality:", error.message);
@@ -34,7 +36,7 @@ export async function fetchPersonality() {
   if (!user) return null;
   const { data, error } = await supabase
     .from("personality")
-    .select("mbti_type, western_zodiac, chinese_zodiac")
+    .select("mbti_type, western_zodiac, chinese_zodiac, knowledge_level, framework_pref")
     .eq("user_id", user.id)
     .maybeSingle();
   if (error) { console.warn("fetchPersonality:", error.message); return null; }
