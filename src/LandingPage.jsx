@@ -525,12 +525,13 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               <div style={{ marginBottom: "28px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>Free</span>
                 <p style={{ fontSize: "14px", color: C.grayText, margin: "8px 0 0", lineHeight: 1.5 }}>
-                  Your first 3 lessons, free forever. No credit card.
+                  All 8 lessons free for your first month — first 3 free forever. No credit card.
                 </p>
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
-                  "First 3 Mind & Money lessons, free forever",
+                  "All 8 Mind & Money lessons for your first month",
+                  "First 3 lessons free forever after",
                   "Penny AI check-ins after every lesson",
                   "Personality onboarding (MBTI + astrology)",
                 ].map(item => (

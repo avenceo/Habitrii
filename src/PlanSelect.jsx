@@ -4,6 +4,9 @@
 
 import { useState } from "react";
 
+// Flip to true at worlds launch to enable paid checkout.
+const PAYMENTS_ENABLED = false;
+
 const C = {
   bg: "#57b7a7", dark: "#232321", yellow: "#f5d924",
   text: "#232321", textOnDark: "#232321", sub: "rgba(35,35,33,0.75)",
@@ -29,7 +32,7 @@ const sub = { fontSize: "13px", color: C.sub, lineHeight: 1.55, margin: 0 };
 const PLANS = [
   {
     id: "foundation", name: "Foundation", monthly: "Free",
-    blurb: "Your first 3 Mind & Money lessons, free forever. No credit card.",
+    blurb: "All 8 Mind & Money lessons free for your first month — your first 3 stay free forever. No credit card.",
   },
   {
     id: "growth", name: "Growth", monthly: "$9.99/mo", yearly: "$79/yr",
@@ -92,10 +95,19 @@ export default function PlanSelect({ email, onFree }) {
             <p style={sub}>{p.blurb}</p>
             {p.id === "foundation" ? (
               <button style={btn(true)} onClick={onFree}>Start for free →</button>
-            ) : (
+            ) : PAYMENTS_ENABLED ? (
               <button style={btn(false)} disabled={!!busy} onClick={() => checkout(p.id)}>
                 {busy === p.id ? "Opening checkout…" : `Choose ${p.name}`}
               </button>
+            ) : (
+              <div style={{
+                ...btn(false), textAlign: "center", boxSizing: "border-box", cursor: "default",
+                background: "rgba(35,35,33,0.05)", color: "rgba(35,35,33,0.45)",
+                border: "1.5px solid rgba(35,35,33,0.12)", fontWeight: 700,
+                letterSpacing: "1px", textTransform: "uppercase", fontSize: "13px",
+              }}>
+                Available at launch
+              </div>
             )}
           </div>
         ))}
