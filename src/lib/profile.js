@@ -28,6 +28,19 @@ export async function savePersonality({ mbti, westernSign, chineseSign }) {
   if (error) console.warn("savePersonality:", error.message);
 }
 
+export async function fetchPersonality() {
+  if (!supabase) return null;
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data, error } = await supabase
+    .from("personality")
+    .select("mbti_type, western_zodiac, chinese_zodiac")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (error) { console.warn("fetchPersonality:", error.message); return null; }
+  return data;
+}
+
 export async function completeOnboarding() {
   if (!supabase) return;
   const { error } = await supabase.rpc("complete_onboarding");
