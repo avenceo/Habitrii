@@ -375,9 +375,11 @@ export default function Habitrii() {
     // Rehydrate saved personality so Penny stays personalized across visits.
     fetchPersonality().then(p => {
       if (!p) return;
-      if (p.mbti_type)      setMbti(m => m ?? p.mbti_type);
-      if (p.western_zodiac) setWesternSign(w => w ?? p.western_zodiac);
-      if (p.chinese_zodiac) setChineseSign(c => c ?? p.chinese_zodiac);
+      if (p.mbti_type)       setMbti(m => m ?? p.mbti_type);
+      if (p.western_zodiac)  setWesternSign(w => w ?? p.western_zodiac);
+      if (p.chinese_zodiac)  setChineseSign(c => c ?? p.chinese_zodiac);
+      if (p.knowledge_level) setQ1(v => v ?? p.knowledge_level);
+      if (p.framework_pref)  setQ2(v => v ?? p.framework_pref);
     });
   }, [session]);
   // Returning users skip the funnel entirely: land on Story World select.
@@ -744,11 +746,11 @@ export default function Habitrii() {
           <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"8px"}}>
             {CHINESE_ZODIAC.map(s=>(
               <SignCard key={s.sign} data={s} selected={chineseSign===s.sign}
-                                onClick={()=>{setChineseSign(s.sign);savePersonality({mbti,westernSign,chineseSign:s.sign});setTimeout(()=>go(session?"plan":"worlds"),280);}}/>
+                                onClick={()=>{setChineseSign(s.sign);savePersonality({mbti,westernSign,chineseSign:s.sign,q1,q2});setTimeout(()=>go(session?"plan":"worlds"),280);}}/>
             ))}
           </div>
         </div>
-                <button onClick={()=>{setChineseSign(null);savePersonality({mbti,westernSign,chineseSign:null});go(session?"plan":"worlds");}} style={btnGhost}>I'm not sure — skip this →</button>
+                <button onClick={()=>{setChineseSign(null);savePersonality({mbti,westernSign,chineseSign:null,q1,q2});go(session?"plan":"worlds");}} style={btnGhost}>I'm not sure — skip this →</button>
       </div>
     </div>
   );
