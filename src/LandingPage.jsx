@@ -148,6 +148,21 @@ function CheckIcon({ dark }) {
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
+const LP_TONES = ["#57b7a7", "#f5d924", "#ffffff"];
+const LP_SEQ = (() => {
+  const seq = []; let prev = -1, s = 11;
+  for (let i = 0; i < 24; i++) {
+    s = (s * 1103515245 + 12345) % 2147483648;
+    let p = s % 3; if (p === prev) p = (p + 1) % 3;
+    seq.push(p); prev = p;
+  }
+  return seq;
+})();
+const lpToneCard = (i) => {
+  const t = LP_TONES[LP_SEQ[i % LP_SEQ.length]];
+  return { background: t, border: t === "#ffffff" ? "1px solid #57b7a7" : t === "#57b7a7" ? "1px solid #ffffff" : "1px solid #232321" };
+};
+
 export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
   const [openFaq, setOpenFaq] = useState(null);
   const [gdprDismissed, setGdprDismissed] = useState(
@@ -460,10 +475,9 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           </div>
 
           <div className="lp-grid-worlds">
-            {WORLDS.map((w) => (
+            {WORLDS.map((w, wi) => (
               <div key={w.name} className="lp-world-card" style={{
-                background: C.surface, borderRadius: "16px", padding: "28px 24px",
-                boxShadow: "0 4px 18px rgba(0,0,0,0.18)",
+                ...lpToneCard(wi), borderRadius: "16px", padding: "28px 24px",
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "14px" }}>
                   <span style={{ fontSize: "26px", lineHeight: 1 }}>{w.emoji}</span>
@@ -760,7 +774,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       {!gdprDismissed && (
         <div style={{
           position:"fixed", bottom:0, left:0, right:0, zIndex:9999,
-          background:"#a09e98",
+          background:"#57b7a7",borderTop:"2px solid #ffffff",
           borderTop:"1px solid rgba(35,35,33,0.12)",
           padding:"14px 24px",
           display:"flex", alignItems:"center", justifyContent:"space-between",

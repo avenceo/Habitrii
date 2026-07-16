@@ -12,12 +12,15 @@ const C = {
   text: "#232321", textOnDark: "#232321", sub: "rgba(35,35,33,0.9)",
 };
 
-const cardStyle = (highlight) => ({
-  background: highlight ? "#b3b1ab" : "#a09e98",
-  border: highlight ? "2px solid " + C.yellow : "2px solid rgba(35,35,33,0.15)",
+const PLAN_TONE = {
+  foundation:     { background: "#ffffff", border: "1px solid #232321" },
+  growth:         { background: "#f5d924", border: "1px solid #232321" },
+  transformation: { background: "#57b7a7", border: "2px solid #ffffff" },
+};
+const cardStyle = (id) => ({
+  ...(PLAN_TONE[id] || PLAN_TONE.foundation),
   borderRadius: "16px", padding: "24px 22px", textAlign: "left",
   display: "flex", flexDirection: "column", gap: "10px",
-  boxShadow: "0 8px 32px rgba(35,35,33,0.25)",
 });
 const btn = (primary) => ({
   width: "100%", padding: "13px 16px", borderRadius: "10px",
@@ -87,7 +90,7 @@ export default function PlanSelect({ email, onFree }) {
         </div>
 
         {PLANS.map((p) => (
-          <div key={p.id} style={cardStyle(p.id === "foundation")}>
+          <div key={p.id} style={cardStyle(p.id)}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
               <h2 style={{ fontSize: "19px", fontWeight: 700, color: C.dark, margin: 0 }}>{p.name}</h2>
               <p style={price}>{p.id === "foundation" ? p.monthly : (yearly ? p.yearly : p.monthly)}</p>
