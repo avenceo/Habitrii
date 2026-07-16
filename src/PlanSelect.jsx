@@ -9,11 +9,11 @@ const PAYMENTS_ENABLED = false;
 
 const C = {
   bg: "#57b7a7", dark: "#232321", yellow: "#f5d924",
-  text: "#232321", textOnDark: "#232321", sub: "rgba(35,35,33,0.75)",
+  text: "#232321", textOnDark: "#232321", sub: "rgba(35,35,33,0.9)",
 };
 
 const cardStyle = (highlight) => ({
-  background: highlight ? "#cfcfcc" : "#c3c3c3",
+  background: highlight ? "#b3b1ab" : "#a09e98",
   border: highlight ? "2px solid " + C.yellow : "2px solid rgba(35,35,33,0.15)",
   borderRadius: "16px", padding: "24px 22px", textAlign: "left",
   display: "flex", flexDirection: "column", gap: "10px",
@@ -102,8 +102,8 @@ export default function PlanSelect({ email, onFree }) {
             ) : (
               <div style={{
                 ...btn(false), textAlign: "center", boxSizing: "border-box", cursor: "default",
-                background: "rgba(35,35,33,0.05)", color: "rgba(35,35,33,0.45)",
-                border: "1.5px solid rgba(35,35,33,0.12)", fontWeight: 700,
+                background: "rgba(35,35,33,0.07)", color: "rgba(35,35,33,0.6)",
+                border: "1.5px solid rgba(35,35,33,0.22)", fontWeight: 700,
                 letterSpacing: "1px", textTransform: "uppercase", fontSize: "13px",
               }}>
                 Available at launch
