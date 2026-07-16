@@ -774,8 +774,8 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       {!gdprDismissed && (
         <div style={{
           position:"fixed", bottom:0, left:0, right:0, zIndex:9999,
-          background:"#57b7a7",borderTop:"2px solid #ffffff",
-          borderTop:"1px solid rgba(35,35,33,0.12)",
+          background:"#57b7a7",
+          borderTop:"2px solid #ffffff",
           padding:"14px 24px",
           display:"flex", alignItems:"center", justifyContent:"space-between",
           gap:"16px", flexWrap:"wrap",
