@@ -11,7 +11,7 @@ const C = {
 };
 
 const card = {
-  background: "#c3c3c3", borderRadius: "16px", padding: "32px 28px 36px",
+  background: "#a09e98", borderRadius: "16px", padding: "32px 28px 36px",
   boxShadow: "0 8px 32px rgba(35,35,33,0.25)", textAlign: "left",
 };
 const inputStyle = {
@@ -25,10 +25,10 @@ const primaryBtn = {
   background: C.yellow, color: C.dark, fontSize: "16px", fontWeight: 700,
   fontFamily: "inherit", cursor: "pointer",
 };
-const linkStyle = { color: C.tealDark, textDecoration: "underline", cursor: "pointer", background: "none", border: "none", font: "inherit", fontSize: "13px", padding: 0 };
-const mutedText = { fontSize: "13px", color: "rgba(31,31,29,0.72)", lineHeight: 1.55 };
-const errText = { fontSize: "13px", color: "#8b2f2f", margin: 0 };
-const okText = { fontSize: "13px", color: "#1e6b5c", margin: 0 };
+const linkStyle = { color: "#16362f", textDecoration: "underline", cursor: "pointer", background: "none", border: "none", font: "inherit", fontSize: "13px", padding: 0 };
+const mutedText = { fontSize: "13px", color: "rgba(31,31,29,0.9)", lineHeight: 1.55 };
+const errText = { fontSize: "13px", color: "#4a1414", margin: 0 };
+const okText = { fontSize: "13px", color: "#0e2d26", margin: 0 };
 const h2 = { fontSize: "26px", fontWeight: 700, margin: "0 0 8px", color: C.textOnDark };
 
 export default function AuthFlow({ initialEmail = "", consent, recoveryMode = false, onAuthed }) {
@@ -219,7 +219,7 @@ export default function AuthFlow({ initialEmail = "", consent, recoveryMode = fa
     }}>
       <div style={{ width: "100%", maxWidth: "440px" }}>
         <div style={{ ...card, display: "flex", flexDirection: "column", gap: "14px" }}>
-          <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: "rgba(35,35,33,0.7)", margin: 0 }}>HABITRII</p>
+          <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: "rgba(35,35,33,0.9)", margin: 0 }}>HABITRII</p>
           {body()}
         </div>
       </div>

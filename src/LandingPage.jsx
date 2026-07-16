@@ -4,8 +4,8 @@ import { useState } from "react";
 const C = {
   bg:         "#57b7a7",
   dark:       "#232321",
-  surface:    "#c3c3c3",
-  mid:        "#d2d2cf",
+  surface:    "#a09e98",
+  mid:        "#b3b1ab",
   card:       "#ffffff",
   cardLight:  "#f0faf8",
   yellow:     "#f5d924",
@@ -85,7 +85,7 @@ const WORLDS = [
     desc: "50/30/20, zero-based budgeting, weekly money dates.",
     badge: "COMING SOON",
     badgeBg: "rgba(35,35,33,0.12)",
-    badgeColor: "rgba(35,35,33,0.66)",
+    badgeColor: "rgba(35,35,33,0.9)",
   },
   {
     emoji: "💳",
@@ -94,7 +94,7 @@ const WORLDS = [
     desc: "Snowball method, credit score decoded, negotiating rates.",
     badge: "COMING SOON",
     badgeBg: "rgba(35,35,33,0.12)",
-    badgeColor: "rgba(35,35,33,0.66)",
+    badgeColor: "rgba(35,35,33,0.9)",
   },
   {
     emoji: "🛡️",
@@ -103,7 +103,7 @@ const WORLDS = [
     desc: "Emergency funds, sinking funds, insurance basics.",
     badge: "COMING SOON",
     badgeBg: "rgba(35,35,33,0.12)",
-    badgeColor: "rgba(35,35,33,0.66)",
+    badgeColor: "rgba(35,35,33,0.9)",
   },
   {
     emoji: "🌟",
@@ -112,7 +112,7 @@ const WORLDS = [
     desc: "Values-based spending, intentional purchase protocol.",
     badge: "COMING SOON",
     badgeBg: "rgba(35,35,33,0.12)",
-    badgeColor: "rgba(35,35,33,0.66)",
+    badgeColor: "rgba(35,35,33,0.9)",
   },
 ];
 
@@ -477,7 +477,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 </div>
                 <p style={{
                   fontSize: "10px", fontWeight: 700, letterSpacing: "1.5px",
-                  textTransform: "uppercase", color: "rgba(35,35,33,0.66)",
+                  textTransform: "uppercase", color: "rgba(35,35,33,0.9)",
                   margin: "0 0 6px",
                 }}>
                   {w.tier}
@@ -485,7 +485,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                 <h3 style={{ fontSize: "17px", fontWeight: 700, color: C.textOnDark, margin: "0 0 8px" }}>
                   {w.name}
                 </h3>
-                <p style={{ fontSize: "14px", color: "rgba(35,35,33,0.75)", lineHeight: 1.65, margin: 0 }}>
+                <p style={{ fontSize: "14px", color: "rgba(35,35,33,0.9)", lineHeight: 1.65, margin: 0 }}>
                   {w.desc}
                 </p>
               </div>
@@ -760,7 +760,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       {!gdprDismissed && (
         <div style={{
           position:"fixed", bottom:0, left:0, right:0, zIndex:9999,
-          background:"#c3c3c3",
+          background:"#a09e98",
           borderTop:"1px solid rgba(35,35,33,0.12)",
           padding:"14px 24px",
           display:"flex", alignItems:"center", justifyContent:"space-between",
@@ -768,7 +768,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
           boxShadow:"0 -4px 24px rgba(35,35,33,0.35)",
         }}>
           <p style={{
-            color:"rgba(35,35,33,0.8)", fontSize:"13px",
+            color:"rgba(35,35,33,0.92)", fontSize:"13px",
             margin:0, lineHeight:1.55, flex:1, minWidth:"240px",
           }}>
             We use essential cookies to keep Habitrii running. By using this site
@@ -795,8 +795,8 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <button
               onClick={handleGdprAccept}
               style={{
-                background:"transparent", color:"rgba(35,35,33,0.66)",
-                border:"1px solid rgba(35,35,33,0.3)", borderRadius:"8px",
+                background:"transparent", color:"rgba(35,35,33,0.85)",
+                border:"1px solid rgba(35,35,33,0.45)", borderRadius:"8px",
                 padding:"9px 16px", fontSize:"13px", fontWeight:500,
                 cursor:"pointer", fontFamily:"inherit",
               }}
