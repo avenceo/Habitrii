@@ -261,20 +261,23 @@ function ProgressDots({ current, total }) {
 function ChoiceCard({ label, sub, selected, onClick, tone }) {
   const [hover, setHover] = useState(false);
   const toned = tone != null;
-  // Glowing yellow cards — mirrors the btnYellow/btnBack treatment.
-  const bg = toned ? C.yellow : selected ? C.cardSelected : hover ? C.cardHover : C.card;
+  // "24-Hour Rule" look — white card, 4px yellow top bar, soft shadow.
+  const bg = toned ? (selected ? C.cardSelected : C.card) : selected ? C.cardSelected : hover ? C.cardHover : C.card;
   const border = toned
     ? (selected ? `1.5px solid ${C.cardBorderSel}` : "none")
     : selected ? `1.5px solid ${C.cardBorderSel}`
     : `1.5px solid ${hover ? "rgba(35,35,33,0.25)" : C.cardBorder}`;
-  const glow = toned
-    ? (hover || selected ? "0 6px 24px rgba(245,217,36,0.6)" : "0 4px 18px rgba(245,217,36,0.45)")
-    : selected ? "0 3px 14px rgba(245,217,36,0.4)" : "none";
+  const glow = selected
+    ? "0 3px 14px rgba(245,217,36,0.4)"
+    : toned
+    ? (hover ? "0 6px 20px rgba(35,35,33,0.14)" : "0 4px 16px rgba(35,35,33,0.1)")
+    : "none";
   return (
     <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
         background:bg,
         border,
+        ...(toned && !selected ? { borderTop: `4px solid ${C.yellow}` } : {}),
         borderRadius:"14px",padding:"16px 20px",cursor:"pointer",
         transition:"all 0.15s ease",
         transform:hover&&!selected?"translateY(-2px)":"none",
@@ -329,12 +332,13 @@ function LessonCard({ lesson, isComplete, isCurrent, locked, onClick, tone }) {
       style={{
         display:"flex",alignItems:"center",gap:"16px",
         opacity:locked?0.62:1,
-        background:isComplete?"rgba(255,255,255,0.65)":C.yellow,
+        background:isCurrent?C.cardSelected:isComplete?"rgba(255,255,255,0.65)":C.card,
         border:isCurrent?`1.5px solid ${C.cardBorderSel}`:isComplete?"1px solid rgba(35,35,33,0.2)":"none",
+        ...(!isCurrent && !isComplete ? { borderTop: `4px solid ${C.yellow}` } : {}),
         borderRadius:"14px",padding:"14px 18px",cursor:"pointer",
         transition:"all 0.15s ease",
         transform:hover?"translateY(-1px)":"none",
-        boxShadow:isComplete?"none":(isCurrent||hover)?"0 6px 24px rgba(245,217,36,0.6)":"0 4px 18px rgba(245,217,36,0.45)",
+        boxShadow:isCurrent?"0 3px 14px rgba(245,217,36,0.4)":isComplete?"none":hover?"0 6px 20px rgba(35,35,33,0.14)":"0 4px 16px rgba(35,35,33,0.1)",
       }}>
       <div style={{fontSize:"26px",minWidth:"32px",textAlign:"center"}}>{locked?"🔒":lesson.emoji}</div>
       <div style={{flex:1}}>
