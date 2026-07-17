@@ -261,11 +261,15 @@ function ProgressDots({ current, total }) {
 function ChoiceCard({ label, sub, selected, onClick, tone }) {
   const [hover, setHover] = useState(false);
   const toned = tone != null;
-  const bg = selected ? C.cardSelected : toned ? cardTone(tone) : hover ? C.cardHover : C.card;
-  const border = selected
-    ? `1.5px solid ${C.cardBorderSel}`
-    : toned ? toneBorder(cardTone(tone))
+  // Glowing yellow cards — mirrors the btnYellow/btnBack treatment.
+  const bg = toned ? C.yellow : selected ? C.cardSelected : hover ? C.cardHover : C.card;
+  const border = toned
+    ? (selected ? `1.5px solid ${C.cardBorderSel}` : "none")
+    : selected ? `1.5px solid ${C.cardBorderSel}`
     : `1.5px solid ${hover ? "rgba(35,35,33,0.25)" : C.cardBorder}`;
+  const glow = toned
+    ? (hover || selected ? "0 6px 24px rgba(245,217,36,0.6)" : "0 4px 18px rgba(245,217,36,0.45)")
+    : selected ? "0 3px 14px rgba(245,217,36,0.4)" : "none";
   return (
     <div onClick={onClick} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
       style={{
@@ -274,7 +278,7 @@ function ChoiceCard({ label, sub, selected, onClick, tone }) {
         borderRadius:"14px",padding:"16px 20px",cursor:"pointer",
         transition:"all 0.15s ease",
         transform:hover&&!selected?"translateY(-2px)":"none",
-        boxShadow:selected?"0 3px 14px rgba(245,217,36,0.4)":"none",
+        boxShadow:glow,
       }}>
       <p style={{fontSize:"16px",fontWeight:selected?700:500,margin:"0 0 2px",color:C.text,lineHeight:1.4}}>{label}</p>
       {sub&&<p style={{fontSize:"14px",color:toned?"rgba(35,35,33,0.85)":C.textSub,margin:0,lineHeight:1.4}}>{sub}</p>}
@@ -325,12 +329,12 @@ function LessonCard({ lesson, isComplete, isCurrent, locked, onClick, tone }) {
       style={{
         display:"flex",alignItems:"center",gap:"16px",
         opacity:locked?0.62:1,
-        background:isCurrent?C.cardSelected:isComplete?"rgba(255,255,255,0.65)":cardTone(tone ?? 0),
-        border:isCurrent?`1.5px solid ${C.cardBorderSel}`:isComplete?"1px solid rgba(35,35,33,0.2)":toneBorder(cardTone(tone ?? 0)),
+        background:isComplete?"rgba(255,255,255,0.65)":C.yellow,
+        border:isCurrent?`1.5px solid ${C.cardBorderSel}`:isComplete?"1px solid rgba(35,35,33,0.2)":"none",
         borderRadius:"14px",padding:"14px 18px",cursor:"pointer",
         transition:"all 0.15s ease",
         transform:hover?"translateY(-1px)":"none",
-        boxShadow:isCurrent?"0 3px 14px rgba(245,217,36,0.4)":"none",
+        boxShadow:isComplete?"none":(isCurrent||hover)?"0 6px 24px rgba(245,217,36,0.6)":"0 4px 18px rgba(245,217,36,0.45)",
       }}>
       <div style={{fontSize:"26px",minWidth:"32px",textAlign:"center"}}>{locked?"🔒":lesson.emoji}</div>
       <div style={{flex:1}}>
