@@ -11,8 +11,8 @@ const C = {
 };
 
 const card = {
-  background: "#a09e98", borderRadius: "16px", padding: "32px 28px 36px",
-  boxShadow: "0 8px 32px rgba(35,35,33,0.25)", textAlign: "left",
+  background: "#57b7a7", border: "1px solid #ffffff",
+  borderRadius: "16px", padding: "32px 28px 36px", textAlign: "left",
 };
 const inputStyle = {
   width: "100%", boxSizing: "border-box", padding: "14px 16px",
