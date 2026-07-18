@@ -230,6 +230,135 @@ const LESSONS = [
   },
 ];
 
+// ─── Budgeting Foundations (Growth) — content from approved briefs, July 18 2026 ──
+const BUDGET_LESSONS = [
+  {
+    id:"L04",number:"01",title:"The 50/30/20 Framework",emoji:"🥧",duration:"4 min",
+    hero:"/lessons/l04-hero.png",
+    hook:"Payday felt great — for about four days. Now it's week three, your balance is doing that thing again, and you honestly couldn't say where the money went.",
+    concept:"The 50/30/20 Framework splits your after-tax income into three buckets: 50% for Needs (housing, groceries, the bills that keep life running), 30% for Wants (the spending that makes life feel like yours), and 20% for Future You (saving, and paying down debt faster than the minimum). Its power isn't precision — it's that three buckets is few enough to hold in your head. And the percentages are a starting point, not a grade: in a high-rent city, Needs might genuinely run 60. That's not failure — that's information.",
+    choices:[
+      {id:"a",emoji:"🙈",label:"Budgets have always felt like punishment"},
+      {id:"b",emoji:"🔁",label:"I start budgets strong, then abandon them"},
+      {id:"c",emoji:"🧮",label:"I track everything, but it's exhausting"},
+    ],
+    branches:{
+      a:{headline:"For budget avoiders",body:"If every budget you've met felt like a diet, here's the difference: 50/30/20 gives Wants their own bucket, on purpose. Thirty percent of your income is supposed to go to things you simply enjoy — guilt-free by design. A plan that includes joy is a plan you can actually live inside.",tip:"Tonight, change nothing — just sort last month's three biggest purchases into Needs, Wants, or Future You. Looking is the whole assignment."},
+      b:{headline:"For strong starters",body:"Most budgets don't die from overspending — they die from precision fatigue. Twenty-seven categories in week one, zero by week six. Three buckets survive busy weeks because close enough still counts, and a budget you almost follow beats a perfect one you abandoned.",tip:"Start from the 20%: write down what 20% of your take-home pay actually is, today. Just knowing that number changes how the month starts."},
+      c:{headline:"For detail trackers",body:"You don't need more data — you need a summary layer. Keep the tracking you love, then roll every category up into the three buckets once a month. The ratios will tell you things your line items can't: whether the shape of your month matches the life you're trying to build.",tip:"Roll last month's tracking into the three buckets and write down your actual ratio — that single set of numbers is your baseline."},
+    },
+    reflection:"Think about your last paycheck. Needs, Wants, Future You: which bucket took more than its share — and which one got whatever was left over?",
+    teaser:{title:"Zero-Based Budgeting Light",desc:"Every dollar gets a job — no spreadsheet required."},
+  },
+  {
+    id:"L05",number:"02",title:"Zero-Based Budgeting Light",emoji:"🧾",duration:"3 min",
+    hero:"/lessons/l05-hero.png",
+    hook:"There's $214 \"left over\" at the end of the month. By the 3rd, it's gone — and you couldn't name a single thing it bought.",
+    concept:"Zero-based budgeting runs on one equation: income minus jobs equals zero. Every dollar gets assigned a job before the month starts — not zero dollars in your account, but zero dollars without a purpose. The Light version keeps it to six or eight jobs, never forty. And here's the part people miss: \"stay in savings\" is a job. Assigning a dollar doesn't mean spending it — it means deciding, on purpose, what it's for. Unassigned money has no defense; it says yes to whoever asks first.",
+    choices:[
+      {id:"a",emoji:"💨",label:"Leftover money always disappears on me"},
+      {id:"b",emoji:"🧾",label:"I've tried zero-based apps and drowned in detail"},
+      {id:"c",emoji:"🤔",label:"Isn't this just a stricter budget?"},
+    ],
+    branches:{
+      a:{headline:"For the vanishing-leftovers crowd",body:"Your leftovers aren't disappearing — they're being claimed, one small yes at a time, by whatever asks first. Giving money a job isn't restriction; it's protection. \"This $214 is next month's head start\" is a full-time job, and a dollar that knows its purpose is remarkably hard to talk into anything else.",tip:"Tonight, give every dollar currently in your account a one-sentence job. \"Waiting for next month\" absolutely counts."},
+      b:{headline:"For the detail-drowned",body:"Those apps failed you by treating precision as the point — forty categories, receipt-level logging, guilt by Thursday. Precision was never the point; assignment was. Six jobs you actually maintain beat forty perfect ones you abandon, every single month.",tip:"Draft your job list today with exactly six lines. If you catch yourself needing a seventh, one of your six is too specific."},
+      c:{headline:"For the skeptics",body:"Fair question — but a budget watches your money, while zero-based decides with it, and the deciding happens earlier. The choice moves to payday, when you're calm and can see the whole month, instead of checkout, when you're tired and staring at one shiny thing. Not stricter. Sooner.",tip:"On your next payday, before anything else happens, write down where the first $50 goes. That's the entire practice, in miniature."},
+    },
+    reflection:"Look at your balance right now. How much of it has a job — and how much is just waiting to be claimed by whatever happens next?",
+    teaser:{title:"The Anti-Budget Method",desc:"One decision, zero tracking. The budget for people who hate budgets."},
+  },
+  {
+    id:"L06",number:"03",title:"The Anti-Budget Method",emoji:"🚫",duration:"3 min",
+    hero:"/lessons/l06-hero.png",
+    hook:"You've downloaded four budgeting apps. You've deleted four budgeting apps. What if the problem was never you?",
+    concept:"The Anti-Budget has exactly one move: on payday, set your future aside first — many people start somewhere between 10 and 20 percent, but the number is entirely yours — make sure the bills are covered, and then spend the rest without tracking a single purchase. It works because it relocates willpower: one calm decision a month at payday instead of thirty tired ones at checkout. And the guilt-free part isn't reckless; it's engineered. By the time you're spending, your future and your obligations are already handled. There's nothing left to break.",
+    choices:[
+      {id:"a",emoji:"🙅",label:"Tracking every purchase makes me quit"},
+      {id:"b",emoji:"😬",label:"Guilt-free spending sounds dangerous"},
+      {id:"c",emoji:"⚖️",label:"How is this different from 50/30/20?"},
+    ],
+    branches:{
+      a:{headline:"For the tracking-averse",body:"This method was built for you. It asks for one action on one day — the set-aside — and then leaves you alone. There is nothing to log, nothing to categorize, and no streak to break, because the system doesn't depend on your attention. It depends on your payday.",tip:"Today, just write down the one number: the percentage you'd set aside first. No transfer required yet — naming the number is the first rep."},
+      b:{headline:"For the cautious",body:"The safety isn't discipline — it's sequencing. Future-you gets paid first and the bills are covered before \"fun money\" even exists, so nothing you do with the remainder can hurt anything that matters. Guilt-free isn't a personality trait here; it's a math property.",tip:"Tonight, total your fixed monthly bills. Knowing the \"already handled\" number is what makes the rest of it feel — and be — safe."},
+      c:{headline:"For the systems-minded",body:"50/30/20 is a map of where money should go; the Anti-Budget is a machine for when it goes there. They stack beautifully: set the 20 aside first, and the 50/30 largely sorts itself without tracking. One tells you the shape, the other removes the effort.",tip:"Write one sentence on which fits your temperament better — the map or the machine. That sentence is your budgeting system."},
+    },
+    reflection:"If saving happened before you ever saw the money, what would change about how the rest of it feels to spend?",
+    teaser:{title:"Budget Categories That Actually Work",desc:"Six buckets that fit real life — including the one everyone forgets."},
+  },
+  {
+    id:"L19",number:"04",title:"Budget Categories That Actually Work",emoji:"🗂️",duration:"4 min",
+    hero:"/lessons/l19-hero.png",
+    hook:"\"Miscellaneous: $412.\" If your budget's junk drawer is bigger than your grocery line, your categories are quietly lying to you.",
+    concept:"Categories fail when they're borrowed from someone else's life — a template's twenty-six lines for a person whose money really moves through six. Most real lives fit: Home, Food, Transport, Fun, People, and Surprises. \"People\" is the one everyone forgets — gifts, treats, helping family — and ignoring it is how generosity gets mislabeled as failure. \"Surprises\" is the other secret: most surprises are just slow bills. Divide the annual ones by twelve and they become boring, and boring is the goal.",
+    choices:[
+      {id:"a",emoji:"🗂️",label:"My 'misc' category eats everything"},
+      {id:"b",emoji:"🎁",label:"I always blow the budget on other people"},
+      {id:"c",emoji:"🔁",label:"Annual bills wreck me every time"},
+    ],
+    branches:{
+      a:{headline:"For the misc-drawer owners",body:"Misc grows when your real categories are too narrow or missing entirely — a $400 junk drawer usually has two or three genuine categories hiding inside it. You don't have a discipline problem; you have an unlabeled-shelf problem, and labels are cheap.",tip:"Open last month's statement and sort only the misc items into the six categories. Whichever one fills up fastest was your invisible category."},
+      b:{headline:"For the generous",body:"Spending on people you love isn't a leak — it's one of the best things money does. The problem was never the giving; it's that an unnamed category can't be planned for, so every gift registers as going over. Give People its own line and generosity becomes something you do on purpose.",tip:"Total what you spent on others last month — gifts, coffees, helping out. That number, without judgment, is your first People line."},
+      c:{headline:"For the annually ambushed",body:"Annual bills are the slowest bills you have — you get eleven months of warning and one month of pain. Divide any yearly amount by twelve and it stops being an event and becomes a line item. (There's a whole toolkit for this waiting in the Safety & Stability world.)",tip:"Write down the next annual bill you already know is coming, and its month. Congratulations — that's your first Surprises entry."},
+    },
+    reflection:"Which of your six categories have you been funding in secret — and calling a failure every time?",
+    teaser:{title:"The Weekly Money Date",desc:"Fifteen minutes, one coffee, zero spreadsheets."},
+  },
+  {
+    id:"L20",number:"05",title:"The Weekly Money Date",emoji:"☕",duration:"3 min",
+    hero:"/lessons/l20-hero.png",
+    hook:"Most money stress doesn't come from what you spent. It comes from not looking — and not-looking compounds faster than any interest rate.",
+    concept:"The Weekly Money Date is fifteen minutes, once a week, same time: glance at your balances, scan the week's spending, peek at what's coming. Three looks — that's the whole date. It's a date, not an audit: coffee, music, low stakes, no verdicts allowed. Frequency beats depth, because a weekly glance catches things while they're still small enough to be boring. And the dread shrinks every single week you show up. First dates are awkward. The fifth one is just Tuesday.",
+    choices:[
+      {id:"a",emoji:"🙈",label:"I avoid looking at my accounts"},
+      {id:"b",emoji:"📆",label:"I start routines and then drop them"},
+      {id:"c",emoji:"💑",label:"Money talks with my partner turn into fights"},
+    ],
+    branches:{
+      a:{headline:"For the look-avoiders",body:"Avoidance is self-protection — looking has meant bad news often enough that not-looking feels safer. The date works because it's small and scheduled: dread thrives on vagueness, and fifteen defined minutes with a drink you like is about as un-vague as it gets. You're not facing your finances. You're glancing at them.",tip:"Put fifteen minutes on your calendar right now, name it something friendly (\"coffee with my money\"), and decide the drink. That's the whole setup."},
+      b:{headline:"For the routine-droppers",body:"Routines don't survive on motivation — they survive on anchors. Attach the date to something you already never skip: Sunday coffee, the load of laundry, the drive home. And missing a week isn't failure; the calendar invite simply fires again, judgment-free, like calendars do.",tip:"Pick your anchor — the existing habit it rides on — and set the recurring invite today."},
+      c:{headline:"For the ambushed couples",body:"Most money fights aren't about money — they're about ambush. One person raises it mid-stress, the other gets defensive, repeat. A scheduled date defuses the ambush: it's short, it's expected, and the agenda is three glances, not verdicts. Hard conversations get easier when they stop being surprise attacks.",tip:"Invite your partner to one fifteen-minute date this week with a single rule agreed in advance: we look together, nobody blames."},
+    },
+    reflection:"What would change if looking at your money were something you did — instead of something that happens to you?",
+    teaser:{title:"Annual Financial Planning",desc:"Zoom out — your year has a shape, and seeing it is the plan."},
+  },
+  {
+    id:"L21",number:"06",title:"Annual Financial Planning",emoji:"🗓️",duration:"5 min",
+    hero:"/lessons/l21-hero.png",
+    hook:"Every year has a December. Somehow, the holidays still show up on the credit card like a surprise guest.",
+    concept:"Months lie to you one at a time; a year tells the truth. Zoom out and your spending has a shape — the holiday spike, the summer trip, the renewal cluster, the birthday season — and that shape repeats with remarkable loyalty. Annual planning is one sitting, once a year: look back at last year's expensive months, mark the peaks on the calendar ahead with rough numbers, decide what this month should set aside for the nearest one, and book the next sitting. You're not forecasting to the dollar. You're learning your terrain — and a predictable month, seen early, is just a bill with good manners.",
+    choices:[
+      {id:"a",emoji:"🎄",label:"The holidays flatten me financially every year"},
+      {id:"b",emoji:"📅",label:"I can't think past this month"},
+      {id:"c",emoji:"🧭",label:"I want goals, not just survival"},
+    ],
+    branches:{
+      a:{headline:"For the December-flattened",body:"December is the least surprising month of the year — it arrives on schedule, costs roughly what it cost last time, and still lands like an ambush because it's one brutal number instead of twelve small ones. Name December's number in July and you've turned a cliff into a staircase — and whatever your personal \"December\" is, the same staircase works on it.",tip:"Look up what last December actually cost you — the real number, no flinching. Divide it by the months remaining this year; that's your holiday line, starting this month."},
+      b:{headline:"For the month-locked",body:"When the present is loud, twelve months of vision is too much to ask — so don't ask it. Plan one quarter: what are the two big-ticket events in the next ninety days? That's a complete, legitimate annual plan at starter size. Do it four times and you'll have done the whole year without ever once thinking twelve months ahead.",tip:"Mark just the next quarter's two expensive moments on your calendar, each with a rough number. Done — you've out-planned most people."},
+      c:{headline:"For the goal-setters",body:"A goal without a month is a wish; a goal with a month is a plan. Attach each goal to a quarter — the trip lives in Q3, so its funding lives in Q1 and Q2 — and the year's shape stops being pure defense and becomes a route to somewhere you chose. This is where the whole world snaps together: categories tell you where money goes, your system decides how it flows, the weekly date keeps it honest, and the annual view points it all at something.",tip:"Pick one money goal. Write the month it happens, then the month its funding starts. Two dates is all a plan is."},
+    },
+    reflection:"Looking at the next twelve months, which one is going to be expensive — and what would it feel like to already know that, today?",
+    teaser:null,
+  },
+];
+
+// ─── World Registry ───────────────────────────────────────────────────────────
+const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
+const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
+const tierLabel  = t => t==="transformation" ? "Transformation" : t==="growth" ? "Growth" : "Foundation";
+const WORLD_META = {
+  mind: {
+    emoji:"🧠", title:"Mind & Money", lessons:LESSONS,
+    mapNote:"Each one deepens your understanding of the relationship between feelings and spending.",
+    completeBlurb:"You've completed all 8 lessons. You now have a real map of how your emotions, environment, and social world shape your spending — and a growing toolkit to work with it.",
+  },
+  budget: {
+    emoji:"📐", title:"Budgeting Foundations", lessons:BUDGET_LESSONS,
+    mapNote:"Each one adds another tool to your budgeting system — a framework, a rhythm, and a year-level view.",
+    completeBlurb:"You've completed all 6 lessons. You now own a complete budgeting toolkit — a framework, a system, categories that fit your life, a weekly rhythm, and a year-level view. Next up: Debt & Credit, where the tools start working on your behalf.",
+  },
+};
+
 // ─── Shared Components ────────────────────────────────────────────────────────
 
 function OnboardingBar({ step, total }) {
@@ -480,12 +609,23 @@ export default function Habitrii() {
   // First month after signup: all 8 Mind & Money lessons open (trial_ends_at,
   // default now()+30d). After that, free accounts keep the first FREE_LESSONS.
   const fullAccessWindow = !!(profile && trialActive(profile));
-  const lessonLocked = (i) => i >= FREE_LESSONS && !hasPaidTier && !fullAccessWindow;
+  // World-aware lesson gate. Mind & Money uses the free-slice model; every
+  // other world is all-or-nothing by tier (mirrors the World Select gate, and
+  // covers deep links into scenes).
+  const userTierRank = TIER_RANK[profile?.tier || userTier] ?? 0;
+  const lessonLocked = (i) => {
+    const wid = world || "mind";
+    if (wid === "mind") return i >= FREE_LESSONS && !hasPaidTier && !fullAccessWindow;
+    return userTierRank < (TIER_RANK[WORLD_TIER[wid]] ?? 1);
+  };
   const [tierLoading, setTierLoading] = useState(false);
   const [tierChecked, setTierChecked] = useState(false);
 
-  const lesson = LESSONS[lessonIdx];
-  const completedCount = completed.size;
+  const worldId = world || "mind";
+  const worldMeta = WORLD_META[worldId] || WORLD_META.mind;
+  const worldLessons = worldMeta.lessons;
+  const lesson = worldLessons[lessonIdx] || worldLessons[0];
+  const completedCount = worldLessons.filter(l => completed.has(l.id)).length;
 
   const go = (next, updates={}) => {
     setFading(true);
@@ -796,24 +936,22 @@ export default function Habitrii() {
 
 // ── WORLD SELECT ──────────────────────────────────────────────────────────
   if(screen==="worlds") {
-    // World tier requirements
-    const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
-    const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
-        const effectiveTier = profile?.tier || userTier;
+    // World tier requirements come from the module-level registry (WORLD_TIER / TIER_RANK)
+    const effectiveTier = profile?.tier || userTier;
     const userRank   = TIER_RANK[effectiveTier] ?? 0;
 
     // Free-slice model: Mind & Money world always enterable (lesson gate inside);
     // other worlds require a sufficient paid tier.
-    const isLocked = (worldId) => {
-      if (worldId === "mind") return false;
-      return userRank < (TIER_RANK[WORLD_TIER[worldId]] ?? 0);
+    const isLocked = (wid) => {
+      if (wid === "mind") return false;
+      return userRank < (TIER_RANK[WORLD_TIER[wid]] ?? 0);
     };
-    const requiredLabel = (worldId) => WORLD_TIER[worldId] === "growth" ? "Growth" : "Transformation";
+    const requiredLabel = (wid) => tierLabel(WORLD_TIER[wid]);
     // Growth → amber badge; Transformation → purple badge
-    const badgeStyle = (worldId) => ({
+    const badgeStyle = (wid) => ({
       position:"absolute", top:"14px", right:"16px",
       fontSize:"11px", padding:"3px 10px", borderRadius:"99px", fontWeight:700,
-      background: WORLD_TIER[worldId]==="growth" ? "#f59e0b" : "#8b5cf6",
+      background: WORLD_TIER[wid]==="growth" ? "#f59e0b" : "#8b5cf6",
       color:"#fff", letterSpacing:"0.4px",
     });
 
@@ -906,24 +1044,26 @@ export default function Habitrii() {
         <button onClick={()=>go("worlds")} style={btnBack}>← Story Worlds</button>
         <div style={{background:"#57b7a7",border:"2px solid #ffffff",borderRadius:"16px",padding:"20px 22px"}}>
           <p style={lbl("rgba(35,35,33,0.9)")}>STORY WORLD</p>
-          <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 16px",color:C.text}}>🧠 Mind & Money</h2>
+          <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 16px",color:C.text}}>{worldMeta.emoji} {worldMeta.title}</h2>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <ProgressDots current={completedCount} total={8}/>
-            <p style={{fontSize:"13px",color:"rgba(35,35,33,0.9)",margin:0,fontWeight:500}}>{completedCount} of 8 complete</p>
+            <ProgressDots current={completedCount} total={worldLessons.length}/>
+            <p style={{fontSize:"13px",color:"rgba(35,35,33,0.9)",margin:0,fontWeight:500}}>{completedCount} of {worldLessons.length} complete</p>
           </div>
         </div>
         {(mbti||westernSign||chineseSign) && (
           <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
         )}
         <p style={{fontSize:"15px",color:C.textSub,margin:0,lineHeight:1.65,fontWeight:500}}>
-          {hasPaidTier
-            ? "Explore all 8 lessons in any order. Each one deepens your understanding of the relationship between feelings and spending."
+          {worldId!=="mind"
+            ? `Explore all ${worldLessons.length} lessons in any order. ${worldMeta.mapNote}`
+            : hasPaidTier
+            ? `Explore all 8 lessons in any order. ${worldMeta.mapNote}`
             : fullAccessWindow
             ? `All 8 lessons are unlocked for your first month — your first ${FREE_LESSONS} stay free forever after.`
             : `Your first ${FREE_LESSONS} lessons are free, forever. Unlock all 8 with Growth.`}
         </p>
         <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-          {LESSONS.map((l,i)=>(
+          {worldLessons.map((l,i)=>(
             <LessonCard key={l.id} lesson={l} isComplete={completed.has(l.id)}
               isCurrent={!completed.has(l.id)&&completedCount===i}
               locked={lessonLocked(i)}
@@ -931,7 +1071,7 @@ export default function Habitrii() {
               onClick={()=>lessonLocked(i)?go("plan"):go("scene",{lessonIdx:i,branch:null,resetPenny:true})}/>
           ))}
         </div>
-        {completedCount===8&&(
+        {completedCount===worldLessons.length&&(
           <button onClick={()=>go("world_complete")} style={btnYellow}>🌟 View world completion →</button>
         )}
       </div>
@@ -944,9 +1084,13 @@ export default function Habitrii() {
       <div style={{...inner,textAlign:"center"}}>
         <div style={{background:C.card,borderRadius:"16px",padding:"32px 26px",boxShadow:"0 4px 20px rgba(35,35,33,0.12)"}}>
           <div style={{fontSize:"44px",marginBottom:"10px"}}>🔒</div>
-          <h2 style={{fontSize:"24px",fontWeight:700,margin:"0 0 10px",color:C.text}}>This lesson is part of Growth</h2>
+          <h2 style={{fontSize:"24px",fontWeight:700,margin:"0 0 10px",color:C.text}}>
+            {worldId==="mind" ? "This lesson is part of Growth" : `This lesson is part of ${tierLabel(WORLD_TIER[worldId])}`}
+          </h2>
           <p style={{fontSize:"15px",color:C.textSub,margin:"0 0 22px",lineHeight:1.6}}>
-            Your first {FREE_LESSONS} Mind &amp; Money lessons are free forever. Upgrade to unlock all 8 lessons — and every new world as it launches.
+            {worldId==="mind"
+              ? `Your first ${FREE_LESSONS} Mind & Money lessons are free forever. Upgrade to unlock all 8 lessons — and every new world as it launches.`
+              : `${worldMeta.title} is a ${tierLabel(WORLD_TIER[worldId])} world. Upgrade to unlock all ${worldLessons.length} lessons — and every new world as it launches.`}
           </p>
           <button onClick={()=>go("plan")} style={btnYellow}>See plans →</button>
         </div>
@@ -963,14 +1107,18 @@ export default function Habitrii() {
             style={{background:"rgba(255,255,255,0.5)",border:"1.5px solid rgba(35,35,33,0.18)",borderRadius:"99px",padding:"5px 14px",color:C.text,cursor:"pointer",fontSize:"13px",fontWeight:600,fontFamily:"inherit"}}>
             ← Map
           </button>
-          <ProgressDots current={lessonIdx} total={8}/>
-          <span style={{fontSize:"12px",fontWeight:600,padding:"3px 9px",borderRadius:"99px",background:"rgba(35,35,33,0.1)",color:C.textSub}}>{lessonIdx+1}/8</span>
+          <ProgressDots current={lessonIdx} total={worldLessons.length}/>
+          <span style={{fontSize:"12px",fontWeight:600,padding:"3px 9px",borderRadius:"99px",background:"rgba(35,35,33,0.1)",color:C.textSub}}>{lessonIdx+1}/{worldLessons.length}</span>
         </div>
         <div style={{background:C.card,borderRadius:"16px",padding:"20px 22px",borderTop:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}>
-          <p style={lbl(C.teal)}>🧠 MIND & MONEY · LESSON {lessonIdx+1} OF 8</p>
+          <p style={lbl(C.teal)}>{worldMeta.emoji} {worldMeta.title.toUpperCase()} · LESSON {lessonIdx+1} OF {worldLessons.length}</p>
           <h2 style={{fontSize:"26px",fontWeight:700,margin:"0 0 14px",color:C.text,lineHeight:1.2}}>{lesson.emoji} {lesson.title}</h2>
           <p style={{fontSize:"16px",color:C.textSub,margin:0,lineHeight:1.72,fontStyle:"italic"}}>"{lesson.hook}"</p>
         </div>
+        {lesson.hero && (
+          <img src={lesson.hero} alt={`${lesson.title} illustration`} loading="lazy"
+            style={{width:"100%",display:"block",borderRadius:"16px",boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}/>
+        )}
         <div style={{background:"rgba(255,255,255,0.6)",borderRadius:"14px",padding:"18px 20px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <p style={{fontSize:"16px",lineHeight:1.78,color:C.text,margin:0}}>{lesson.concept}</p>
         </div>
@@ -1095,8 +1243,9 @@ export default function Habitrii() {
   // ── LESSON COMPLETE ───────────────────────────────────────────────────────
   if(screen==="lesson_complete") {
     const newCompleted=new Set([...completed,lesson.id]);
-    const allDone=newCompleted.size===8;
-    const nextLesson=LESSONS[lessonIdx+1];
+    const worldDone=worldLessons.filter(l=>newCompleted.has(l.id)).length;
+    const allDone=worldDone===worldLessons.length;
+    const nextLesson=worldLessons[lessonIdx+1];
     return (
       <div style={{...outer,justifyContent:"center"}}>
         <div style={{...inner,textAlign:"center"}}>
@@ -1106,8 +1255,8 @@ export default function Habitrii() {
             <p style={{fontSize:"15px",color:"rgba(35,35,33,0.7)",margin:0}}>{lesson.emoji} {lesson.title}</p>
           </div>
           <div style={{background:"rgba(255,255,255,0.7)",borderRadius:"12px",padding:"12px 18px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <ProgressDots current={newCompleted.size} total={8}/>
-            <p style={{fontSize:"13px",color:C.textSub,margin:0,fontWeight:600}}>{newCompleted.size}/8 done</p>
+            <ProgressDots current={worldDone} total={worldLessons.length}/>
+            <p style={{fontSize:"13px",color:C.textSub,margin:0,fontWeight:600}}>{worldDone}/{worldLessons.length} done</p>
           </div>
           {!allDone&&lesson.teaser&&nextLesson&&(
             <div style={{background:"#ffffff",border:"1px solid #232321",borderRadius:"14px",padding:"20px 24px",textAlign:"left"}}>
@@ -1137,14 +1286,14 @@ export default function Habitrii() {
         <div style={{background:"#57b7a7",border:"2px solid #ffffff",borderRadius:"20px",padding:"32px 28px"}}>
           <div style={{fontSize:"56px",marginBottom:"12px"}}>🌟</div>
           <p style={{...lbl("rgba(35,35,33,0.9)"),letterSpacing:"3px",marginBottom:"8px"}}>WORLD COMPLETE</p>
-          <h2 style={{fontSize:"30px",fontWeight:700,margin:"0 0 12px",color:C.text}}>Mind & Money</h2>
+          <h2 style={{fontSize:"30px",fontWeight:700,margin:"0 0 12px",color:C.text}}>{worldMeta.title}</h2>
           <p style={{fontSize:"16px",color:"rgba(35,35,33,0.9)",lineHeight:1.65,margin:0}}>
-            You've completed all 8 lessons. You now have a real map of how your emotions, environment, and social world shape your spending — and a growing toolkit to work with it.
+            {worldMeta.completeBlurb}
           </p>
         </div>
         <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",textAlign:"left",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
           <p style={lbl(C.teal)}>WHAT YOU COVERED</p>
-          {LESSONS.map(l=>(
+          {worldLessons.map(l=>(
             <div key={l.id} style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"8px"}}>
               <span style={{fontSize:"16px"}}>{l.emoji}</span>
               <p style={{fontSize:"14px",color:C.text,margin:0,fontWeight:500}}>{l.title}</p>
@@ -1154,7 +1303,7 @@ export default function Habitrii() {
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
           <button onClick={()=>go("worlds")} style={btnYellow}>Choose your next world →</button>
-          <button onClick={()=>go("lesson_map")} style={btnGhost}>Revisit Mind & Money</button>
+          <button onClick={()=>go("lesson_map")} style={btnGhost}>Revisit {worldMeta.title}</button>
         </div>
         <p style={{fontSize:"12px",color:C.textMut,margin:0}}>For educational purposes only · Not financial advice · AVEN LLC</p>
       </div>
