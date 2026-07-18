@@ -986,7 +986,9 @@ export default function Habitrii() {
                   selected={world===w.id}
                   onClick={()=>{
                     if(locked){
-                      alert(`Upgrade to ${requiredLabel(w.id)} to unlock this world.`);
+                      // Route straight to the plan screen — the upgrade should be
+                      // one tap away from the moment of intent (QA finding, July 18).
+                      setTimeout(()=>go("plan"),180);
                       return;
                     }
                     setWorld(w.id);
