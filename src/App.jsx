@@ -458,6 +458,117 @@ const DEBT_LESSONS = [
   },
 ];
 
+const SAFETY_LESSONS = [
+  {
+    id:"L07",number:"01",title:"Emergency Fund 101",emoji:"🛡️",duration:"3 min",
+    hero:"/lessons/l07-hero.png",heroFit:"contain",heroBg:"#faf6ea",
+    hook:"The flat tire doesn't care that it's the 28th. The vet bill doesn't check your balance first. Emergencies don't schedule — but you can be ready for them anyway.",
+    concept:"An emergency fund is money whose only job is absorbing the unexpected — the repair, the bill, the gap between jobs. It isn't savings for something; it's savings for instead-of-panic. And here's the part that surprises people: the first win isn't financial, it's neurological. Even a small cushion — many people start with a few hundred dollars as a \"starter fund\" — converts a category of catastrophe into a category of inconvenience. The stress reduction arrives long before the fund is \"finished.\" The mechanics are almost insultingly simple: a separate account, out of everyday sight, fed automatically. Separate, so it doesn't get spent by accident. Automatic, so it doesn't depend on remembering to be responsible.",
+    choices:[
+      {id:"a",emoji:"😱",label:"One surprise bill would wreck me right now"},
+      {id:"b",emoji:"🐌",label:"I've tried to save — it never sticks"},
+      {id:"c",emoji:"🤷",label:"How is this different from regular saving?"},
+    ],
+    branches:{
+      a:{headline:"For the one-surprise-away",body:"Then this lesson found you at the right time, and here's the reframe: you don't need the finished fund — you need the first rung. A starter cushion measured in hundreds, not months, is what turns \"everything is an emergency\" into \"some things are just annoying.\" Starting small isn't failing at the big version; it's how the big version starts.",tip:"Tonight, open (or just name) a separate place for this money and give it a title you'll respect — \"Do Not Touch: Future Emergencies.\" Naming the container is the first brick."},
+      b:{headline:"For the never-sticks savers",body:"Saving that depends on remembering, deciding, and resisting — every single month — isn't a system, it's a willpower tax. The emergency fund version removes all three: a transfer that happens automatically on payday, into an account you don't look at when you're bored. You can't abandon a habit you never have to perform.",tip:"Set up one automatic transfer for the day after your next payday — any amount that won't hurt. The amount matters far less than the automation."},
+      c:{headline:"For the skeptics",body:"Regular saving points at a goal you chose: the trip, the car, the deposit. Emergency saving points at the goals you didn't choose — and that's why mixing them fails. One jar with two jobs always resolves the conflict the same way: the fun goal wins, and the emergency finds you uncovered. Separate jars, separate jobs, zero arguments.",tip:"Check whether your emergency money currently shares a container with anything else. If it does, write down what would happen to it the next time the \"fun\" goal gets tempting. That answer is the argument for the second jar."},
+    },
+    reflection:"Think of your last money emergency. What did it actually cost — and what did the scramble around it cost on top?",
+    teaser:{title:"The Sinking Fund Strategy",desc:"Most 'emergencies' sent eleven months of warning first."},
+  },
+  {
+    id:"L08",number:"02",title:"The Sinking Fund Strategy",emoji:"⛵",duration:"3 min",
+    hero:"/lessons/l08-hero.png",heroFit:"contain",heroBg:"#fdf1e2",
+    hook:"Car registration. The dentist. December. School supplies. None of these are surprises — they told you they were coming a year in advance. So why do they keep arriving like ambushes?",
+    concept:"A sinking fund is pre-paying a known future expense to yourself, in slices. Take the bill's date, take its rough size, divide by the months between now and then, and set that slice aside monthly. When the bill lands, the money is already there — bored, waiting, uneventful. This is the tool that separates true emergencies from slow bills: the transmission failing is an emergency; the registration renewing is an appointment. Sinking funds clear the appointments out of your emergency fund's job description. And if you built budget categories in the Budgeting Foundations world, this is the machinery behind the \"Surprises\" line — every yearly bill divided by twelve becomes boring, and boring is the goal. Two or three sinking funds cover most lives.",
+    choices:[
+      {id:"a",emoji:"🎄",label:"The same expenses ambush me every year"},
+      {id:"b",emoji:"🫙",label:"How many funds is too many?"},
+      {id:"c",emoji:"😤",label:"I raid my set-aside money before the bill arrives"},
+    ],
+    branches:{
+      a:{headline:"For the annually ambushed",body:"Your ambushes have a schedule — that's the good news hiding inside the frustration. List the three that hit hardest last year, note their months, and you've drawn a map of your next twelve. A bill you can see from eleven months away isn't a threat; it's a slow-motion invoice, and slow things are easy to catch.",tip:"Write down your three most predictable \"surprise\" expenses and the month each one lands. That list is the entire foundation of this strategy."},
+      b:{headline:"For the over-organizers",body:"The honest answer: fewer than you think. Twenty micro-funds is a part-time job; two or three grouped funds is a system. Many people run just \"Annual Bills\" (registration, subscriptions, insurance premiums) and \"Celebrations\" (holidays, birthdays, the wedding season) and let the grouping absorb the detail. Precision isn't the point — readiness is.",tip:"Sort your predictable expenses into at most three groups and name each group. If a fourth feels necessary, one of your three is probably mislabeled."},
+      c:{headline:"For the raiders",body:"Raiding isn't a character flaw — it's what happens when set-aside money sits in plain sight with a vague name. \"Savings\" gets raided; \"March: car registration\" mostly doesn't, because now spending it has a specific victim with a due date. Friction and naming do the discipline so you don't have to.",tip:"Rename your set-aside money after the specific bill it's for, and move it one step out of everyday reach. Specific names are surprisingly good bodyguards."},
+    },
+    reflection:"Which bill ambushed you most recently — and how many months of warning did it actually give you?",
+    teaser:{title:"Building Your Safety Ladder",desc:"Cushion, funds, and what comes after — the whole net, one rung at a time."},
+  },
+  {
+    id:"L09",number:"03",title:"Building Your Safety Ladder",emoji:"🪜",duration:"5 min",
+    hero:"/lessons/l09-hero.png",heroFit:"contain",heroBg:"#f9f2e5",
+    hook:"\"Get an emergency fund. Also insurance. Also save more. Also—\" Financial safety advice arrives as a pile. Piles are overwhelming. Ladders aren't — because a ladder tells you what's next.",
+    concept:"Financial safety isn't one thing; it's layers that catch different sizes of trouble. A useful way many people sequence it: a small buffer in checking (catches timing hiccups), then a starter emergency cushion (catches the flat tire), then sinking funds (catch the scheduled \"surprises\"), then a fuller emergency fund measured in months (catches the job gap), then insurance (catches what no savings account could). The power of the ladder isn't the rungs — it's the ordering. Each rung makes the next one easier to build: the buffer stops the overdrafts that drain saving, the cushion stops the raids on everything else, the sinking funds stop the cushion from leaking. You're not fighting on five fronts; you're climbing one rung. And one rung at a time means you always know exactly what to work on. Not everything. Just the next thing.",
+    choices:[
+      {id:"a",emoji:"🫠",label:"The pile overwhelms me — I do nothing instead"},
+      {id:"b",emoji:"🪜",label:"Which rung am I actually on?"},
+      {id:"c",emoji:"🏃",label:"Can I skip rungs? I want the good stuff"},
+    ],
+    branches:{
+      a:{headline:"For the pile-frozen",body:"Overwhelm isn't a discipline problem — it's what a pile does to a brain. The fix is structural: replace \"everything\" with \"the next rung,\" and suddenly there's exactly one assignment. Nobody climbs a ladder by pulling on every rung at once, and nobody needs to. The bottom rung is small on purpose.",tip:"Write down just your bottom unbuilt rung — nothing else from the pile. One line. That's your entire safety project this month."},
+      b:{headline:"For the self-locators",body:"Walk it bottom-up and be honest: Does checking survive a badly-timed bill? Does a few-hundred-dollar surprise come out of a cushion or a card? Do your predictable annual bills have their own funds? Could you cover a month without income? The first \"no\" is your rung — and finding it is genuinely most of the work.",tip:"Run the four questions right now and write down where the first \"no\" landed. That's your rung; everything above it can wait its turn."},
+      c:{headline:"For the skippers",body:"You can — it's your ladder — but know what the lower rungs were protecting you from. A months-deep fund with no buffer still bleeds overdraft fees; investments built before a cushion get sold at the worst moment when the tire blows. The lower rungs aren't the boring part; they're what makes the good stuff safe to hold.",tip:"Write one sentence about what happens to your favorite \"upper rung\" goal the next time a mid-sized surprise hits. If the answer involves undoing it, the skipped rung just introduced itself."},
+    },
+    reflection:"Which rung of your ladder is actually the next one — and what were you working on instead?",
+    teaser:{title:"How Much Emergency Fund Do YOU Need",desc:"Everyone quotes a number. Yours isn't theirs."},
+  },
+  {
+    id:"L22",number:"04",title:"How Much Emergency Fund Do YOU Need",emoji:"🧮",duration:"4 min",
+    hero:"/lessons/l22-hero.png",heroFit:"contain",heroBg:"#fdf2e3",
+    hook:"Ask the internet how big your emergency fund should be and you'll get a chorus: \"three to six months!\" Ask why yours should be three and not six, and the chorus goes quiet. That gap — that's this lesson.",
+    concept:"The quoted range exists because emergency funds are measured in time, not money: how many months could you cover the essentials if income stopped? \"Essentials\" is the load-bearing word — rent, food, utilities, minimum payments, the keep-the-lights-on number from your budget. Not your full lifestyle; the survivable version. Where you personally land in (or outside) any range is a function of real factors: how steady your income is, how fast you could replace it, how many people depend on you, what breaks expensive in your life, and — honestly — how much uncertainty costs you in sleep. Two people with identical salaries can have wildly different right answers. So the homework isn't adopting a number — it's knowing your monthly essentials figure and consciously choosing your multiplier. A chosen number, even a modest one, beats a quoted number every time. And done matters: an emergency fund has a finish line, and past it, money can go do other jobs.",
+    choices:[
+      {id:"a",emoji:"🧮",label:"I don't actually know my monthly essentials number"},
+      {id:"b",emoji:"😴",label:"Uncertainty costs me sleep — I want a big cushion"},
+      {id:"c",emoji:"🏁",label:"How do I know when I'm done?"},
+    ],
+    branches:{
+      a:{headline:"For the not-yet-counted",body:"Then that's the whole assignment, and it's a pleasant surprise for most people: the survival number is usually well below the normal-month number. Strip last month down to what keeps life running — housing, food, utilities, transport, minimums — and total just that. Every emergency-fund decision you'll ever make is built on this one figure.",tip:"Tonight, total last month's essentials only. Write the number somewhere you'll see it — it's the unit your safety is measured in."},
+      b:{headline:"For the sleep-buyers",body:"Peace of mind is a legitimate line item — if uncertainty is expensive for you, a thicker cushion is buying something real, and nobody gets to audit that purchase. The only honest caution: past your chosen finish line, each extra month adds less calm than the one before, while other goals wait. The move isn't \"cap it\" — it's \"choose the cap yourself.\"",tip:"Write the number of months that would actually let you sleep — not the internet's number, yours. Then write what the first dollar past that line would rather be doing."},
+      c:{headline:"For the finish-line seekers",body:"Done is when your fund covers your chosen months of essentials — a number you can compute today: essentials × multiplier. Write it down and something shifts: the fund stops being an endless obligation and becomes a project with a progress bar. And projects with progress bars get finished.",tip:"Do the multiplication now — essentials number times your chosen months. That single figure is your finish line; put it where your progress can see it."},
+    },
+    reflection:"If your income paused tomorrow, how many months would you want between you and the panic — and what makes your number different from your neighbor's?",
+    teaser:{title:"The Insurance Safety Net",desc:"The rung for the things no savings account could catch."},
+  },
+  {
+    id:"L23",number:"05",title:"The Insurance Safety Net",emoji:"☂️",duration:"5 min",
+    hero:"/lessons/l23-hero.png",heroFit:"contain",heroBg:"#fdf3e3",
+    hook:"Your emergency fund can catch a broken transmission. It cannot catch a totaled car, a flooded apartment, or a hospital week. Some risks are simply bigger than any jar — and that's the exact problem insurance was invented for.",
+    concept:"Insurance is risk-pooling: many people pay a small certain cost (the premium) so that the few hit by a large uncertain cost aren't ruined by it. You're not \"losing\" premiums any more than you're losing rent — you're buying a ceiling on how bad one day can get. The vocabulary is smaller than it pretends to be. Premium: what you pay. Deductible: the part of a loss you cover before the policy does. Coverage limit: the most it will pay. Exclusion: what it won't touch. Every policy you'll ever read is those four words wearing different outfits. Insurance is a ladder rung, not a replacement for the others — the fund handles what's below the deductible; the policy handles what's above the jar. What kinds, what amounts, and from whom are decisions for you and a licensed professional. This lesson's job is smaller and earlier: making sure you walk into that conversation knowing what the four words mean.",
+    choices:[
+      {id:"a",emoji:"🙈",label:"I have policies I've honestly never read"},
+      {id:"b",emoji:"🤔",label:"Premiums feel like burning money"},
+      {id:"c",emoji:"🧩",label:"How do insurance and my emergency fund fit together?"},
+    ],
+    branches:{
+      a:{headline:"For the never-readers",body:"You're in the majority, for what it's worth — policies are written to be skimmed past. But you don't need to read like a lawyer; you need four answers per policy: what do I pay, what's my deductible, what's the limit, what's excluded. Four answers, per policy, and you know more about your own safety net than most people ever will.",tip:"Pick one policy you already have and find just its deductible. One number, one policy. That's the whole assignment — and it usually takes five minutes."},
+      b:{headline:"For the premium-resenters",body:"The resentment makes sense — you're paying real money for an invisible product and the best outcome is never using it. The reframe that helps: you're not buying a payout, you're buying a maximum. \"The worst this can cost me is X\" is a real thing you own every month, and it's doing its job precisely on all the days nothing happens.",tip:"For one risk in your life, write down what the uninsured worst case would actually cost. Seeing the size of the thing the premium caps is usually the moment the resentment quiets down."},
+      c:{headline:"For the systems-thinkers",body:"They're two layers of the same net, split by size: the emergency fund handles what's below and around the deductible — the fund is even what makes a higher deductible survivable, if you and your professional ever weigh that trade — and the policy handles what no reasonable jar could. Neither replaces the other; each makes the other's job smaller.",tip:"Write your emergency fund number next to one policy's deductible and just look at them side by side. How those two numbers relate is exactly the kind of question to bring to a licensed professional — and now you're bringing it with the vocabulary in hand."},
+    },
+    reflection:"Which risk in your life is genuinely bigger than any jar you could fill — and do you actually know, today, what would catch it?",
+    teaser:{title:"Irregular Income Safety Planning",desc:"When the paycheck itself is the plot twist — the world finale."},
+  },
+  {
+    id:"L24",number:"06",title:"Irregular Income Safety Planning",emoji:"🌊",duration:"5 min",
+    hero:"/lessons/l24-hero.png",heroFit:"contain",heroBg:"#faf6e4",
+    hook:"Every budgeting rule quietly assumes the same thing: a paycheck that behaves. Freelance, commission, tips, seasonal, gig — if your income has moods, the standard advice doesn't fail politely. It just fails. Here's the version built for you.",
+    concept:"The core move is separating when you earn from when you pay yourself. Income lands — whenever, whatever size — in a holding account. From there you pay yourself a level \"salary\" into checking, the same amount on the same day each month. The wild graph becomes someone else's problem; your bills only ever meet the smooth version of you. The salary is set off your baseline month — what the essentials cost plus a realistic normal life — and it's deliberately set against your leaner months, not your best ones. Good months don't raise the salary; they deepen the buffer in the holding account. That buffer is what a \"raise\" looks like when income is irregular: more months of calm, banked. And the safety ladder still applies — it just climbs in percentages instead of amounts. A slice of every payment that lands goes to the rungs. Percentages flex with reality; fixed amounts snap. When income is a wave, you build the net out of ratios.",
+    choices:[
+      {id:"a",emoji:"🎢",label:"Great months, terrible months — no pattern I can find"},
+      {id:"b",emoji:"💸",label:"Good months evaporate before the lean ones arrive"},
+      {id:"c",emoji:"🧾",label:"How do I even find my baseline?"},
+    ],
+    branches:{
+      a:{headline:"For the wave-riders",body:"You may have more pattern than you think — most \"random\" income has a floor it rarely breaks. Line up your last several months from worst to best and look at the low cluster: that floor, not the average and definitely not the peaks, is what the smooth-salary system builds on. Plan for the floor and every month above it is a bonus with a job.",tip:"List your last six months of income, worst to best, and circle the lowest cluster. That floor is the number the rest of this lesson stands on."},
+      b:{headline:"For the feast-then-famine",body:"Good months evaporate because they arrive labeled as spending money — the label is the leak. The holding-account move relabels them at the door: a strong month isn't a windfall, it's inventory — future salary, warehoused. Nothing about your discipline has to change; the money just stops introducing itself as fun.",tip:"Next above-average payment that lands, move the surplus over your salary line into holding before it reaches checking. One relabeled month and you'll feel the famine-proofing start."},
+      c:{headline:"For the baseline-hunters",body:"Baseline is your essentials number plus the realistic minimum of everything else — the quiet-month version of your life, not the punishment version. Too strict and you'll abandon the system by March; the baseline needs to be livable, because it's the amount you'll actually meet every month. Survivable and sustainable are different numbers; you want the second one.",tip:"Take your essentials total and add honest minimums for the rest. Write that figure down — it's your baseline, your smooth salary's first draft, and the last number this world needed from you."},
+    },
+    reflection:"If your income arrived as a flat line instead of a wave, what would change first — your spending, or your sleep?",
+    teaser:null,
+  },
+];
+
 // ─── World Registry ───────────────────────────────────────────────────────────
 const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
 const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
@@ -477,6 +588,11 @@ const WORLD_META = {
     emoji:"💳", title:"Debt & Credit", lessons:DEBT_LESSONS,
     mapNote:"Each one turns debt from a source of shame into a set of tools — a sorting system, two payoff methods, a decoded score, and the words that can lower a rate.",
     completeBlurb:"You've completed all 6 lessons. Debt has a sorting system now, a payoff method that fits your temperament, a score you can read, and a script you could use — and with it, the whole Growth tier is complete. Every promise on the pricing card, delivered. Next stop: Safety & Stability.",
+  },
+  safety: {
+    emoji:"🛡️", title:"Safety & Stability", lessons:SAFETY_LESSONS,
+    mapNote:"Each one adds a layer to your safety net — a cushion, a system for slow bills, a ladder, your own number, and a plan that holds even when income doesn't behave.",
+    completeBlurb:"You've completed all 6 lessons. The whole net is built: a cushion for surprises, sinking funds for the slow bills, a ladder that always knows your next rung, a fund size you chose on purpose, the vocabulary for the bigger net, and a system that works even when the paycheck doesn't. Next up: Advanced & Values — the final world.",
   },
 };
 

@@ -4,10 +4,10 @@
 
 import { useState } from "react";
 
-// Per-plan availability. Growth opened July 18, 2026 — Budgeting Foundations
-// content complete, so the card's promise is real. Transformation flips at
-// Safety & Stability launch (WBS 4.4): one line, right here.
-const PLAN_AVAILABLE = { foundation: true, growth: true, transformation: false };
+// Per-plan availability. Growth opened July 18, 2026. Transformation opened
+// with the Safety & Stability launch (WBS 4.4) — its first exclusive world
+// is real content, so the card's promise is real.
+const PLAN_AVAILABLE = { foundation: true, growth: true, transformation: true };
 
 const C = {
   bg: "#57b7a7", dark: "#232321", yellow: "#f5d924",
@@ -50,7 +50,7 @@ const PLANS = [
   },
   {
     id: "transformation", name: "Transformation", monthly: "$19.99/mo", yearly: "$149/yr",
-    blurb: "Everything in Growth, plus Safety & Stability and Advanced & Values as they launch.",
+    blurb: "Everything in Growth, plus the complete Safety & Stability world (6 lessons) today — and Advanced & Values when it launches soon.",
   },
 ];
 
