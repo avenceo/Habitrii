@@ -347,6 +347,117 @@ const BUDGET_LESSONS = [
   },
 ];
 
+const DEBT_LESSONS = [
+  {
+    id:"L10",number:"01",title:"Good Debt vs Bad Debt",emoji:"⚖️",duration:"4 min",
+    hero:"/lessons/l10-hero.png",heroFit:"contain",heroBg:"#ffffff",
+    hook:"Somewhere along the way you learned that all debt is shameful. Then you watched people build whole lives on mortgages and degrees — and the story stopped adding up.",
+    concept:"Debt is a tool with a price tag, and the useful question was never \"is debt bad?\" It's two questions: what did this debt buy, and what does it cost? Debt that financed something still growing — an education, a home, a business — is doing a job. Debt financing a moment that's already gone is just charging you rent on the past. The cost side is simple arithmetic: interest rate multiplied by time. A low rate on something that appreciates can be a partnership; a high rate on something already consumed is a leak. And none of this is a moral grade. \"Good\" and \"bad\" here describe the deal, not the person who signed it. Clarity, not shame, is the whole lesson.",
+    choices:[
+      {id:"a",emoji:"😔",label:"I feel ashamed of my debt"},
+      {id:"b",emoji:"🧮",label:"I don't know which of my debts is which"},
+      {id:"c",emoji:"🙅",label:"I avoid all debt, even the useful kinds"},
+    ],
+    branches:{
+      a:{headline:"For the debt-ashamed",body:"Debt is a contract, not a character flaw. Every balance you carry was a decision made by a person doing their best with what they knew and what they faced — and shame is the one thing on your statement earning no interest for anyone. The lesson isn't to feel good about debt; it's to look at it without flinching, because you can't work with what you won't look at.",tip:"Tonight, write your debts as a plain list — name, balance, rate. No commentary allowed. A list is information, and information is the opposite of shame."},
+      b:{headline:"For the unsorted",body:"Run each debt through the two questions. What did it buy — something still growing, or something already gone? What does it cost — the rate, times the time you'll carry it? Most people find their list sorts itself fast, and the surprise is usually how few of the debts are genuinely working against them.",tip:"Next to each debt on your list, write one word for what it bought. \"Degree.\" \"Car.\" \"Dinners.\" The words do the sorting for you."},
+      c:{headline:"For the debt-avoiders",body:"Avoiding all debt is a strategy with its own price tag — the years of rent while waiting to buy in cash, the opportunities that needed capital you didn't have. Many people find that some debts function more like investments than burdens. That doesn't mean borrowing is right for you; it means the avoidance deserves the same two-question scrutiny you'd give the debt.",tip:"Write one sentence about what your debt-avoidance protects you from. Naming the fear makes the trade-off visible — and visible trade-offs are choices instead of reflexes."},
+    },
+    reflection:"Which of your debts bought something that's still growing — and which bought a moment that's already gone?",
+    teaser:{title:"The Debt Snowball Method",desc:"Five debts, one order that changes how paying them feels."},
+  },
+  {
+    id:"L11",number:"02",title:"The Debt Snowball Method",emoji:"⛄",duration:"3 min",
+    hero:"/lessons/l11-hero.png",heroFit:"contain",heroBg:"#fbf7eb",
+    hook:"Five debts, five minimum payments, zero feeling of progress. What if the order you pay them in could change how the whole thing feels?",
+    concept:"The Debt Snowball works like this: list your debts smallest balance to largest, keep paying every minimum, and aim anything extra at the smallest one. When it disappears, roll its entire payment into the next-smallest. Each knocked-out debt makes the rolling payment bigger — hence the snowball. Here's the honest part: this is psychology-first, not math-first. Its power is the quick, visible wins — a debt actually gone, fast — and wins are fuel for a process that takes years. A method that keeps you going beats a theoretically perfect one you abandon in March. It has a math-first sibling, the Avalanche, waiting a few lessons ahead. Neither is \"correct.\" They're two tools for the same job, and the right one depends on what keeps you moving.",
+    choices:[
+      {id:"a",emoji:"🎯",label:"I need to see progress or I quit"},
+      {id:"b",emoji:"🤔",label:"Shouldn't I pay high-interest debt first?"},
+      {id:"c",emoji:"😵",label:"I don't even know what I owe"},
+    ],
+    branches:{
+      a:{headline:"For the progress-powered",body:"Then the snowball was designed for your exact wiring. The first debt on its list is chosen precisely because it can die quickly — and watching an entire balance hit zero rewires what feels possible. Momentum isn't a nice-to-have in a years-long project; for most people, it's the project.",tip:"Tonight, write your debts smallest to largest and circle the smallest. That circle is where the method starts — just seeing it chosen changes how the list feels."},
+      b:{headline:"For the math-minded",body:"Honest answer: paying the highest rate first — the Avalanche, coming later in this world — usually costs less in total interest, and the difference is real money. The snowball's counter-argument is completion psychology: a method you sustain beats a method you optimize. Which trade matters more is genuinely about you, and it's your call — always.",tip:"Write both orderings of your debts side by side — smallest-first and priciest-first. Notice which list makes you want to start. That reaction is data."},
+      c:{headline:"For the not-yet-counted",body:"Then step zero comes before any method: the inventory. Not knowing the total is the most common state in the world, and it's also the heaviest version — the unknown number is always scarier than the real one. Every method starts from the same place: a complete, honest list.",tip:"Gather every statement and write the full list today — balance, rate, minimum for each. Just the list. No plan required yet; the list IS the progress."},
+    },
+    reflection:"What would it feel like to have one debt actually gone — not smaller balances everywhere, but one line crossed off entirely?",
+    teaser:{title:"Credit Score Decoded",desc:"Three digits, one formula, no more black box."},
+  },
+  {
+    id:"L12",number:"03",title:"Credit Score Decoded",emoji:"🔍",duration:"4 min",
+    hero:"/lessons/l12-hero.png",heroFit:"contain",heroBg:"#ffffff",
+    hook:"Three digits, assigned by a formula you never see, quietly pricing everything from your apartment to your car insurance. Time to turn the black box into glass.",
+    concept:"A credit score is a prediction, not a verdict. It estimates one thing: how predictably you handle borrowed money. It says nothing about your worth, your intelligence, or your future — just your pattern. The recipe is roughly five ingredients: payment history (~35%) — do you pay on time; utilization (~30%) — how much of your available credit you're using; age of accounts (~15%); credit mix (~10%); and new applications (~10%). Two ingredients are nearly two-thirds of the dish. Which means the levers are refreshingly boring: pay on time, and keep the share of credit you're using low. Everything else is slow-moving scenery.",
+    choices:[
+      {id:"a",emoji:"😰",label:"I'm afraid to look at mine"},
+      {id:"b",emoji:"📉",label:"Mine dropped and I don't know why"},
+      {id:"c",emoji:"📈",label:"I want to raise it — where do I start?"},
+    ],
+    branches:{
+      a:{headline:"For the look-avoiders",body:"An unseen score still gets used — by landlords, lenders, insurers — so not-looking only means you're the last to know. Here's the relief: checking your own score is a \"soft inquiry\" and doesn't lower it, not even a little. Looking is free, private, and instantly converts dread into a number you can work with.",tip:"Look up your score today — most banks and several free services show it. Just look. That's the entire assignment."},
+      b:{headline:"For the mystery-drop",body:"The usual suspects, in order: a utilization spike (big balance reported that month), a missed payment, a new application, or an old account closing and shortening your history. And sometimes it's an error — reports contain them more often than you'd think, and disputing them is your legal right, free of charge.",tip:"Pull your free annual credit report this week and scan the recent activity for the change. Finding the cause is diagnosis, not damage."},
+      c:{headline:"For the builders",body:"Start where the weight is: the two levers that carry roughly 65%. Many people focus there first — every payment on time, utilization kept low — and treat the rest as background. It isn't fast, because the score measures patterns and patterns take months to form. But it's simple, and simple things done monthly are how three digits move.",tip:"Find your utilization today: statement balance divided by credit limit. Knowing that one percentage is the first lever in your hand."},
+    },
+    reflection:"If your score is just a record of how predictable you've been — what's one pattern future-you could start recording this month?",
+    teaser:{title:"The Debt Avalanche Method",desc:"The snowball's math-first sibling."},
+  },
+  {
+    id:"L25",number:"04",title:"The Debt Avalanche Method",emoji:"🏔️",duration:"4 min",
+    hero:"/lessons/l25-hero.png",heroFit:"contain",heroBg:"#faf6e5",
+    hook:"Meet the snowball's spreadsheet-loving sibling: same rolling payment, different order — and the difference is measured in interest.",
+    concept:"The Avalanche orders your debts by interest rate, highest first. Minimums on everything, extra dollars to the most expensive debt, and when it dies, its payment rolls downhill to the next-priciest. Same engine as the snowball — different fuel. On paper, this is the cheapest path out of debt: every extra dollar attacks the balance charging you the most, so total interest paid is mathematically minimized. The catch is emotional: if your priciest debt is also your biggest, the first win can take a long time to arrive. So the real question isn't which method is right — it's which kind of motivation you run on. Visible wins? Snowball. Knowing the math is optimal? Avalanche. And nobody's checking your homework: hybrids are allowed.",
+    choices:[
+      {id:"a",emoji:"🧮",label:"I want the cheapest path out"},
+      {id:"b",emoji:"🐢",label:"I tried the avalanche and lost steam"},
+      {id:"c",emoji:"⚖️",label:"How do I choose between the two methods?"},
+    ],
+    branches:{
+      a:{headline:"For the optimizers",body:"Then the avalanche is your method on paper — every extra dollar working exactly where the leak is biggest. Your version of a \"win\" isn't a closed account; it's watching the interest line on your statements shrink month over month. Track that number and the avalanche gets its own scoreboard.",tip:"Reorder your debt list by interest rate tonight, highest on top. That top line is where extra dollars work hardest — now you know its name."},
+      b:{headline:"For the stalled",body:"Losing steam on the avalanche is common enough to have a standard remedy: the hybrid. Many people start with the snowball — kill one small debt fast for the momentum — then switch to avalanche ordering once the habit is load-bearing. The methods are tools, not loyalty oaths; switching isn't quitting, it's tuning.",tip:"Pick your smallest debt as a momentum-starter, and write the avalanche order beside it for the day it's gone. A plan with a morale budget lasts longer."},
+      c:{headline:"For the undecided",body:"Here's the honest test: think about the last hard, long thing you actually finished. What kept you going — the visible milestones, or the quiet knowledge you were doing it the smart way? That answer is your method. The best debt strategy isn't the mathematically elegant one; it's the one still running in month nine. Your temperament, your call.",tip:"Write one sentence about the last hard habit you kept and what kept you keeping it. You just chose your method."},
+    },
+    reflection:"Which moves you more when things get hard: a win you can see, or math you can trust?",
+    teaser:{title:"Negotiating Lower Interest Rates",desc:"The rate isn't carved in stone."},
+  },
+  {
+    id:"L26",number:"05",title:"Negotiating Lower Interest Rates",emoji:"📞",duration:"3 min",
+    hero:"/lessons/l26-hero.png",heroFit:"contain",heroBg:"#fdf5e8",
+    hook:"The interest rate on your card wasn't carved in stone. It was set by a formula — and formulas have an override button called a phone call.",
+    concept:"Here's a thing the statements never mention: card issuers routinely review rate-reduction requests, especially from people with a history of on-time payments. There's a retention department whose whole job is deciding whether keeping you is worth a lower rate. The call itself is unglamorous — a few minutes, a few facts: how long you've been a customer, your payment record, what competing offers look like, and the ask. The person answering handles these requests all day; to them it's a Tuesday. The economics of asking are lopsided: a \"no\" costs ten minutes and changes nothing, while a \"yes\" compounds in your favor every month afterward. No outcome is ever guaranteed — the decision is entirely the issuer's — but few sentences in personal finance have a better cost-to-upside ratio than a polite request.",
+    choices:[
+      {id:"a",emoji:"😬",label:"Talking to companies about money makes me anxious"},
+      {id:"b",emoji:"💬",label:"What would I even say?"},
+      {id:"c",emoji:"🤨",label:"Does this actually work?"},
+    ],
+    branches:{
+      a:{headline:"For the phone-averse",body:"Scripts kill anxiety — that's their entire job. When the facts are written down before the call, the conversation stops being a performance and becomes a reading. And remember who's on the other end: someone processing routine requests, not judging you. Your ask is a form they fill out, not a favor they grant.",tip:"Write the three facts on a card: years as a customer, your on-time streak, your current rate. Facts on paper are a script — and a script is armor."},
+      b:{headline:"For the wordless",body:"The structure is three sentences, not magic: who you've been (\"a customer for X years, on time for Y months\"), what you know (\"I've seen offers at lower rates\"), and the ask (\"is a lower rate available on my account?\"). That's the whole genre. Drafting yours costs nothing and commits you to nothing — having words ready is separate from ever dialing.",tip:"Draft your own three-sentence version today, just to have it. Whether and when to call is a different decision, and it's entirely yours."},
+      c:{headline:"For the skeptics",body:"Fair question. Reported success rates for these requests vary by source and year, but they're consistently high enough that a ten-minute call carries remarkable expected value — many surveys find most askers get something. No promises live here: your issuer decides, not you. But \"usually worth asking\" is about as strong as personal-finance findings get.",tip:"Find the current rate on each of your cards today and circle the highest. If you ever do make the call, you now know which account to ask about first."},
+    },
+    reflection:"What's the most expensive sentence you've never said out loud — and what would it actually cost to say it once?",
+    teaser:{title:"Strategic Use of Credit",desc:"Credit as power tools: useful, dangerous, all in the grip."},
+  },
+  {
+    id:"L27",number:"06",title:"Strategic Use of Credit",emoji:"🧰",duration:"5 min",
+    hero:"/lessons/l27-hero.png",heroFit:"contain",heroBg:"#fcf4e7",
+    hook:"Credit isn't a debt machine, and it isn't the devil. It's power tools — useful, dangerous, and entirely about how you hold them.",
+    concept:"Strategic use means the card serves a plan instead of replacing one. The mechanics are known: purchases you'd make anyway, paid in full each cycle, build the payment history the last lesson decoded while paying zero interest. The card becomes a scorekeeper, not a lender. Rewards deserve one honest sentence: points are a rebate, not a reason. The moment a purchase exists because of the points, the rebate has bought you — and rebates never outrun interest. Here's the deeper frame, and it ties this whole world together: a credit card spends future-you's money. Your budget (that's the other Story World) is how future-you gets a vote. Strategy is nothing more than making sure the person paying the bill agreed to the purchase.",
+    choices:[
+      {id:"a",emoji:"💳",label:"I use credit for everything and worry about it"},
+      {id:"b",emoji:"😨",label:"I'm scared to use credit at all"},
+      {id:"c",emoji:"🎁",label:"I chase rewards — is that bad?"},
+    ],
+    branches:{
+      a:{headline:"For the worried heavy-users",body:"The tell isn't the swipe count — it's whether the card is executing your budget or writing it. Card-for-everything works fine when the spending was planned and the balance clears monthly; it turns expensive the month the card starts making decisions the budget never saw. One honest comparison shows you which side you're on.",tip:"Tonight, put last month's card statement next to last month's plan. One question: did the card follow the plan, or improvise? No fixing required — just the verdict."},
+      b:{headline:"For the credit-wary",body:"Caution around credit is a reasonable response to everything this world covers — and it's still worth knowing the mechanics: used deliberately, small and planned and paid in full, a card builds the history lenders read without costing interest. Whether that trade is worth it for you is genuinely your call. Fear you've examined is judgment; fear you haven't is just a wall.",tip:"Write down what specifically scares you about credit. A named fear usually turns out to be a manageable rule — \"groceries only,\" \"paid every Friday\" — and rules are things you get to set."},
+      c:{headline:"For the points-chasers",body:"Rewards are wonderful exactly as long as they're a rebate on spending that already had a reason. The audit is one subtraction: what the points gave you last year, minus what interest and point-justified purchases cost you. Positive number, enjoy the game. Negative, and the game has been playing you — which the card companies quietly count on.",tip:"Look up your last year of rewards redeemed and interest paid. Do the one subtraction. The sign of that number is the whole answer."},
+    },
+    reflection:"Is your credit card executing your plan — or writing it?",
+    teaser:null,
+  },
+];
+
 // ─── World Registry ───────────────────────────────────────────────────────────
 const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
 const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
@@ -361,6 +472,11 @@ const WORLD_META = {
     emoji:"📐", title:"Budgeting Foundations", lessons:BUDGET_LESSONS,
     mapNote:"Each one adds another tool to your budgeting system — a framework, a rhythm, and a year-level view.",
     completeBlurb:"You've completed all 6 lessons. You now own a complete budgeting toolkit — a framework, a system, categories that fit your life, a weekly rhythm, and a year-level view. Next up: Debt & Credit, where the tools start working on your behalf.",
+  },
+  debt: {
+    emoji:"💳", title:"Debt & Credit", lessons:DEBT_LESSONS,
+    mapNote:"Each one turns debt from a source of shame into a set of tools — a sorting system, two payoff methods, a decoded score, and the words that can lower a rate.",
+    completeBlurb:"You've completed all 6 lessons. Debt has a sorting system now, a payoff method that fits your temperament, a score you can read, and a script you could use — and with it, the whole Growth tier is complete. Every promise on the pricing card, delivered. Next stop: Safety & Stability.",
   },
 };
 

@@ -46,7 +46,7 @@ const PLANS = [
   },
   {
     id: "growth", name: "Growth", monthly: "$9.99/mo", yearly: "$79/yr",
-    blurb: "The full Mind & Money world (8 lessons) and the complete Budgeting Foundations world (6 lessons) today — plus Debt & Credit when it launches soon.",
+    blurb: "The complete Growth library, today: Mind & Money (8 lessons), Budgeting Foundations (6 lessons), and Debt & Credit (6 lessons).",
   },
   {
     id: "transformation", name: "Transformation", monthly: "$19.99/mo", yearly: "$149/yr",
