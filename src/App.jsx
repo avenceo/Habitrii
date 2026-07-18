@@ -239,7 +239,7 @@ const LESSONS = [
 const BUDGET_LESSONS = [
   {
     id:"L04",number:"01",title:"The 50/30/20 Framework",emoji:"🥧",duration:"4 min",
-    hero:"/lessons/l04-hero.png",
+    hero:"/lessons/l04-hero.png",heroFit:"cover",heroPos:"center",
     hook:"Payday felt great — for about four days. Now it's week three, your balance is doing that thing again, and you honestly couldn't say where the money went.",
     concept:"The 50/30/20 Framework splits your after-tax income into three buckets: 50% for Needs (housing, groceries, the bills that keep life running), 30% for Wants (the spending that makes life feel like yours), and 20% for Future You (saving, and paying down debt faster than the minimum). Its power isn't precision — it's that three buckets is few enough to hold in your head. And the percentages are a starting point, not a grade: in a high-rent city, Needs might genuinely run 60. That's not failure — that's information.",
     choices:[
@@ -257,7 +257,7 @@ const BUDGET_LESSONS = [
   },
   {
     id:"L05",number:"02",title:"Zero-Based Budgeting Light",emoji:"🧾",duration:"3 min",
-    hero:"/lessons/l05-hero.png",
+    hero:"/lessons/l05-hero.png",heroFit:"contain",heroBg:"#ffffff",
     hook:"There's $214 \"left over\" at the end of the month. By the 3rd, it's gone — and you couldn't name a single thing it bought.",
     concept:"Zero-based budgeting runs on one equation: income minus jobs equals zero. Every dollar gets assigned a job before the month starts — not zero dollars in your account, but zero dollars without a purpose. The Light version keeps it to six or eight jobs, never forty. And here's the part people miss: \"stay in savings\" is a job. Assigning a dollar doesn't mean spending it — it means deciding, on purpose, what it's for. Unassigned money has no defense; it says yes to whoever asks first.",
     choices:[
@@ -275,7 +275,7 @@ const BUDGET_LESSONS = [
   },
   {
     id:"L06",number:"03",title:"The Anti-Budget Method",emoji:"🚫",duration:"3 min",
-    hero:"/lessons/l06-hero.png",
+    hero:"/lessons/l06-hero.png",heroFit:"contain",heroBg:"#fffbef",
     hook:"You've downloaded four budgeting apps. You've deleted four budgeting apps. What if the problem was never you?",
     concept:"The Anti-Budget has exactly one move: on payday, set your future aside first — many people start somewhere between 10 and 20 percent, but the number is entirely yours — make sure the bills are covered, and then spend the rest without tracking a single purchase. It works because it relocates willpower: one calm decision a month at payday instead of thirty tired ones at checkout. And the guilt-free part isn't reckless; it's engineered. By the time you're spending, your future and your obligations are already handled. There's nothing left to break.",
     choices:[
@@ -293,7 +293,7 @@ const BUDGET_LESSONS = [
   },
   {
     id:"L19",number:"04",title:"Budget Categories That Actually Work",emoji:"🗂️",duration:"4 min",
-    hero:"/lessons/l19-hero.png",
+    hero:"/lessons/l19-hero.png",heroFit:"contain",heroBg:"#fef3e1",
     hook:"\"Miscellaneous: $412.\" If your budget's junk drawer is bigger than your grocery line, your categories are quietly lying to you.",
     concept:"Categories fail when they're borrowed from someone else's life — a template's twenty-six lines for a person whose money really moves through six. Most real lives fit: Home, Food, Transport, Fun, People, and Surprises. \"People\" is the one everyone forgets — gifts, treats, helping family — and ignoring it is how generosity gets mislabeled as failure. \"Surprises\" is the other secret: most surprises are just slow bills. Divide the annual ones by twelve and they become boring, and boring is the goal.",
     choices:[
@@ -311,7 +311,7 @@ const BUDGET_LESSONS = [
   },
   {
     id:"L20",number:"05",title:"The Weekly Money Date",emoji:"☕",duration:"3 min",
-    hero:"/lessons/l20-hero.png",
+    hero:"/lessons/l20-hero.png",heroFit:"contain",heroBg:"#fdfcf7",
     hook:"Most money stress doesn't come from what you spent. It comes from not looking — and not-looking compounds faster than any interest rate.",
     concept:"The Weekly Money Date is fifteen minutes, once a week, same time: glance at your balances, scan the week's spending, peek at what's coming. Three looks — that's the whole date. It's a date, not an audit: coffee, music, low stakes, no verdicts allowed. Frequency beats depth, because a weekly glance catches things while they're still small enough to be boring. And the dread shrinks every single week you show up. First dates are awkward. The fifth one is just Tuesday.",
     choices:[
@@ -329,7 +329,7 @@ const BUDGET_LESSONS = [
   },
   {
     id:"L21",number:"06",title:"Annual Financial Planning",emoji:"🗓️",duration:"5 min",
-    hero:"/lessons/l21-hero.png",
+    hero:"/lessons/l21-hero.png",heroFit:"cover",heroPos:"center 12%",
     hook:"Every year has a December. Somehow, the holidays still show up on the credit card like a surprise guest.",
     concept:"Months lie to you one at a time; a year tells the truth. Zoom out and your spending has a shape — the holiday spike, the summer trip, the renewal cluster, the birthday season — and that shape repeats with remarkable loyalty. Annual planning is one sitting, once a year: look back at last year's expensive months, mark the peaks on the calendar ahead with rough numbers, decide what this month should set aside for the nearest one, and book the next sitting. You're not forecasting to the dollar. You're learning your terrain — and a predictable month, seen early, is just a bill with good manners.",
     choices:[
@@ -1124,7 +1124,7 @@ export default function Habitrii() {
         </div>
         {lesson.hero && (
           <img src={lesson.hero} alt={`${lesson.title} illustration`} loading="lazy"
-            style={{width:"100%",aspectRatio:"4/3",objectFit:"cover",objectPosition:"center",display:"block",borderRadius:"16px",boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}/>
+            style={{width:"100%",aspectRatio:"4/3",objectFit:lesson.heroFit||"cover",objectPosition:lesson.heroPos||"center",background:lesson.heroBg||"transparent",display:"block",borderRadius:"16px",boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}/>
         )}
         <div style={{background:"rgba(255,255,255,0.6)",borderRadius:"14px",padding:"18px 20px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <p style={{fontSize:"16px",lineHeight:1.78,color:C.text,margin:0}}>{lesson.concept}</p>
@@ -1155,7 +1155,7 @@ export default function Habitrii() {
           <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
             <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{b.body}</p>
           </div>
-          <div style={{background:"#ffffff",borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px",boxShadow:"0 4px 18px rgba(255,255,255,0.6)"}}>
+          <div style={{background:"#ffffff",borderLeft:`4px solid ${C.yellow}`,borderRadius:"12px",padding:"16px 20px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
             <p style={{fontSize:"14px",color:C.text,margin:0,lineHeight:1.7}}>{b.tip}</p>
           </div>
           <button onClick={()=>go("reflect")} style={btnYellow}>Continue →</button>
