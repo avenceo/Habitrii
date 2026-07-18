@@ -83,9 +83,9 @@ const WORLDS = [
     name: "Budgeting Foundations",
     tier: "GROWTH",
     desc: "50/30/20, zero-based budgeting, weekly money dates.",
-    badge: "COMING SOON",
-    badgeBg: "rgba(35,35,33,0.12)",
-    badgeColor: "rgba(35,35,33,0.9)",
+    badge: "NEW",
+    badgeBg: "#f5d924",
+    badgeColor: "#232321",
   },
   {
     emoji: "💳",
@@ -591,17 +591,16 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   </li>
                 ))}
               </ul>
-              <div style={{
+              <button className="lp-btn" onClick={onStart} style={{
                 padding: "14px 24px", width: "100%", boxSizing: "border-box",
                 borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
-                fontSize: "14px", fontWeight: 700, letterSpacing: "1.5px",
-                textTransform: "uppercase", cursor: "default",
-                background: "rgba(35,35,33,0.08)",
-                color: "rgba(35,35,33,0.45)",
-                border: "1.5px solid rgba(35,35,33,0.2)",
+                fontSize: "14px", fontWeight: 800, letterSpacing: "1.5px",
+                textTransform: "uppercase", cursor: "pointer", border: "none",
+                background: "#232321", color: "#f5d924",
+                boxShadow: "0 4px 18px rgba(35,35,33,0.35)", transition: "all 0.15s ease",
               }}>
-                Coming Soon
-              </div>
+                Get Growth →
+              </button>
             </div>
 
             {/* ── Transformation ── */}
