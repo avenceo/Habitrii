@@ -4,8 +4,10 @@
 
 import { useState } from "react";
 
-// Flip to true at worlds launch to enable paid checkout.
-const PAYMENTS_ENABLED = false;
+// Per-plan availability. Growth opened July 18, 2026 — Budgeting Foundations
+// content complete, so the card's promise is real. Transformation flips at
+// Safety & Stability launch (WBS 4.4): one line, right here.
+const PLAN_AVAILABLE = { foundation: true, growth: true, transformation: false };
 
 const C = {
   bg: "#57b7a7", dark: "#232321", yellow: "#f5d924",
@@ -28,7 +30,12 @@ const btn = (primary) => ({
   background: primary ? C.yellow : "#ffffff",
   color: C.dark,
   fontSize: "15px", fontWeight: 700, fontFamily: "inherit", cursor: "pointer",
+  boxShadow: primary ? "0 2px 12px rgba(245,217,36,0.45)" : "none",
+  transition: "all 0.15s ease",
 });
+// Glow for CTAs sitting on colored cards (yellow glow vanishes on the yellow
+// Growth card — white reads as the same design family there).
+const btnGlowOnColor = { boxShadow: "0 2px 14px rgba(255,255,255,0.85)" };
 const price = { fontSize: "26px", fontWeight: 700, color: C.dark, margin: 0 };
 const sub = { fontSize: "13px", color: C.sub, lineHeight: 1.55, margin: 0 };
 
@@ -39,7 +46,7 @@ const PLANS = [
   },
   {
     id: "growth", name: "Growth", monthly: "$9.99/mo", yearly: "$79/yr",
-    blurb: "The full Mind & Money world (8 lessons) today — plus Budgeting Foundations and Debt & Credit when they launch soon.",
+    blurb: "The full Mind & Money world (8 lessons) and the complete Budgeting Foundations world (6 lessons) today — plus Debt & Credit when it launches soon.",
   },
   {
     id: "transformation", name: "Transformation", monthly: "$19.99/mo", yearly: "$149/yr",
@@ -98,9 +105,9 @@ export default function PlanSelect({ email, onFree }) {
             <p style={sub}>{p.blurb}</p>
             {p.id === "foundation" ? (
               <button style={btn(true)} onClick={onFree}>Start for free →</button>
-            ) : PAYMENTS_ENABLED ? (
-              <button style={btn(false)} disabled={!!busy} onClick={() => checkout(p.id)}>
-                {busy === p.id ? "Opening checkout…" : `Choose ${p.name}`}
+            ) : PLAN_AVAILABLE[p.id] ? (
+              <button style={{ ...btn(false), ...btnGlowOnColor }} disabled={!!busy} onClick={() => checkout(p.id)}>
+                {busy === p.id ? "Opening checkout…" : `Choose ${p.name} →`}
               </button>
             ) : (
               <div style={{
