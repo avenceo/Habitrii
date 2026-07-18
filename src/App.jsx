@@ -329,7 +329,7 @@ const BUDGET_LESSONS = [
   },
   {
     id:"L21",number:"06",title:"Annual Financial Planning",emoji:"🗓️",duration:"5 min",
-    hero:"/lessons/l21-hero.png",heroFit:"cover",heroPos:"center 12%",
+    hero:"/lessons/l21-hero.png",heroFit:"cover",heroPos:"center 41%",
     hook:"Every year has a December. Somehow, the holidays still show up on the credit card like a surprise guest.",
     concept:"Months lie to you one at a time; a year tells the truth. Zoom out and your spending has a shape — the holiday spike, the summer trip, the renewal cluster, the birthday season — and that shape repeats with remarkable loyalty. Annual planning is one sitting, once a year: look back at last year's expensive months, mark the peaks on the calendar ahead with rough numbers, decide what this month should set aside for the nearest one, and book the next sitting. You're not forecasting to the dollar. You're learning your terrain — and a predictable month, seen early, is just a bill with good manners.",
     choices:[
@@ -936,6 +936,7 @@ export default function Habitrii() {
     <PlanSelect
       email={session?.user?.email || emailInput}
       onFree={() => { completeOnboarding(); go("worlds"); }}
+      onBack={() => go("worlds")}
     />
   );
 

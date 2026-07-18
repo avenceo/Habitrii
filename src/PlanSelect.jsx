@@ -54,7 +54,7 @@ const PLANS = [
   },
 ];
 
-export default function PlanSelect({ email, onFree }) {
+export default function PlanSelect({ email, onFree, onBack }) {
   const [busy, setBusy] = useState(null);
   const [error, setError] = useState(null);
   const [yearly, setYearly] = useState(false);
@@ -83,6 +83,14 @@ export default function PlanSelect({ email, onFree }) {
       alignItems: "center", justifyContent: "center", padding: "36px 24px", boxSizing: "border-box",
     }}>
       <div style={{ width: "100%", maxWidth: "560px", display: "flex", flexDirection: "column", gap: "16px" }}>
+        {onBack && (
+          <button onClick={onBack} style={{
+            background: C.yellow, color: C.dark, border: "none", borderRadius: "10px",
+            padding: "9px 18px", fontSize: "14px", fontWeight: 700, cursor: "pointer",
+            fontFamily: "inherit", alignSelf: "flex-start", letterSpacing: "0.2px",
+            boxShadow: "0 2px 8px rgba(245,217,36,0.3)", transition: "all 0.15s ease",
+          }}>← Back</button>
+        )}
         <div style={{ textAlign: "center", marginBottom: "4px" }}>
           <p style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.14em", color: C.dark, margin: "0 0 6px" }}>HABITRII</p>
           <h1 style={{ fontSize: "30px", fontWeight: 700, color: C.dark, margin: "0 0 8px" }}>Choose your journey</h1>
