@@ -15,8 +15,8 @@ const C = {
 };
 
 const PLAN_TONE = {
-  foundation:     { background: "#ffffff", border: "1px solid #232321" },
-  growth:         { background: "#f5d924", border: "1px solid #232321" },
+  foundation:     { background: "#ffffff", boxShadow: "0 4px 18px rgba(255,255,255,0.6)" },
+  growth:         { background: "#f5d924", boxShadow: "0 4px 18px rgba(245,217,36,0.5)" },
   transformation: { background: "#57b7a7", border: "2px solid #ffffff" },
 };
 const cardStyle = (id) => ({

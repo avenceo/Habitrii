@@ -86,8 +86,13 @@ const CARD_SEQ = (() => {
   return seq;
 })();
 const cardTone = (i) => CARD_TONES[CARD_SEQ[i % CARD_SEQ.length]];
-const toneBorder = (tone) => tone === "#57b7a7" ? "2px solid #ffffff" : "1px solid #232321";
-const toneCard = (i) => { const t = cardTone(i); return { background: t, border: toneBorder(t) }; };
+// Glow system (July 18 QA): yellow/white cards carry a soft glow instead of a
+// black border — matches the CTA treatment. Teal keeps its white border for
+// separation against the teal canvas.
+const toneBorder = (tone) => tone === "#57b7a7" ? "2px solid #ffffff" : "none";
+const toneGlow = (tone) => tone === "#f5d924" ? "0 4px 18px rgba(245,217,36,0.5)"
+  : tone === "#ffffff" ? "0 4px 18px rgba(255,255,255,0.6)" : "none";
+const toneCard = (i) => { const t = cardTone(i); return { background: t, border: toneBorder(t), boxShadow: toneGlow(t) }; };
 
 const FREE_LESSONS = 3; // Foundation tier: first N Mind & Money lessons free forever
 
@@ -476,7 +481,7 @@ function LessonCard({ lesson, isComplete, isCurrent, locked, onClick, tone }) {
       <div style={{fontSize:"12px",fontWeight:700,padding:"4px 11px",borderRadius:"99px",letterSpacing:"0.3px",
         background:isComplete?C.dark:isCurrent?C.dark:"rgba(35,35,33,0.1)",
         color:isComplete?C.textOnDark:isCurrent?C.yellow:C.textSub}}>
-        {isComplete?"✓ Done":isCurrent?"Go →":"Soon"}
+        {isComplete?"✓ Done":locked?"Locked":isCurrent?"Go →":"Ready"}
       </div>
     </div>
   );
@@ -1119,7 +1124,7 @@ export default function Habitrii() {
         </div>
         {lesson.hero && (
           <img src={lesson.hero} alt={`${lesson.title} illustration`} loading="lazy"
-            style={{width:"100%",display:"block",borderRadius:"16px",boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}/>
+            style={{width:"100%",aspectRatio:"4/3",objectFit:"cover",objectPosition:"center",display:"block",borderRadius:"16px",boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}/>
         )}
         <div style={{background:"rgba(255,255,255,0.6)",borderRadius:"14px",padding:"18px 20px",boxShadow:"0 1px 6px rgba(35,35,33,0.07)"}}>
           <p style={{fontSize:"16px",lineHeight:1.78,color:C.text,margin:0}}>{lesson.concept}</p>
@@ -1150,7 +1155,7 @@ export default function Habitrii() {
           <div style={{background:C.card,borderRadius:"14px",padding:"20px 22px",boxShadow:"0 2px 8px rgba(35,35,33,0.08)"}}>
             <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{b.body}</p>
           </div>
-          <div style={{background:"#ffffff",border:"1px solid #232321",borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px"}}>
+          <div style={{background:"#ffffff",borderLeft:`4px solid ${C.yellow}`,borderRadius:"0 12px 12px 0",padding:"16px 20px",boxShadow:"0 4px 18px rgba(255,255,255,0.6)"}}>
             <p style={{fontSize:"14px",color:C.text,margin:0,lineHeight:1.7}}>{b.tip}</p>
           </div>
           <button onClick={()=>go("reflect")} style={btnYellow}>Continue →</button>
@@ -1165,7 +1170,7 @@ export default function Habitrii() {
       <div style={{...inner,textAlign:"center"}}>
         <div style={{fontSize:"52px"}}>💛</div>
         <h2 style={{fontSize:"26px",fontWeight:700,margin:0,color:C.text,lineHeight:1.3}}>Reflection moment</h2>
-        <div style={{background:"#f5d924",border:"1px solid #232321",borderRadius:"16px",padding:"24px 28px"}}>
+        <div style={{background:"#f5d924",borderRadius:"16px",padding:"24px 28px",boxShadow:"0 4px 18px rgba(245,217,36,0.5)"}}>
           <p style={{fontSize:"19px",lineHeight:1.75,color:C.text,margin:0,fontStyle:"italic"}}>"{lesson.reflection}"</p>
         </div>
         <p style={{fontSize:"15px",color:C.textSub,lineHeight:1.65,margin:0,maxWidth:"420px",alignSelf:"center",fontWeight:500}}>
@@ -1188,7 +1193,7 @@ export default function Habitrii() {
     return (
       <div style={outer}>
         <div style={inner}>
-          <div style={{background:"#f5d924",border:"1px solid #232321",borderRadius:"16px",padding:"18px 22px"}}>
+          <div style={{background:"#f5d924",borderRadius:"16px",padding:"18px 22px",boxShadow:"0 4px 18px rgba(245,217,36,0.5)"}}>
             <p style={lbl("rgba(35,35,33,0.9)")}>PENNY CHECK-IN</p>
             <p style={{fontSize:"17px",color:C.text,margin:0,lineHeight:1.6,fontWeight:500}}>
               Did the <strong style={{color:C.text}}>{lesson.title}</strong> lesson click for you?
@@ -1224,7 +1229,9 @@ export default function Habitrii() {
             <>
               <div style={{background:C.card,borderRadius:"16px",padding:"22px 24px",borderLeft:`4px solid ${C.yellow}`,boxShadow:"0 4px 16px rgba(35,35,33,0.1)"}}>
                 <p style={{...lbl(C.teal),marginBottom:"10px"}}>PENNY SAYS</p>
-                <p style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:0}}>{pennyText}</p>
+                {pennyText.split(/\n{2,}|\n(?=[A-Z])/).filter(Boolean).map((para,i)=>(
+                  <p key={i} style={{fontSize:"16px",lineHeight:1.8,color:C.text,margin:i===0?0:"12px 0 0"}}>{para}</p>
+                ))}
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
                 <button onClick={()=>go("lesson_complete",{complete:lesson.id})} style={btnYellow}>Continue →</button>
@@ -1261,7 +1268,7 @@ export default function Habitrii() {
             <p style={{fontSize:"13px",color:C.textSub,margin:0,fontWeight:600}}>{worldDone}/{worldLessons.length} done</p>
           </div>
           {!allDone&&lesson.teaser&&nextLesson&&(
-            <div style={{background:"#ffffff",border:"1px solid #232321",borderRadius:"14px",padding:"20px 24px",textAlign:"left"}}>
+            <div style={{background:"#ffffff",borderRadius:"14px",padding:"20px 24px",textAlign:"left",boxShadow:"0 4px 18px rgba(255,255,255,0.6)"}}>
               <p style={lbl("rgba(35,35,33,0.9)")}>UP NEXT</p>
               <p style={{fontSize:"18px",fontWeight:700,margin:"0 0 5px",color:C.text}}>{nextLesson.emoji} {lesson.teaser.title}</p>
               <p style={{fontSize:"14px",color:"rgba(35,35,33,0.9)",margin:0,lineHeight:1.5}}>{lesson.teaser.desc}</p>
