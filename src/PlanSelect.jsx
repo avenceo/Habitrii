@@ -50,7 +50,7 @@ const PLANS = [
   },
   {
     id: "transformation", name: "Transformation", monthly: "$19.99/mo", yearly: "$149/yr",
-    blurb: "Everything in Growth, plus the complete Safety & Stability world (6 lessons) today — and Advanced & Values when it launches soon.",
+    blurb: "Everything in Growth, plus the complete Transformation library: Safety & Stability (6 lessons) and Advanced & Values (4 lessons). All 30 lessons, all five worlds.",
   },
 ];
 

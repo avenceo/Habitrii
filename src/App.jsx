@@ -569,6 +569,81 @@ const SAFETY_LESSONS = [
   },
 ];
 
+const VALUES_LESSONS = [
+  {
+    id:"L03",number:"01",title:"The Joy Per Dollar Ratio",emoji:"✨",duration:"4 min",
+    hero:"/lessons/l03-hero.png",heroFit:"contain",heroBg:"#fefefd",
+    hook:"Two purchases, same price. One you still smile about a year later; one you can't even find. Your bank statement says they were identical. Your life says they weren't. There's a number for that difference.",
+    concept:"Joy per dollar is exactly what it sounds like: how much actual, lasting enjoyment a purchase delivers for what it cost. Not happiness in the moment of buying — that fades in days — but the enjoyment still there on the tenth use, the hundredth wear, the third year. The revelation for most people is how badly price predicts joy: the expensive thing that felt obligatory-to-love scores low; the cheap thing you use daily scores absurdly high. Once you've seen your own pattern — and it's personal, nobody else's ratios transfer — expensive stops meaning good and cheap stops meaning smart. If you played Mind & Money, this is the Check-In's older sibling: that lesson asked \"do I actually want this?\" before the purchase. This one asks \"what did it actually give me?\" after — and the after-answers are what train the before-instincts.",
+    choices:[
+      {id:"a",emoji:"🛍️",label:"Expensive things keep disappointing me"},
+      {id:"b",emoji:"🤷",label:"I honestly can't tell what brings me joy"},
+      {id:"c",emoji:"🧾",label:"Isn't this just overthinking shopping?"},
+    ],
+    branches:{
+      a:{headline:"For the disappointed",body:"The pattern usually isn't bad taste — it's borrowed numerators. Expensive purchases carry other people's joy math: the reviews, the status, the person you imagined becoming. The ratio fixes this by only counting joy that actually arrived in your actual life. A few honest scores and you'll find where your money genuinely converts to enjoyment — and it's almost never where the price tags point.",tip:"Rate your three biggest purchases of the past year — just \"still brings me joy: yes/some/no\" next to what they cost. No judgment, just data. The pattern is the lesson."},
+      b:{headline:"For the joy-blind",body:"That's more common than you'd think, and it usually means joy is being measured at the wrong moment. Purchase-moment excitement is loud; tenth-use enjoyment is quiet. Look backward instead: what do you already own that you'd instantly replace if it vanished? That list is your joy profile, sitting in plain sight — and it's a better shopping guide than any wishlist.",tip:"Write down the five owned things you'd replace tomorrow if they disappeared. Look at what they cost. That's your joy-per-dollar signature — study it before your next purchase."},
+      c:{headline:"For the skeptics",body:"Fair — and for small stuff, you're right: nobody needs a ratio for a coffee. The tool earns its keep on repeat categories and bigger buys, where the same mistake compounds monthly. One honest look at which categories consistently deliver and which consistently don't isn't overthinking; it's the thinking you do once so the next fifty purchases don't need it.",tip:"Pick just one spending category you repeat monthly and ask: is this one still earning its spot? One category, one honest answer. That's the whole practice at minimum dose."},
+    },
+    reflection:"What's the highest joy-per-dollar thing you own — and what did it cost compared to what you'd have guessed?",
+    teaser:{title:"Advanced Impulse Defense",desc:"The 24-Hour Rule was one wall. Here's the whole castle."},
+  },
+  {
+    id:"L17",number:"02",title:"Advanced Impulse Defense",emoji:"🏰",duration:"5 min",
+    hero:"/lessons/l17-hero.png",heroFit:"contain",heroBg:"#fefefd",
+    hook:"The 24-Hour Rule stops the impulse that politely knocks. But some impulses don't knock — they arrive mid-scroll at 11pm, pre-approved by a stressful day and one-click checkout. For those, one wall isn't enough. You need the whole castle.",
+    concept:"Advanced defense starts from a truth the beginner version skips: impulses aren't one enemy. There's the boredom impulse, the stress impulse, the social-feed impulse, the sale-panic impulse — and if you drew your Spending Triggers Map back in Mind & Money, you already know which ones visit you. Each type breaches a different wall, so each gets its own layer. The layers stack by distance from the purchase. Far out: environment design — unfollow the trigger accounts, delete the saved card details, unsubscribe from the sale emails. Mid-range: friction rules — the 24-Hour Rule for knock-at-the-door wants, a cart-but-don't-buy rule for scroll finds, a per-category monthly cap. Close-in: the moment-of-weakness protocol — one pre-written question you've agreed to answer before any unplanned buy. The advanced part isn't more discipline — it's less reliance on it. Every layer moves a decision from your tired evening self to your calm planning self.",
+    choices:[
+      {id:"a",emoji:"📱",label:"The scroll gets me — I buy things I never went looking for"},
+      {id:"b",emoji:"😮‍💨",label:"Stress shopping is my pressure valve"},
+      {id:"c",emoji:"🕳️",label:"My defenses work for weeks, then collapse in one night"},
+    ],
+    branches:{
+      a:{headline:"For the scroll-caught",body:"Scroll purchases are ambushes — you never chose to enter the store, the store entered you. Environment design is your heavy armor: the unfollows, the ad-blockers, the deleted card autofill that turns one-click into find-your-wallet. And for what still gets through, the cart-and-wait rule converts the ambush into an appointment: it can sit in the cart overnight, and mostly, morning-you never goes back.",tip:"Tonight, delete your saved card details from the one app that gets you most. That single minute of friction will quietly cancel purchases for months."},
+      b:{headline:"For the stress-spenders",body:"Stress shopping works — that's the honest problem with it. It delivers real relief, just at retail prices, and the relief fades faster than the charge clears. The defense isn't refusing comfort; it's having the substitution ready before the stress arrives — that's the Healthy Coping toolkit from Mind & Money doing safety-net duty. The purchase question for stressed evenings is pre-written: \"Am I buying this thing, or buying a feeling I could get cheaper?\"",tip:"Write your moment-of-weakness question on a card and put it where the shopping happens — by the laptop, in the phone case. Agreeing to ask it is the entire commitment."},
+      c:{headline:"For the collapse-prone",body:"Systems that collapse in one night were usually load-bearing on willpower the whole time — the rules held while you were rested and folded when you weren't. Layered defense fails differently: one breach doesn't open the castle, because the next layer catches it. Bought something mid-scroll? The category cap still contains the damage. The goal was never a perfect record; it's a system where a bad night costs a skirmish, not the war.",tip:"Add one containment layer to whatever defense you already run — a monthly cap on your weakest category is the classic. Breaches stop being collapses when there's a wall behind the wall."},
+    },
+    reflection:"Which of your impulses walks through your current defenses untouched — and which layer was built for exactly that visitor?",
+    teaser:{title:"The Intentional Purchase Protocol",desc:"For the big buys: a checklist that turns wanting into deciding."},
+  },
+  {
+    id:"L18",number:"03",title:"The Intentional Purchase Protocol",emoji:"🎯",duration:"4 min",
+    hero:"/lessons/l18-hero.png",heroFit:"contain",heroBg:"#faf9f4",
+    hook:"Small impulses nibble at a budget. But it's the big purchases — the ones you told yourself you'd thought about — that move the whole month. \"I thought about it\" usually means \"I wanted it for long enough that it felt decided.\" Wanting a while isn't deciding. Here's what deciding looks like.",
+    concept:"The Intentional Purchase Protocol is a short ritual that stands between wanting something big and owning it. The classic checks: a waiting period scaled to price (a day per hundred, capped at a month — pick your own exchange rate); the three honest questions (What job does this do? What does it replace? What would I buy instead with the same money?); the joy-per-dollar forecast, scored against your own history, not the reviews; and the planned-money check — does it come from a bucket that exists, or from future-you's paycheck? The magic isn't in any single check — it's that the protocol runs the same way every time. Rituals remove the negotiation. And a protocol pass is not a purchase denial system — roughly half the point is buying with a clear conscience. A big purchase that clears every check gets owned guilt-free, enjoyed fully, and never re-litigated at 2am. Intentional doesn't mean less; it means on purpose.",
+    choices:[
+      {id:"a",emoji:"💳",label:"Big purchases sneak past me disguised as 'deserved'"},
+      {id:"b",emoji:"🐢",label:"I deliberate forever and buy nothing — is that winning?"},
+      {id:"c",emoji:"🧩",label:"How many checks is the right number?"},
+    ],
+    branches:{
+      a:{headline:"For the deserving",body:"\"I deserve this\" might be the most expensive sentence in retail — not because it's false, but because it's unfalsifiable. Of course you deserve nice things. The protocol doesn't argue with deserving; it just asks the deserving purchase to also answer the same three questions everything else answers. What clears both is genuinely yours to enjoy. What only clears \"deserved\" was a feeling wearing a price tag.",tip:"Next time \"I deserve this\" shows up, write down what specifically you deserve — comfort, celebration, rest. Then check whether this purchase is actually the best supplier of that thing. Sometimes it is. Now you know."},
+      b:{headline:"For the eternal deliberators",body:"Endless deliberation isn't discipline — it's a decision with no exit condition, and it quietly costs you the joy of the things you'd have loved. The protocol fixes this from the other side: it has an END. Checks passed, waiting period served, money planned? Buy it — that's the ruling, and re-opening the case is against your own rules. A protocol that can say yes is what makes its no trustworthy.",tip:"Pick the big purchase you've been circling for months and run it through the checks once, with a deadline attached. Whatever the verdict, take it. Deciding is the win — in both directions."},
+      c:{headline:"For the calibrators",body:"The right number is however many you'll actually run — which for most people is three or four, and the same three or four every time. A ten-check protocol gets skipped by February; a fixed ritual you can do from memory in five minutes gets used for a decade. Start with waiting period + the three questions + planned-money. Add a check only when a purchase gets past you that shouldn't have.",tip:"Write your protocol — your checks, your waiting-period exchange rate — on one card. If it doesn't fit on the card, it's not a protocol yet; it's a wish list of virtues."},
+    },
+    reflection:"Think of your last big purchase. Did it pass a decision — or just outlast your resistance?",
+    teaser:{title:"Values-Based Spending",desc:"The final lesson: pointing all of it at what actually matters to you."},
+  },
+  {
+    id:"L30",number:"04",title:"Values-Based Spending",emoji:"🧭",duration:"5 min",
+    hero:"/lessons/l30-hero.png",heroFit:"contain",heroBg:"#f8f6e5",
+    hook:"Twenty-nine lessons ago, this was about not buying the thing at 11pm. It was never really about the thing. Every rule, ratio, bucket, and buffer you've built was scaffolding for one question — the last one: what is your money actually for?",
+    concept:"Values-based spending means your money flows toward what you'd defend out loud — and away from what you wouldn't. Not what should matter, not what matters to the people you follow: what actually matters to you. Most budgets fail quietly here — technically balanced, pointed at nothing. The practice is one honest audit: put three months of spending next to a list of your top five values and see whether the money knows what you care about. Almost everyone finds a mismatch, and the mismatch is just the gap between autopilot and intention — you now own every tool needed to close it. And here's the graduation part: Mind & Money taught you to see the feelings behind spending. Budgeting Foundations gave the money jobs. Debt & Credit turned old weight into tools. Safety & Stability built the net under all of it. This lesson is why: a person whose spending survives emotions, has a system, carries its debt on purpose, and can absorb a bad month — that person gets to spend on what they love without fear. That was the point the whole time. The system is yours now.",
+    choices:[
+      {id:"a",emoji:"🧭",label:"I honestly don't know what my top values are"},
+      {id:"b",emoji:"📉",label:"I know my values — my spending just ignores them"},
+      {id:"c",emoji:"🎓",label:"I've built the system — what now?"},
+    ],
+    branches:{
+      a:{headline:"For the compass-seekers",body:"Values hide in behavior better than in brainstorms — so skip the blank-page exercise and read your own evidence. Look at your last three months: which purchases would you make again instantly? Which would you defend to someone you respect? The pattern behind the defensible ones IS your values, already voting. You don't have to invent a compass; you have to notice the one your best purchases were already following.",tip:"Circle your five favorite purchases of the season — the ones you'd repeat without hesitation. Write the one word each was really buying (time, connection, health, beauty, freedom). That list is your compass, drawn from life."},
+      b:{headline:"For the misaligned",body:"Knowing your values while your spending ignores them isn't hypocrisy — it's just autopilot outrunning intention, and autopilot always wins until something structural changes. The fix is mechanical, not moral, and you already own it: give your top value its own budget line, fund it first, and let a low-joy category shrink to pay for it. Alignment isn't a resolution; it's a line item.",tip:"Pick your most neglected value and give it a funded line in next month's budget — even a small one. A value with a budget line is a priority; a value without one is a poster."},
+      c:{headline:"For the graduates",body:"Now it runs on maintenance: the weekly money date keeps it honest, the annual sitting keeps it aimed, and the values audit — three months of spending against your five words — is worth one evening a year. The rules can even loosen now; you've internalized what they were teaching. And someday, you might notice the last upgrade: the system stops being about your money and starts being how you decide things generally. That's not a money skill. That was never a money skill.",tip:"Put one date on the calendar: your values audit, one year out. Thirty lessons built this system — one evening a year keeps it pointed where you're actually going."},
+    },
+    reflection:"If a stranger audited your last three months of spending, what would they say you love? Is it what you'd want them to say — and if not, you now know exactly which tools close that gap.",
+    teaser:null,
+  },
+];
+
 // ─── World Registry ───────────────────────────────────────────────────────────
 const WORLD_TIER = { mind:"foundation", budget:"growth", debt:"growth", safety:"transformation", values:"transformation" };
 const TIER_RANK  = { foundation:0, growth:1, transformation:2 };
@@ -593,6 +668,11 @@ const WORLD_META = {
     emoji:"🛡️", title:"Safety & Stability", lessons:SAFETY_LESSONS,
     mapNote:"Each one adds a layer to your safety net — a cushion, a system for slow bills, a ladder, your own number, and a plan that holds even when income doesn't behave.",
     completeBlurb:"You've completed all 6 lessons. The whole net is built: a cushion for surprises, sinking funds for the slow bills, a ladder that always knows your next rung, a fund size you chose on purpose, the vocabulary for the bigger net, and a system that works even when the paycheck doesn't. Next up: Advanced & Values — the final world.",
+  },
+  values: {
+    emoji:"🌟", title:"Advanced & Values", lessons:VALUES_LESSONS,
+    mapNote:"The final world: measuring joy, defending against your specific impulses, deciding big purchases on purpose, and pointing the whole system at what you actually love.",
+    completeBlurb:"You've completed all 4 lessons — and with them, all 30 lessons across all five Story Worlds. The full system is yours: you can see the feelings behind spending, give every dollar a job, carry debt on purpose, absorb a bad month, and point all of it at what you actually love. Habitrii will be here whenever you want to walk any of it again. Congratulations, graduate. 🎓",
   },
 };
 
