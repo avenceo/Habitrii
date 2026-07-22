@@ -629,17 +629,16 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   </li>
                 ))}
               </ul>
-              <div style={{
+              <button className="lp-btn" onClick={onStart} style={{
                 padding: "14px 24px", width: "100%", boxSizing: "border-box",
                 borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
-                fontSize: "14px", fontWeight: 700, letterSpacing: "1.5px",
-                textTransform: "uppercase", cursor: "default",
-                background: "rgba(35,35,33,0.05)",
-                color: "rgba(35,35,33,0.28)",
-                border: "1.5px solid rgba(35,35,33,0.1)",
+                fontSize: "14px", fontWeight: 800, letterSpacing: "1.5px",
+                textTransform: "uppercase", cursor: "pointer", border: "none",
+                background: "#232321", color: "#f5d924",
+                boxShadow: "0 4px 18px rgba(35,35,33,0.35)", transition: "all 0.15s ease",
               }}>
-                Coming Soon
-              </div>
+                Get Transformation →
+              </button>
             </div>
 
           </div>
