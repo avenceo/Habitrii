@@ -964,7 +964,7 @@ export default function Habitrii() {
     setPennyChoice(choice);setPennyLoading(true);setPennyError(null);setPennyText("");
     try {
       const res = await fetch("/api/chat",{
-        method:"POST",headers:{"Content-Type":"application/json"},
+        method:"POST",headers:{"Content-Type":"application/json",...(session?.access_token?{Authorization:`Bearer ${session.access_token}`}:{})},
         body:JSON.stringify({
           profile:{q1,q2,mbti,westernSign,chineseSign},
           lesson:{title:lesson.title,concept:lesson.concept},
