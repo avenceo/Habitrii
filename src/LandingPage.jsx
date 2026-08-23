@@ -749,7 +749,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
         {/* Social icons */}
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "28px", marginBottom: "32px" }}>
           <a
-            href="https://habitrii.aven4life.com/?utm_source=instagram&utm_medium=bio&utm_campaign=launch"
+            href="https://habitrii.aven4life.com/?utm_source=instagram&utm_medium=footer&utm_campaign=launch"
             target="_blank" rel="noopener noreferrer" aria-label="Habitrii on Instagram"
             className="lp-footer-a"
             style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "44px", height: "44px", color: C.dark }}
@@ -761,7 +761,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             </svg>
           </a>
           <a
-            href="https://habitrii.aven4life.com/?utm_source=tiktok&utm_medium=bio&utm_campaign=launch"
+            href="https://habitrii.aven4life.com/?utm_source=tiktok&utm_medium=footer&utm_campaign=launch"
             target="_blank" rel="noopener noreferrer" aria-label="Habitrii on TikTok"
             className="lp-footer-a"
             style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "44px", height: "44px", color: C.dark }}
