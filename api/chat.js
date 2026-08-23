@@ -2,13 +2,101 @@
 // Secure proxy between the React app and the Anthropic API.
 // The API key never touches the browser — it lives only in Vercel's
 // environment variables and is accessed here on the server.
+//
+// Aug 2026 content-protection update (workstream 3 — rate limiting):
+//   - Requires a valid Supabase session token (Authorization: Bearer)
+//   - Per-user and per-IP rate limits with friendly 429s
+//   - CORS allowlist (production, staging, local dev) instead of "*"
+//   - Input length caps so oversized payloads can't inflate token costs
+// Limits are in-memory per serverless instance, matching api/auth.js and
+// api/capture.js. For durable cross-instance limits, migrate all three to
+// @upstash/ratelimit + Redis (requires an Upstash account + env vars).
+
+// ── CORS allowlist — same pattern as api/verify.js ─────────────────────────
+const ALLOWED_ORIGINS = [
+  "https://habitrii.aven4life.com",
+  "https://staging.habitrii.aven4life.com",
+  "http://localhost:5173",
+  "http://localhost:4173",
+];
+
+// ── Rate limits (per serverless instance) ──────────────────────────────────
+// A lesson triggers 1-2 Penny calls, so real users sit far below these.
+const USER_LIMIT_MAX = 30;                    // Penny replies / user / hour
+const IP_LIMIT_MAX   = 60;                    // Penny replies / IP / hour (NAT headroom)
+const LIMIT_WINDOW_MS = 60 * 60 * 1000;       // 1 hour
+const MAP_MAX_ENTRIES = 5000;                 // bound memory per instance
+
+const userLimitMap = new Map();               // userId → { count, windowStart }
+const ipLimitMap   = new Map();               // ip     → { count, windowStart }
+
+function checkLimit(map, key, max) {
+  const now = Date.now();
+  const entry = map.get(key);
+  if (!entry || now - entry.windowStart > LIMIT_WINDOW_MS) {
+    if (map.size >= MAP_MAX_ENTRIES) {
+      const oldest = map.keys().next().value;   // Maps iterate in insertion order
+      map.delete(oldest);
+    }
+    map.set(key, { count: 1, windowStart: now });
+    return { allowed: true };
+  }
+  if (entry.count >= max) {
+    const retryAfterSeconds = Math.ceil(
+      (entry.windowStart + LIMIT_WINDOW_MS - now) / 1000
+    );
+    return { allowed: false, retryAfterSeconds };
+  }
+  entry.count += 1;
+  return { allowed: true };
+}
+
+function clientIp(req) {
+  const fwd = req.headers["x-forwarded-for"];
+  return (typeof fwd === "string" && fwd.split(",")[0].trim()) ||
+    req.socket?.remoteAddress || "unknown";
+}
+
+// ── Supabase session verification ──────────────────────────────────────────
+// Confirms the Bearer token belongs to a real signed-in user and returns
+// that user's id (used as the per-user rate-limit key). Uses the same
+// VITE_-prefixed env vars the client build reads — they are plain env vars
+// on the server. Fails open to IP-only limiting if envs are absent, so a
+// misconfigured preview never hard-breaks Penny.
+async function verifySupabaseToken(token) {
+  const url = process.env.VITE_SUPABASE_URL;
+  const anonKey = process.env.VITE_SUPABASE_ANON_KEY;
+  if (!url || !anonKey) {
+    console.warn("Supabase env vars missing — /api/chat auth check skipped");
+    return { skipped: true };
+  }
+  if (!token) return { valid: false };
+  try {
+    const r = await fetch(`${url}/auth/v1/user`, {
+      headers: { Authorization: `Bearer ${token}`, apikey: anonKey },
+    });
+    if (!r.ok) return { valid: false };
+    const user = await r.json();
+    return user?.id ? { valid: true, userId: user.id } : { valid: false };
+  } catch (err) {
+    console.error("Supabase token verification failed:", err?.message);
+    return { valid: false };
+  }
+}
+
+const RATE_LIMIT_MESSAGE =
+  "Penny needs a quick breather — you've been moving fast! Give it a little while and check back in.";
 
 export default async function handler(req, res) {
 
-  // ── CORS (allows local dev at localhost:5173) ───────────────────────────
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // ── CORS ────────────────────────────────────────────────────────────────
+  const origin = req.headers.origin ?? "";
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
@@ -20,6 +108,39 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "API key not configured" });
   }
 
+  // ── Authenticate the caller ─────────────────────────────────────────────
+  const authHeader = req.headers.authorization ?? "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+  const auth = await verifySupabaseToken(token);
+  if (!auth.skipped && !auth.valid) {
+    return res.status(401).json({
+      error: "unauthorized",
+      message: "Please sign in to chat with Penny.",
+    });
+  }
+
+  // ── Rate limits: per user, then per IP ──────────────────────────────────
+  if (auth.userId) {
+    const userCheck = checkLimit(userLimitMap, auth.userId, USER_LIMIT_MAX);
+    if (!userCheck.allowed) {
+      res.setHeader("Retry-After", String(userCheck.retryAfterSeconds));
+      return res.status(429).json({
+        error: "rate_limited",
+        message: RATE_LIMIT_MESSAGE,
+        retryAfterSeconds: userCheck.retryAfterSeconds,
+      });
+    }
+  }
+  const ipCheck = checkLimit(ipLimitMap, clientIp(req), IP_LIMIT_MAX);
+  if (!ipCheck.allowed) {
+    res.setHeader("Retry-After", String(ipCheck.retryAfterSeconds));
+    return res.status(429).json({
+      error: "rate_limited",
+      message: RATE_LIMIT_MESSAGE,
+      retryAfterSeconds: ipCheck.retryAfterSeconds,
+    });
+  }
+
   // ── Parse and validate request body ────────────────────────────────────
   const { profile, lesson, choice } = req.body ?? {};
 
@@ -27,6 +148,18 @@ export default async function handler(req, res) {
     return res.status(400).json({
       error: "Missing required fields: profile, lesson, choice",
     });
+  }
+
+  // Length caps: keep prompt sizes (and token costs) bounded.
+  if (
+    typeof lesson.title !== "string" || lesson.title.length > 120 ||
+    typeof lesson.concept !== "string" || lesson.concept.length > 600 ||
+    !["yes", "sort_of", "no"].includes(choice) ||
+    (profile.mbti && String(profile.mbti).length > 8) ||
+    (profile.westernSign && String(profile.westernSign).length > 20) ||
+    (profile.chineseSign && String(profile.chineseSign).length > 20)
+  ) {
+    return res.status(400).json({ error: "Invalid request" });
   }
 
   // ── Build prompt ────────────────────────────────────────────────────────
