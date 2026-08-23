@@ -439,6 +439,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               <div key={f.title} style={{
                 background: C.card, borderRadius: "18px", padding: "40px 32px",
                 boxShadow: "0 4px 24px rgba(35,35,33,0.09)",
+                borderTop: `4px solid ${C.yellow}`,
               }}>
                 <div style={{ fontSize: "44px", marginBottom: "18px", lineHeight: 1 }}>{f.emoji}</div>
                 <h3 style={{ fontSize: "19px", fontWeight: 700, color: C.dark, margin: "0 0 12px" }}>
@@ -532,6 +533,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 4px 24px rgba(35,35,33,0.09)",
+              borderTop: `4px solid ${C.yellow}`,
             }}>
               <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Foundation
@@ -539,7 +541,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               <div style={{ marginBottom: "28px" }}>
                 <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>Free</span>
                 <p style={{ fontSize: "14px", color: C.grayText, margin: "8px 0 0", lineHeight: 1.5 }}>
-                  All 8 lessons free for your first month — first 3 free forever. No credit card.
+                  All 8 lessons free for your first month — first 3 free forever. <span style={{ color: C.teal, fontWeight: 600 }}>No credit card.</span>
                 </p>
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
@@ -563,6 +565,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 10px 48px rgba(35,35,33,0.38)", position: "relative",
+              borderTop: `4px solid ${C.yellow}`,
             }}>
               <div style={{
                 position: "absolute", top: "-15px", left: "50%", transform: "translateX(-50%)",
@@ -600,6 +603,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <div className="lp-p-card" style={{
               background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 4px 24px rgba(35,35,33,0.09)",
+              borderTop: `4px solid ${C.yellow}`,
             }}>
               <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Transformation
@@ -724,7 +728,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
       </section>
 
       {/* ══════════════════════ FOOTER ══════════════════════ */}
-      <footer style={{ background: C.bg, padding: "64px 24px 44px", textAlign: "center" }}>
+      <footer style={{ background: C.bg, padding: "44px 24px", textAlign: "center" }}>
         <span style={{
           fontSize: "26px", fontWeight: 800, color: C.teal,
           display: "block", marginBottom: "36px", letterSpacing: "-0.5px",
