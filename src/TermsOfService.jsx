@@ -9,6 +9,11 @@ import LegalDocLayout from './LegalDocLayout';
  *      - 7.2 Automatic Renewal Disclosure (Virginia's automatic-renewal
  *        statute, Va. Code §§59.1-207.45–.49, amended 2026)
  *      - 20. Accessibility (WCAG 2.1 AA commitment statement)
+ *  - The August 2026 content-protection update, which expanded:
+ *      - 10. Intellectual property (explicit license grant, content-protection
+ *        prohibitions incl. redistribution/screenshot-reposting/scraping/account
+ *        sharing/watermark circumvention, and an enforcement clause)
+ *      - 11. Prohibited uses (cross-reference to Section 10)
  *
  * IMPORTANT — this document has NOT yet been reviewed by a licensed Virginia
  * attorney. The draftNotice banner below must stay visible until that review
@@ -30,7 +35,7 @@ const TOC_ITEMS = [
   { id: 'payments-billing', label: 'Payments and billing' },
   { id: 'refund-policy', label: 'Refund policy' },
   { id: 'ai-features', label: 'AI-powered features' },
-  { id: 'intellectual-property', label: 'Intellectual property' },
+  { id: 'intellectual-property', label: 'Intellectual property and license' },
   { id: 'prohibited-uses', label: 'Prohibited uses' },
   { id: 'disclaimers', label: 'Disclaimers' },
   { id: 'limitation-of-liability', label: 'Limitation of liability' },
@@ -244,14 +249,49 @@ export default function TermsOfService({ onBack }) {
       </section>
 
       <section id="intellectual-property">
-        <h2>10. Intellectual property</h2>
+        <h2>10. Intellectual property and content license</h2>
+
+        <h3>10.1 Ownership</h3>
         <p>
-          All content, curriculum, design, code, brand assets, and materials
-          within the Service are owned by AVEN LLC or its licensors and are
+          All content, curriculum, lessons, design, code, brand assets, and
+          materials within the Service (collectively, &ldquo;Service
+          Content&rdquo;) are owned by AVEN LLC or its licensors and are
           protected by applicable copyright, trademark, and other
-          intellectual property laws. You may not reproduce, distribute, or
-          commercially exploit any Service content without prior written
-          permission.
+          intellectual property laws.
+        </p>
+
+        <h3>10.2 Your license</h3>
+        <p>
+          Subject to your compliance with these Terms and, for paid tiers,
+          an active subscription, AVEN LLC grants you a limited, personal,
+          non-exclusive, non-transferable, revocable license to access and
+          use Service Content solely for your own personal, non-commercial
+          educational use. All rights not expressly granted to you are
+          reserved by AVEN LLC.
+        </p>
+
+        <h3>10.3 Content protections</h3>
+        <p>You may not, and may not permit or assist anyone else to:</p>
+        <ul>
+          <li>Reproduce, copy, distribute, publicly display, publish, or republish Service Content, in whole or in part &mdash; including by posting screenshots, screen recordings, photographs, or transcriptions of lesson content to any website, social media platform, or file-sharing service</li>
+          <li>Sell, resell, rent, sublicense, or otherwise commercially exploit Service Content</li>
+          <li>Create derivative works, courses, or materials based on Service Content</li>
+          <li>Scrape, harvest, crawl, or systematically download Service Content by any manual or automated means</li>
+          <li>Share your account credentials or otherwise make your account available to any other person, or access the Service through another person&rsquo;s account</li>
+          <li>Remove, alter, obscure, or circumvent any watermark, copyright notice, subscription-tier restriction, or other technical protection measure applied to the Service or Service Content</li>
+        </ul>
+        <p>
+          Brief excerpts for your own personal note-taking, and any use that
+          qualifies as fair use under applicable law, are not restricted by
+          this section.
+        </p>
+
+        <h3>10.4 Enforcement</h3>
+        <p>
+          If we reasonably believe you have violated this Section 10, we may
+          suspend or terminate your account without refund, in addition to
+          any other rights and remedies available to us under applicable
+          law.
         </p>
       </section>
 
@@ -265,6 +305,7 @@ export default function TermsOfService({ onBack }) {
           <li>Use automated scripts, bots, or other means to access the Service without permission</li>
           <li>Interfere with or disrupt the integrity or performance of the Service</li>
           <li>Misrepresent your identity or create accounts on behalf of others</li>
+          <li>Reproduce, redistribute, or publicly post Service Content except as permitted in Section 10</li>
         </ul>
       </section>
 
