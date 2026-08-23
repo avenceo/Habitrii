@@ -110,7 +110,7 @@ const WORLDS = [
     name: "Advanced & Values",
     tier: "TRANSFORMATION",
     desc: "Values-based spending, intentional purchase protocol.",
-    badge: "NEW",
+    badge: "LIVE",
     badgeBg: "#f5d924",
     badgeColor: "#232321",
   },
@@ -318,7 +318,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             textTransform: "uppercase", padding: "6px 16px", borderRadius: "99px",
             marginBottom: "30px",
           }}>
-            Now in Early Access
+            Choose Your Journey
           </div>
 
           {/* Headline */}
@@ -360,7 +360,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             <button
               className="lp-btn-o"
               onClick={scrollToHowItWorks}
-              style={{ ...btnOutline, padding: "17px 40px", fontSize: "17px" }}
+              style={{ ...btnOutline, padding: "17px 40px", fontSize: "17px", border: `2px solid ${C.yellow}` }}
             >
               See How It Works
             </button>
@@ -554,14 +554,14 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   </li>
                 ))}
               </ul>
-              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%" }}>
+              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%", color: C.teal }}>
                 Start for Free
               </button>
             </div>
 
             {/* ── Growth (Most Popular) ── */}
             <div className="lp-p-card" style={{
-              background: C.yellow, borderRadius: "20px", padding: "40px 32px",
+              background: C.card, borderRadius: "20px", padding: "40px 32px",
               boxShadow: "0 10px 48px rgba(35,35,33,0.38)", position: "relative",
             }}>
               <div style={{
@@ -572,34 +572,27 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               }}>
                 Most Popular
               </div>
-              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "rgba(35,35,33,0.6)", margin: "0 0 10px" }}>
+              <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: C.grayText, margin: "0 0 10px" }}>
                 Growth
               </p>
               <div style={{ marginBottom: "6px" }}>
-                <span style={{ fontSize: "40px", fontWeight: 800, color: C.textOnDark, lineHeight: 1 }}>$9.99</span>
-                <span style={{ fontSize: "15px", color: "rgba(35,35,33,0.6)", marginLeft: "6px" }}>/month</span>
+                <span style={{ fontSize: "40px", fontWeight: 800, color: C.dark, lineHeight: 1 }}>$9.99</span>
+                <span style={{ fontSize: "15px", color: C.grayText, marginLeft: "6px" }}>/month</span>
               </div>
-              <p style={{ fontSize: "13px", color: "rgba(35,35,33,0.8)", fontWeight: 700, margin: "0 0 28px" }}>or $79/year</p>
+              <p style={{ fontSize: "13px", color: C.teal, fontWeight: 600, margin: "0 0 28px" }}>or $79/year</p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: "14px" }}>
                 {[
                   "Full Mind & Money world (8 lessons)",
                   "Budgeting Foundations world (6 lessons)",
                   "Debt & Credit world (6 lessons)",
                 ].map(item => (
-                  <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: "rgba(35,35,33,0.8)", lineHeight: 1.55 }}>
-                    <CheckIcon dark={true} />{item}
+                  <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: C.textSub, lineHeight: 1.55 }}>
+                    <CheckIcon dark={false} />{item}
                   </li>
                 ))}
               </ul>
-              <button className="lp-btn" onClick={onStart} style={{
-                padding: "14px 24px", width: "100%", boxSizing: "border-box",
-                borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
-                fontSize: "14px", fontWeight: 800, letterSpacing: "1.5px",
-                textTransform: "uppercase", cursor: "pointer", border: "none",
-                background: "#232321", color: "#f5d924",
-                boxShadow: "0 4px 18px rgba(35,35,33,0.35)", transition: "all 0.15s ease",
-              }}>
-                Get Growth →
+              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%", color: C.teal }}>
+                Get Growth
               </button>
             </div>
 
@@ -629,15 +622,8 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   </li>
                 ))}
               </ul>
-              <button className="lp-btn" onClick={onStart} style={{
-                padding: "14px 24px", width: "100%", boxSizing: "border-box",
-                borderRadius: "12px", textAlign: "center", fontFamily: "inherit",
-                fontSize: "14px", fontWeight: 800, letterSpacing: "1.5px",
-                textTransform: "uppercase", cursor: "pointer", border: "none",
-                background: "#232321", color: "#f5d924",
-                boxShadow: "0 4px 18px rgba(35,35,33,0.35)", transition: "all 0.15s ease",
-              }}>
-                Get Transformation →
+              <button className="lp-btn-o" onClick={onStart} style={{ ...btnOutline, padding: "14px 24px", width: "100%", color: C.teal }}>
+                Get Transformation
               </button>
             </div>
 
@@ -758,6 +744,32 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
               {link.label}
             </a>
           ))}
+        </div>
+
+        {/* Social icons */}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "28px", marginBottom: "32px" }}>
+          <a
+            href="https://habitrii.aven4life.com/?utm_source=instagram&utm_medium=bio&utm_campaign=launch"
+            target="_blank" rel="noopener noreferrer" aria-label="Habitrii on Instagram"
+            className="lp-footer-a"
+            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "44px", height: "44px", color: C.dark }}
+          >
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+              <circle cx="12" cy="12" r="4.4" />
+              <circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a
+            href="https://habitrii.aven4life.com/?utm_source=tiktok&utm_medium=bio&utm_campaign=launch"
+            target="_blank" rel="noopener noreferrer" aria-label="Habitrii on TikTok"
+            className="lp-footer-a"
+            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "44px", height: "44px", color: C.dark }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16.6 1h-3.3v14.37c0 1.98-1.6 3.58-3.57 3.58a3.58 3.58 0 0 1 0-7.16c.37 0 .73.06 1.07.16V8.6a6.9 6.9 0 0 0-1.07-.08A6.88 6.88 0 1 0 16.6 15.4V7.72A8.16 8.16 0 0 0 21.5 9.3V6a4.9 4.9 0 0 1-4.9-5Z" />
+            </svg>
+          </a>
         </div>
 
         <p style={{ fontSize: "13px", color: "rgba(35,35,33,0.66)", marginBottom: "10px" }}>
