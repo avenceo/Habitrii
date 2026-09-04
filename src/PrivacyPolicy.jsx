@@ -119,6 +119,18 @@ export default function PrivacyPolicy({ onBack }) {
               <td>Yes</td>
               <td>AI personalization</td>
             </tr>
+            <tr>
+              <td>Money Mirror answers and money type</td>
+              <td>If you take Money Mirror</td>
+              <td>Optional</td>
+              <td>Shown to you; saved only if you choose to save your result</td>
+            </tr>
+            <tr>
+              <td>Email address (Money Mirror or blog)</td>
+              <td>If you save your result or subscribe</td>
+              <td>Optional</td>
+              <td>Send your breakdown &amp; updates</td>
+            </tr>
           </tbody>
         </table>
 
@@ -143,6 +155,7 @@ export default function PrivacyPolicy({ onBack }) {
           <li>Manage subscription billing through Stripe for Growth and Transformation subscribers</li>
           <li>Send service-related emails (account confirmation, billing receipts)</li>
           <li>Analyze usage patterns to improve lesson content and user experience</li>
+          <li>Send your Money Mirror breakdown and related updates by email, if you opt in</li>
           <li>Comply with legal obligations</li>
         </ul>
         <p>We do not sell your personal information to third parties.</p>
@@ -161,6 +174,13 @@ export default function PrivacyPolicy({ onBack }) {
           <li>Not shared with third parties for advertising, profiling, or any purpose outside the Service</li>
           <li>For entertainment and self-reflection only &mdash; not used for predictions or professional assessments</li>
         </ul>
+        <p>
+          Money Mirror money types are self-reflection results computed in your
+          browser from your answers. Your answers are not stored. If you choose to
+          save your result, your money type is stored as a tag alongside your email
+          in Mailchimp so we can send you the matching breakdown. Money types are for
+          entertainment and self-reflection only.
+        </p>
       </section>
 
       <section id="third-party-services">
@@ -189,6 +209,16 @@ export default function PrivacyPolicy({ onBack }) {
               <td>Hosts the Habitrii web application and serverless API functions.</td>
               <td>vercel.com/legal/privacy-policy</td>
             </tr>
+            <tr>
+              <td>Mailchimp (Intuit)</td>
+              <td>Manages email marketing for opted-in subscribers, including saved Money Mirror types stored as subscriber tags.</td>
+              <td>intuit.com/privacy/statement</td>
+            </tr>
+            <tr>
+              <td>Cloudflare (Turnstile)</td>
+              <td>Bot protection on email capture forms. Processes IP address and browser signals to verify you are human.</td>
+              <td>cloudflare.com/privacypolicy</td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -214,6 +244,10 @@ export default function PrivacyPolicy({ onBack }) {
             <tr>
               <td>Subscription and billing records</td>
               <td>7 years (required for tax and financial compliance)</td>
+            </tr>
+            <tr>
+              <td>Saved Money Mirror type (email subscribers)</td>
+              <td>Life of your email subscription; removed on unsubscribe or deletion request</td>
             </tr>
             <tr>
               <td>Anonymized analytics</td>
