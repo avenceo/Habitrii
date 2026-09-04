@@ -259,7 +259,6 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             box-shadow: 0 12px 40px rgba(35,35,33,0.25);
           }
           .lp-hero-wash { display: none; }
-        }
           .lp-inner { padding: 0 18px; }
           .lp-nav-inner { padding: 0 20px; }
           .lp-section { padding: 64px 0; }
