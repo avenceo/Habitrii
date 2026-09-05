@@ -816,6 +816,19 @@ function ProfileBadge({ q1, q2, mbti, westernSign, chineseSign }) {
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
+// ── Money Mirror archetypes (must match src/moneymirror/archetypes.js keys) ──────────
+const MM_TYPES = {
+  deliberator: { name: "The Deliberator", emoji: "🔍" },
+  spark:       { name: "The Spark",       emoji: "✨" },
+  keeper:      { name: "The Keeper",      emoji: "🛡️" },
+  wanderer:    { name: "The Wanderer",    emoji: "🌿" },
+  giver:       { name: "The Giver",       emoji: "🤲" },
+  architect:   { name: "The Architect",   emoji: "📐" },
+  soother:     { name: "The Soother",     emoji: "☕" },
+  dreamer:     { name: "The Dreamer",     emoji: "🌅" },
+  hunter:      { name: "The Hunter",      emoji: "🎯" },
+};
+
 export default function Habitrii() {
   // ── Landing Page Gate ────────────────────────────────────────────────────────
   const [showLanding, setShowLanding] = useState(
@@ -863,7 +876,8 @@ export default function Habitrii() {
   useEffect(() => {
     if (session && !recoveryMode) {
       setShowLanding(false);
-      setScreen(sc => (sc === "welcome" ? "worlds" : sc));
+      const wantMap = mmLesson || new URLSearchParams(window.location.search).get("lesson");
+      setScreen(sc => (sc === "welcome" ? (wantMap ? "lesson_map" : "worlds") : sc));
     }
   }, [session, recoveryMode]);
   useEffect(() => {
@@ -871,6 +885,23 @@ export default function Habitrii() {
       window.history.replaceState({}, "", window.location.pathname);
       setShowLanding(false);
       setScreen("worlds");
+    }
+  }, []);
+
+  // ── Money Mirror handoff (?mm=<type>&lesson=<Lxx>) ────────────────────────────
+  // Set by the /moneymirror/ result screen. Persisted in sessionStorage so the
+  // type survives the sign-up/auth redirect; stripped from the URL on arrival.
+  const [mmType, setMmType] = useState(() => { try { return sessionStorage.getItem("hb_mm_type") || null; } catch { return null; } });
+  const [mmLesson, setMmLesson] = useState(() => { try { return sessionStorage.getItem("hb_mm_lesson") || null; } catch { return null; } });
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const mm = p.get("mm"), ls = p.get("lesson");
+    if (mm && MM_TYPES[mm]) { setMmType(mm); try { sessionStorage.setItem("hb_mm_type", mm); } catch { /* noop */ } }
+    if (ls && /^L\d{2}$/.test(ls)) { setMmLesson(ls); try { sessionStorage.setItem("hb_mm_lesson", ls); } catch { /* noop */ } }
+    if (mm || ls) {
+      p.delete("mm"); p.delete("lesson");
+      const q = p.toString();
+      window.history.replaceState({}, "", window.location.pathname + (q ? "?" + q : ""));
     }
   }, []);
 
@@ -943,6 +974,7 @@ export default function Habitrii() {
   const worldLessons = worldMeta.lessons;
   const lesson = worldLessons[lessonIdx] || worldLessons[0];
   const completedCount = worldLessons.filter(l => completed.has(l.id)).length;
+  const mmSuggested = mmLesson ? worldLessons.find(l => l.id === mmLesson) || null : null;
 
   const go = (next, updates={}) => {
     setFading(true);
@@ -966,7 +998,7 @@ export default function Habitrii() {
       const res = await fetch("/api/chat",{
         method:"POST",headers:{"Content-Type":"application/json",...(session?.access_token?{Authorization:`Bearer ${session.access_token}`}:{})},
         body:JSON.stringify({
-          profile:{q1,q2,mbti,westernSign,chineseSign},
+          profile:{q1,q2,mbti,westernSign,chineseSign,moneyMirror:mmType||undefined},
           lesson:{title:lesson.title,concept:lesson.concept},
           choice,
         }),
@@ -1373,6 +1405,17 @@ export default function Habitrii() {
         {(mbti||westernSign||chineseSign) && (
           <ProfileBadge q1={q1} q2={q2} mbti={mbti} westernSign={westernSign} chineseSign={chineseSign}/>
         )}
+        {mmType && MM_TYPES[mmType] && worldId==="mind" && (
+          <div style={{background:"#ffffff",border:"2px solid #f5d924",borderRadius:"14px",padding:"12px 16px",display:"flex",alignItems:"center",gap:"12px"}}>
+            <span style={{fontSize:"24px",lineHeight:1}} aria-hidden="true">{MM_TYPES[mmType].emoji}</span>
+            <p style={{fontSize:"14px",lineHeight:1.5,margin:0,color:C.text}}>
+              <strong>Your Money Mirror: {MM_TYPES[mmType].name}.</strong>{" "}
+              {mmSuggested
+                ? <>Penny will keep it in mind. Start with <strong>{mmSuggested.title}</strong> — the lesson built for your type.</>
+                : "Penny will keep it in mind as you go."}
+            </p>
+          </div>
+        )}
         <p style={{fontSize:"15px",color:C.textSub,margin:0,lineHeight:1.65,fontWeight:500}}>
           {worldId!=="mind"
             ? `Explore all ${worldLessons.length} lessons in any order. ${worldMeta.mapNote}`
@@ -1385,7 +1428,7 @@ export default function Habitrii() {
         <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
           {worldLessons.map((l,i)=>(
             <LessonCard key={l.id} lesson={l} isComplete={completed.has(l.id)}
-              isCurrent={!completed.has(l.id)&&completedCount===i}
+              isCurrent={!completed.has(l.id)&&(completedCount===i||l.id===mmLesson)}
               locked={lessonLocked(i)}
               tone={i}
               onClick={()=>lessonLocked(i)?go("plan"):go("scene",{lessonIdx:i,branch:null,resetPenny:true})}/>

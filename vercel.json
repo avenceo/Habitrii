@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/moneymirror", "destination": "/moneymirror/index.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
     {
       "source": "/((?!api/).*)","destination": "/index.html"
     }
