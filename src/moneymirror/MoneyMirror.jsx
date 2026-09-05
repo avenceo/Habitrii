@@ -4,14 +4,16 @@ import { ARCHETYPES, ARCHETYPE_ORDER, TIEBREAK_ORDER } from './archetypes.js';
 import { QUESTIONS, scoreAnswers } from './questions.js';
 
 // ─── Brand ──────────────────────────────────────────────────────────────────
+// Palette: teal, yellow, white, charcoal text, cloud panels, gray hairlines.
+// No dark green anywhere. Gray (#a09e98) is used for borders/dividers only —
+// it fails WCAG contrast as text on white, so text is always charcoal.
 const C = {
   teal: '#57b7a7',
   yellow: '#f5d924',
   gray: '#a09e98',
   white: '#ffffff',
-  deep: '#1a3330',
-  mid: '#2a4a44',
-  ink: '#0d1f1d',
+  cloud: '#f5f4f1',
+  ink: '#232321',
 };
 
 const APP_URL = 'https://habitrii.aven4life.com/';
@@ -55,24 +57,34 @@ const styles = {
     alignItems: 'center',
     marginBottom: 20,
   },
-  brandLink: { color: C.deep, fontWeight: 800, fontSize: 20, textDecoration: 'none', letterSpacing: -0.3 },
-  brandSub: { color: C.deep, fontSize: 13, opacity: 0.85 },
+  brandLink: { color: C.ink, fontWeight: 800, fontSize: 20, textDecoration: 'none', letterSpacing: -0.3 },
+  brandSub: { color: C.ink, fontSize: 12, fontWeight: 800, letterSpacing: 1.2, textTransform: 'uppercase' },
   card: {
     background: C.white,
     borderRadius: 18,
     padding: '26px 22px',
     boxShadow: '0 8px 28px rgba(13,31,29,0.14)',
   },
-  darkCard: {
-    background: C.deep,
-    color: C.white,
+  heroCard: {
+    background: C.white,
+    color: C.ink,
     borderRadius: 18,
     padding: '26px 22px',
+    boxShadow: '0 8px 28px rgba(35,35,33,0.14)',
+    borderTop: `6px solid ${C.yellow}`,
+  },
+  highlight: {
+    background: C.yellow,
+    color: C.ink,
+    padding: '2px 8px',
+    borderRadius: 6,
+    boxDecorationBreak: 'clone',
+    WebkitBoxDecorationBreak: 'clone',
   },
   h1: { fontSize: 30, lineHeight: 1.12, margin: '0 0 12px', fontWeight: 800, letterSpacing: -0.5 },
   h2: { fontSize: 22, lineHeight: 1.2, margin: '0 0 14px', fontWeight: 800, letterSpacing: -0.3 },
   p: { fontSize: 16, lineHeight: 1.55, margin: '0 0 12px' },
-  small: { fontSize: 13, lineHeight: 1.5, color: C.gray },
+  small: { fontSize: 13, lineHeight: 1.5, color: C.ink, opacity: 0.8 },
   eyebrow: {
     fontSize: 12,
     fontWeight: 800,
@@ -98,8 +110,8 @@ const styles = {
   btnGhost: {
     display: 'inline-block',
     background: 'transparent',
-    color: C.deep,
-    border: `2px solid ${C.deep}`,
+    color: C.ink,
+    border: `2px solid ${C.ink}`,
     borderRadius: 12,
     padding: '12px 18px',
     fontSize: 15,
@@ -114,7 +126,7 @@ const styles = {
     width: '100%',
     textAlign: 'left',
     background: selected ? C.yellow : C.white,
-    border: `2px solid ${selected ? C.yellow : '#e6e4df'}`,
+    border: `2px solid ${selected ? C.yellow : C.gray}`,
     borderRadius: 14,
     padding: '14px 16px',
     fontSize: 16,
@@ -130,11 +142,11 @@ const styles = {
     height: 6,
     flex: 1,
     borderRadius: 4,
-    background: state === 'done' ? C.yellow : state === 'now' ? C.deep : 'rgba(13,31,29,0.18)',
+    background: state === 'done' ? C.yellow : state === 'now' ? C.teal : C.gray,
   }),
   tip: {
-    background: C.deep,
-    color: C.white,
+    background: C.cloud,
+    color: C.ink,
     borderLeft: `5px solid ${C.yellow}`,
     borderRadius: 12,
     padding: '14px 16px',
@@ -142,7 +154,7 @@ const styles = {
     fontSize: 15,
     lineHeight: 1.5,
   },
-  label: { display: 'block', fontSize: 13, fontWeight: 700, marginBottom: 6, color: C.deep },
+  label: { display: 'block', fontSize: 13, fontWeight: 700, marginBottom: 6, color: C.ink },
   input: {
     width: '100%',
     boxSizing: 'border-box',
@@ -150,16 +162,28 @@ const styles = {
     fontSize: 16,
     fontFamily: 'inherit',
     borderRadius: 12,
-    border: '2px solid #e6e4df',
+    border: `2px solid ${C.gray}`,
     marginBottom: 10,
+  },
+  backBtn: {
+    background: C.teal,
+    color: C.ink,
+    border: 'none',
+    borderRadius: 999,
+    padding: '6px 12px',
+    fontSize: 13,
+    fontWeight: 800,
+    fontFamily: 'inherit',
+    cursor: 'pointer',
+    lineHeight: 1.2,
   },
   checkRow: { display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, lineHeight: 1.45, marginBottom: 10 },
   disclaimer: {
     marginTop: 22,
     fontSize: 12,
     lineHeight: 1.5,
-    color: C.deep,
-    opacity: 0.85,
+    color: C.ink,
+    opacity: 0.9,
   },
 };
 
@@ -310,16 +334,16 @@ function Result({ archetypeKey, fromShare, onRetake }) {
 
   return (
     <div>
-      <div style={styles.darkCard}>
-        <p style={{ ...styles.eyebrow, color: C.yellow }}>
+      <div style={styles.heroCard}>
+        <p style={styles.eyebrow}>
           {fromShare ? 'A friend’s Money Mirror' : 'Your Money Mirror'}
         </p>
         <div style={{ fontSize: 44, lineHeight: 1, marginBottom: 8 }} aria-hidden="true">{a.emoji}</div>
-        <h1 style={{ ...styles.h1, color: C.white }}>{a.name}</h1>
-        <p style={{ ...styles.p, fontSize: 18, fontWeight: 700, color: C.yellow, marginBottom: 16 }}>
-          {a.tagline}
+        <h1 style={styles.h1}>{a.name}</h1>
+        <p style={{ ...styles.p, fontSize: 18, fontWeight: 800, lineHeight: 1.6, marginBottom: 16 }}>
+          <span style={styles.highlight}>{a.tagline}</span>
         </p>
-        <p style={{ ...styles.p, color: C.white, opacity: 0.94 }}>{a.mirror}</p>
+        <p style={styles.p}>{a.mirror}</p>
       </div>
 
       <div style={{ ...styles.card, marginTop: 14 }}>
@@ -328,7 +352,7 @@ function Result({ archetypeKey, fromShare, onRetake }) {
         <p style={styles.eyebrow}>Your blind spot</p>
         <p style={styles.p}>{a.blindSpot}</p>
         <div style={styles.tip}>
-          <strong style={{ color: C.yellow }}>One small shift: </strong>{a.smallShift}
+          <strong>One small shift: </strong>{a.smallShift}
         </div>
       </div>
 
@@ -368,7 +392,7 @@ function Result({ archetypeKey, fromShare, onRetake }) {
       <div style={{ marginTop: 18, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <a
           href="/blog/"
-          style={{ color: C.deep, fontWeight: 700, fontSize: 14 }}
+          style={{ color: C.ink, fontWeight: 700, fontSize: 14 }}
           onClick={() => safeTrack('mm_blog_click', { type: a.key })}
         >
           Meet all nine types →
@@ -377,7 +401,7 @@ function Result({ archetypeKey, fromShare, onRetake }) {
           <button
             type="button"
             onClick={onRetake}
-            style={{ background: 'none', border: 'none', color: C.deep, fontFamily: 'inherit', fontSize: 14, cursor: 'pointer', textDecoration: 'underline' }}
+            style={{ background: 'none', border: 'none', color: C.ink, fontFamily: 'inherit', fontSize: 14, cursor: 'pointer', textDecoration: 'underline' }}
           >
             Retake
           </button>
@@ -389,11 +413,24 @@ function Result({ archetypeKey, fromShare, onRetake }) {
 }
 
 // ─── Quiz ───────────────────────────────────────────────────────────────────
-function Quiz({ onDone }) {
+function Quiz({ onDone, onExit }) {
   const [idx, setIdx] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [picked, setPicked] = useState(null);
   const q = QUESTIONS[idx];
+
+  // Back: on the first question return to the intro; otherwise step to the
+  // previous question and drop its answer so it can be re-chosen.
+  const back = () => {
+    if (picked !== null) return;
+    if (idx === 0) {
+      onExit();
+      return;
+    }
+    setAnswers(answers.slice(0, -1));
+    setIdx(idx - 1);
+    setPicked(null);
+  };
 
   const choose = (optIdx) => {
     if (picked !== null) return;
@@ -417,7 +454,12 @@ function Quiz({ onDone }) {
           <div key={i} style={styles.dot(i < idx ? 'done' : i === idx ? 'now' : 'todo')} />
         ))}
       </div>
-      <p style={styles.eyebrow}>Question {idx + 1} of {QUESTIONS.length}</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <p style={{ ...styles.eyebrow, margin: 0 }}>Question {idx + 1} of {QUESTIONS.length}</p>
+        <button type="button" onClick={back} style={styles.backBtn} aria-label={idx === 0 ? 'Back to start' : 'Back to previous question'}>
+          ← Back
+        </button>
+      </div>
       <h2 style={styles.h2}>{q.prompt}</h2>
       {q.options.map((opt, i) => (
         <button key={i} type="button" onClick={() => choose(i)} style={styles.choice(picked === i)}>
@@ -432,10 +474,10 @@ function Quiz({ onDone }) {
 function Intro({ onStart }) {
   return (
     <div>
-      <div style={styles.darkCard}>
-        <p style={{ ...styles.eyebrow, color: C.yellow }}>Money Mirror</p>
-        <h1 style={{ ...styles.h1, color: C.white }}>Your money has a personality. Meet it.</h1>
-        <p style={{ ...styles.p, color: C.white, opacity: 0.92 }}>
+      <div style={styles.heroCard}>
+        <p style={styles.eyebrow}>Money Mirror</p>
+        <h1 style={styles.h1}>Your money has a <span style={styles.highlight}>personality.</span> Meet it.</h1>
+        <p style={styles.p}>
           Five honest questions. Under a minute. No sign-up to see your result.
           You’ll get one of nine money types — with the strength you’re probably
           underusing and the blind spot you probably already suspect.
@@ -448,7 +490,7 @@ function Intro({ onStart }) {
         <p style={styles.eyebrow}>The nine types</p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
           {ARCHETYPE_ORDER.map((k) => (
-            <div key={k} style={{ fontSize: 13, lineHeight: 1.3, textAlign: 'center', padding: '10px 4px', background: '#f5f4f1', borderRadius: 10 }}>
+            <div key={k} style={{ fontSize: 13, lineHeight: 1.3, textAlign: 'center', padding: '10px 4px', background: C.cloud, border: `1px solid ${C.gray}`, borderRadius: 10 }}>
               <div style={{ fontSize: 22 }} aria-hidden="true">{ARCHETYPES[k].emoji}</div>
               <div style={{ fontWeight: 700 }}>{ARCHETYPES[k].name.replace('The ', '')}</div>
             </div>
@@ -496,7 +538,7 @@ export default function MoneyMirror() {
       <div style={styles.shell}>
         <Brand />
         {screen === 'intro' && <Intro onStart={start} />}
-        {screen === 'quiz' && <Quiz onDone={finish} />}
+        {screen === 'quiz' && <Quiz onDone={finish} onExit={() => setScreen('intro')} />}
         {screen === 'result' && resultKey && (
           <Result archetypeKey={resultKey} fromShare={false} onRetake={retake} />
         )}
