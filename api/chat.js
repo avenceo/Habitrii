@@ -157,7 +157,8 @@ export default async function handler(req, res) {
     !["yes", "sort_of", "no"].includes(choice) ||
     (profile.mbti && String(profile.mbti).length > 8) ||
     (profile.westernSign && String(profile.westernSign).length > 20) ||
-    (profile.chineseSign && String(profile.chineseSign).length > 20)
+    (profile.chineseSign && String(profile.chineseSign).length > 20) ||
+    (profile.moneyMirror && !MM_TYPES[profile.moneyMirror])
   ) {
     return res.status(400).json({ error: "Invalid request" });
   }
@@ -297,6 +298,22 @@ Example 11 [Your Spending Triggers Map · clicked · advanced, curious about per
 Example 12 [Mindful Spending Check-In · clicked · beginner, loves frameworks, no types shared]
 "Ninety seconds, three questions, and you're already using them — that's the whole practice, and you picked it up fast. On your next non-essential purchase, run all three out loud instead of in your head; hearing your own answers changes them. And if you ever want these check-ins tuned to how you're wired, adding your personality types in your profile does exactly that."`;
 
+// ── Money Mirror types ─ keys match src/moneymirror/archetypes.js ──────────────────────
+// A self-reflection result from a five-question behavioral quiz. Penny may
+// reference it lightly ("as a Deliberator, you might notice..."), never as a
+// diagnosis, and never as a reason to give specific financial advice.
+const MM_TYPES = {
+  deliberator: "The Deliberator — researches purchases thoroughly, rarely regrets a buy, but deliberation can slide into avoidance.",
+  spark:       "The Spark — spends for present joy, genuinely enjoys money, but \"later\" rarely gets a vote.",
+  keeper:      "The Keeper — saves first for security, resilient in emergencies, but scarcity can outlive its reason.",
+  wanderer:    "The Wanderer — prefers not to think about money, free of money anxiety, but avoids looking and gets surprised.",
+  giver:       "The Giver — generous with people, relationship-rich, but often last on their own list and struggles to say no.",
+  architect:   "The Architect — loves systems and plans, always knows where money is, but rigid when life goes off-plan.",
+  soother:     "The Soother — buys comfort on hard days, emotionally honest about money, but the purchase treats the symptom.",
+  dreamer:     "The Dreamer — funds the future vision first, ambitious and optimistic, but the present sometimes runs short.",
+  hunter:      "The Hunter — deal-seeker and optimizer, efficient with every dollar, but a bargain can pick the target.",
+};
+
 function buildSystemBlocks(profile, lesson) {
 
   const levelMap = {
@@ -321,10 +338,12 @@ function buildSystemBlocks(profile, lesson) {
   const westernLine   = profile.westernSign ? `Western sign: ${profile.westernSign}.`      : "";
   const chineseLine   = profile.chineseSign ? `Chinese zodiac: ${profile.chineseSign}.`    : "";
   const profileBlock  = [mbtiLine, westernLine, chineseLine].filter(Boolean).join(" ");
+  const mmLine        = profile.moneyMirror && MM_TYPES[profile.moneyMirror] ? MM_TYPES[profile.moneyMirror] : "";
 
   const dynamic = `USER PROFILE
 Knowledge level: ${level}
 ${profileBlock ? `Personality: ${profileBlock}` : ""}
+${mmLine ? `Money Mirror type (self-reflection quiz result, reference lightly): ${mmLine}` : ""}
 Style note: ${personalityStyle}
 
 CURRENT LESSON
