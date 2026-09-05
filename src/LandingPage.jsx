@@ -638,7 +638,7 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
                   "Everything in Growth",
                   "Safety & Stability world (6 lessons)",
                   "Advanced & Values world (4 lessons)",
-                  "Money Mirror: Financial Identity Profile (coming soon)",
+                  "Money Mirror: Financial Identity Profile",
                   "Early access to new features",
                 ].map(item => (
                   <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "15px", color: C.textSub, lineHeight: 1.55 }}>
