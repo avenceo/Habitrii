@@ -7,6 +7,12 @@
 //   MAILCHIMP_LIST_ID       – audience/list ID to subscribe to
 //   MAILCHIMP_SERVER_PREFIX – data center prefix, e.g. "us12"
 //   TURNSTILE_SECRET_KEY    – Cloudflare Turnstile secret key
+//
+// Money Mirror (Sept 2026): optional `tags` (string[], ≤5, each [a-z0-9-]{1,50})
+// and `source` (log-only) are accepted and stamped on the Mailchimp member so
+// Money Mirror / blog leads can be segmented for lifecycle email. Tags are
+// auto-created by Mailchimp. Callers sending only { email, captchaToken }
+// are unaffected.
 // ════════════════════════════════════════════════════════════════════════════
 
 // ── STEP 1: CORS HARDENING ────────────────────────────────────────────────
@@ -40,6 +46,11 @@ function checkRateLimit(ip) {
 function log(event, ip, extra = {}) {
   console.log(JSON.stringify({ event, ip, timestamp: new Date().toISOString(), ...extra }));
 }
+
+// Tag allow-list — lowercase alphanumerics and hyphens only, so nothing
+// user-controlled reaches Mailchimp unsanitized.
+const TAG_RE = /^[a-z0-9-]{1,50}$/;
+const MAX_TAGS = 5;
 
 export default async function handler(req, res) {
 
@@ -77,9 +88,9 @@ export default async function handler(req, res) {
   }
 
   // ── STEP 3: INPUT VALIDATION ──────────────────────────────────────────────
-  let email, captchaToken;
+  let email, captchaToken, tags, source;
   try {
-    ({ email, captchaToken } = req.body ?? {});
+    ({ email, captchaToken, tags, source } = req.body ?? {});
   } catch {
     return res.status(400).json({ error: "Invalid request" });
   }
@@ -103,6 +114,12 @@ export default async function handler(req, res) {
   if (!captchaToken || typeof captchaToken !== "string") {
     return res.status(400).json({ error: "Invalid request" });
   }
+
+  // Optional tags/source — anything failing the allow-list is silently dropped
+  const safeTags = Array.isArray(tags)
+    ? tags.filter((t) => typeof t === "string" && TAG_RE.test(t)).slice(0, MAX_TAGS)
+    : [];
+  const safeSource = typeof source === "string" ? source.slice(0, 40) : "app";
 
   // ── STEP 4: CAPTCHA VERIFICATION ──────────────────────────────────────────
   let turnstileData;
@@ -138,34 +155,47 @@ export default async function handler(req, res) {
   const authHeader = `Basic ${Buffer.from(
     `anystring:${MAILCHIMP_API_KEY}`
   ).toString("base64")}`;
+  const mcBase = `https://${MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${MAILCHIMP_LIST_ID}`;
 
   try {
-    const mcRes = await fetch(
-      `https://${MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0/lists/${MAILCHIMP_LIST_ID}/members`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authHeader,
-        },
-        body: JSON.stringify({
-          email_address: email,
-          status: "subscribed",
-        }),
-      }
-    );
+    const mcPayload = { email_address: email, status: "subscribed" };
+    if (safeTags.length) mcPayload.tags = safeTags;
+
+    const mcRes = await fetch(`${mcBase}/members`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeader,
+      },
+      body: JSON.stringify(mcPayload),
+    });
 
     const mcData = await mcRes.json();
 
     // "Member Exists" (400 with title "Member Exists") is not an error
     if (!mcRes.ok && mcData.title !== "Member Exists") {
-      log("mailchimp_error", ip, { status: mcRes.status });
+      log("mailchimp_error", ip, { status: mcRes.status, source: safeSource });
       // Never expose Mailchimp details to the client
       return res.status(500).json({ error: "Capture failed" });
     }
 
+    // Existing member: still apply the new tags so segmentation stays accurate
+    if (!mcRes.ok && safeTags.length) {
+      try {
+        const { createHash } = await import("crypto");
+        const subscriberHash = createHash("md5").update(email.toLowerCase()).digest("hex");
+        await fetch(`${mcBase}/members/${subscriberHash}/tags`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: authHeader },
+          body: JSON.stringify({ tags: safeTags.map((name) => ({ name, status: "active" })) }),
+        });
+      } catch (tagErr) {
+        log("mailchimp_tag_error", ip, { message: tagErr.message });
+      }
+    }
+
     // ── STEP 6: LOG SUCCESS ─────────────────────────────────────────────────
-    log("capture_success", ip);
+    log("capture_success", ip, { source: safeSource, tags: safeTags.length });
     return res.status(200).json({ ok: true });
 
   } catch (err) {

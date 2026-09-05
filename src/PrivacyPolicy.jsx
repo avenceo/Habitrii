@@ -119,6 +119,24 @@ export default function PrivacyPolicy({ onBack }) {
               <td>Yes</td>
               <td>AI personalization</td>
             </tr>
+            <tr>
+              <td>Mobile phone number</td>
+              <td>If you opt in to SMS</td>
+              <td>Optional</td>
+              <td>SMS marketing</td>
+            </tr>
+            <tr>
+              <td>Money Mirror answers and money type</td>
+              <td>If you take Money Mirror</td>
+              <td>Optional</td>
+              <td>Shown to you; saved only if you choose to save your result</td>
+            </tr>
+            <tr>
+              <td>Email address (Money Mirror or blog)</td>
+              <td>If you save your result or subscribe</td>
+              <td>Optional</td>
+              <td>Send your breakdown &amp; updates</td>
+            </tr>
           </tbody>
         </table>
 
@@ -143,6 +161,8 @@ export default function PrivacyPolicy({ onBack }) {
           <li>Manage subscription billing through Stripe for Growth and Transformation subscribers</li>
           <li>Send service-related emails (account confirmation, billing receipts)</li>
           <li>Analyze usage patterns to improve lesson content and user experience</li>
+          <li>Send SMS marketing to subscribers who have opted in</li>
+          <li>Send your Money Mirror breakdown and related updates by email, if you opt in</li>
           <li>Comply with legal obligations</li>
         </ul>
         <p>We do not sell your personal information to third parties.</p>
@@ -161,6 +181,13 @@ export default function PrivacyPolicy({ onBack }) {
           <li>Not shared with third parties for advertising, profiling, or any purpose outside the Service</li>
           <li>For entertainment and self-reflection only &mdash; not used for predictions or professional assessments</li>
         </ul>
+        <p>
+          Money Mirror money types are self-reflection results computed in your
+          browser from your answers. Your answers are not stored. If you choose to
+          save your result, your money type is stored as a tag alongside your email
+          in Mailchimp so we can send you the matching breakdown. Money types are for
+          entertainment and self-reflection only.
+        </p>
       </section>
 
       <section id="third-party-services">
@@ -189,12 +216,41 @@ export default function PrivacyPolicy({ onBack }) {
               <td>Hosts the Habitrii web application and serverless API functions.</td>
               <td>vercel.com/legal/privacy-policy</td>
             </tr>
+            <tr>
+              <td>Mailchimp (Intuit)</td>
+              <td>Manages email marketing for opted-in subscribers, including saved Money Mirror types stored as subscriber tags.</td>
+              <td>intuit.com/privacy/statement</td>
+            </tr>
+            <tr>
+              <td>Cloudflare (Turnstile)</td>
+              <td>Bot protection on email capture forms. Processes IP address and browser signals to verify you are human.</td>
+              <td>cloudflare.com/privacypolicy</td>
+            </tr>
           </tbody>
         </table>
       </section>
 
+      <section id="sms-messaging">
+        <h2>6. SMS text messaging</h2>
+        <p>
+          Habitrii offers optional SMS marketing communications. By opting in, you agree to receive
+          text messages including money mindset tips, product updates, and promotional content.
+        </p>
+        <ul>
+          <li><strong>Opt-in:</strong> Subscribe via sign-up forms or by texting a keyword to our designated number. Consent to SMS is not a condition of purchasing any product or service.</li>
+          <li><strong>Frequency:</strong> Message frequency varies.</li>
+          <li><strong>Message &amp; data rates:</strong> Standard rates may apply depending on your carrier plan.</li>
+          <li><strong>Opt-out:</strong> Reply STOP at any time to unsubscribe. You will receive a confirmation text and no further messages will be sent.</li>
+          <li><strong>Help:</strong> Reply HELP for assistance, or email habitrii@aven4life.com.</li>
+        </ul>
+        <p>
+          Your mobile phone number will not be shared with third parties for their marketing purposes.
+          Mobile information will not be shared with third parties/affiliates for marketing/promotional purposes.
+        </p>
+      </section>
+
       <section id="data-retention">
-        <h2>6. Data retention</h2>
+        <h2>7. Data retention</h2>
         <table>
           <thead>
             <tr>
@@ -216,16 +272,24 @@ export default function PrivacyPolicy({ onBack }) {
               <td>7 years (required for tax and financial compliance)</td>
             </tr>
             <tr>
+              <td>Saved Money Mirror type (email subscribers)</td>
+              <td>Life of your email subscription; removed on unsubscribe or deletion request</td>
+            </tr>
+            <tr>
+              <td>SMS opt-in records</td>
+              <td>Life of subscription, plus 5 years (TCPA compliance)</td>
+            </tr>
+            <tr>
               <td>Anonymized analytics</td>
               <td>Indefinitely (cannot be linked back to you)</td>
             </tr>
           </tbody>
         </table>
-        <p>You may request deletion of your personal data at any time (see Section 8).</p>
+        <p>You may request deletion of your personal data at any time (see Section 9).</p>
       </section>
 
       <section id="data-security">
-        <h2>7. Data security</h2>
+        <h2>8. Data security</h2>
         <p>
           We implement reasonable technical and organizational measures to
           protect your personal information, including:
@@ -243,7 +307,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="your-rights">
-        <h2>8. Your rights</h2>
+        <h2>9. Your rights</h2>
 
         <h3>8.1 All users</h3>
         <ul>
@@ -321,7 +385,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="cookies">
-        <h2>9. Cookies and tracking</h2>
+        <h2>10. Cookies and tracking</h2>
         <p>We use cookies and similar technologies to:</p>
         <ul>
           <li>Maintain your session state while using the Service</li>
@@ -337,7 +401,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="childrens-privacy">
-        <h2>10. Children&rsquo;s privacy &mdash; strict 18+ requirement</h2>
+        <h2>11. Children&rsquo;s privacy &mdash; strict 18+ requirement</h2>
         <p>
           Habitrii is exclusively for adults 18 years of age and older. We
           do not permit use by minors under any circumstances, including
@@ -354,7 +418,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="third-party-links">
-        <h2>11. Links to third-party sites</h2>
+        <h2>12. Links to third-party sites</h2>
         <p>
           The Service may contain links to third-party websites. We are not
           responsible for the privacy practices of those sites and encourage
@@ -363,7 +427,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="international-transfers">
-        <h2>12. International data transfers</h2>
+        <h2>13. International data transfers</h2>
         <p>
           Habitrii is operated from the United States. If you access the
           Service from outside the United States, your information may be
@@ -374,7 +438,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="changes">
-        <h2>13. Changes to this privacy policy</h2>
+        <h2>14. Changes to this privacy policy</h2>
         <p>
           We may update this Privacy Policy from time to time. We will
           notify you of material changes by posting the revised policy with
@@ -385,7 +449,7 @@ export default function PrivacyPolicy({ onBack }) {
       </section>
 
       <section id="contact">
-        <h2>14. Contact information</h2>
+        <h2>15. Contact information</h2>
         <p>AVEN LLC &mdash; Habitrii</p>
         <p>
           Privacy requests: habitrii@aven4life.com (subject line:

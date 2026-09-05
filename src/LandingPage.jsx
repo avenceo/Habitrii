@@ -259,7 +259,6 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             box-shadow: 0 12px 40px rgba(35,35,33,0.25);
           }
           .lp-hero-wash { display: none; }
-        }
           .lp-inner { padding: 0 18px; }
           .lp-nav-inner { padding: 0 20px; }
           .lp-section { padding: 64px 0; }
@@ -277,6 +276,16 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             Habitrii
           </span>
           <div className="lp-nav-right">
+            <a
+              href="/moneymirror/"
+              className="lp-signin"
+              style={{
+                fontSize: "15px", fontWeight: 600, color: C.dark, fontFamily: "inherit",
+                padding: "8px 4px", textDecoration: "none",
+              }}
+            >
+              Money Mirror
+            </a>
             <button
               className="lp-signin lp-signin-hide"
               onClick={onStart}
@@ -366,6 +375,17 @@ export default function LandingPage({ onStart, onShowTerms, onShowPrivacy }) {
             </button>
           </div>
 
+          {/* Money Mirror — pre-signup soft entry */}
+          <p style={{ fontSize: "15px", color: "rgba(35,35,33,0.8)", margin: "0 0 18px", lineHeight: 1.5 }}>
+            Not ready to sign up?{" "}
+            <a
+              href="/moneymirror/"
+              style={{ color: C.dark, fontWeight: 700, textDecoration: "underline", textDecorationColor: C.yellow, textUnderlineOffset: "3px" }}
+            >
+              Find your Money Mirror
+            </a>{" "}
+            — five questions, under a minute, no account needed.
+          </p>
           {/* Disclaimer badge */}
           <p style={{ fontSize: "12px", color: C.textMut, letterSpacing: "0.4px", margin: 0 }}>
             18+ only · Educational use only · Not financial advice
