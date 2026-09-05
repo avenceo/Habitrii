@@ -30,46 +30,47 @@
 }
 </script>
 <style>
-  :root{--teal:#57b7a7;--yellow:#f5d924;--gray:#a09e98;--deep:#1a3330;--ink:#0d1f1d}
+  :root{--teal:#57b7a7;--yellow:#f5d924;--gray:#a09e98;--cloud:#f5f4f1;--ink:#232321}
   *{box-sizing:border-box}
   body{margin:0;font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:#f5f4f1;line-height:1.6}
-  header{background:var(--teal);padding:18px 16px}
+  header{background:var(--teal);padding:18px 16px;border-bottom:5px solid var(--yellow)}
   .nav{max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-  .nav a.brand{color:var(--deep);font-weight:800;font-size:20px;text-decoration:none;letter-spacing:-.3px}
+  .nav a.brand{color:var(--ink);font-weight:800;font-size:20px;text-decoration:none;letter-spacing:-.3px}
   .nav a.cta{background:var(--yellow);color:var(--ink);font-weight:800;text-decoration:none;padding:10px 14px;border-radius:10px;font-size:14px}
   main{max-width:720px;margin:0 auto;padding:28px 16px 56px}
   .eyebrow{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--teal);margin:0 0 8px}
-  h1{font-size:36px;line-height:1.1;letter-spacing:-.6px;margin:0 0 14px;font-weight:800}
+  h1{font-size:36px;line-height:1.2;letter-spacing:-.6px;margin:0 0 14px;font-weight:800}
   h2{font-size:26px;line-height:1.2;letter-spacing:-.4px;margin:36px 0 12px;font-weight:800}
   h3{font-size:22px;margin:0;font-weight:800;letter-spacing:-.3px}
   p{font-size:17px;margin:0 0 14px}
-  .lead{font-size:20px;color:var(--deep)}
-  .box{background:var(--deep);color:#fff;border-radius:16px;padding:22px 20px;margin:22px 0}
-  .box p{color:#fff}
+  .lead{font-size:20px;color:var(--ink)}
+  .hl{background:var(--yellow);color:var(--ink);padding:2px 8px;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .box{background:var(--teal);color:var(--ink);border-radius:16px;padding:22px 20px;margin:22px 0;border-left:6px solid var(--yellow)}
+  .box p{color:var(--ink)}
   .box .btn{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:800;text-decoration:none;padding:14px 20px;border-radius:12px;margin-top:6px}
   .toc{background:#fff;border-radius:14px;padding:16px 18px 6px;margin:18px 0}
   .toc ol{columns:2;column-gap:24px;padding-left:20px;margin:8px 0}
   .toc li{margin:0 0 8px;break-inside:avoid}
-  .toc a{color:var(--deep);font-weight:700;text-decoration:none}
-  .type{background:#fff;border-radius:16px;padding:22px 20px;margin:16px 0;box-shadow:0 6px 22px rgba(13,31,29,.08)}
+  .toc a{color:var(--ink);font-weight:700;text-decoration:none}
+  .type{background:#fff;border-radius:16px;padding:22px 20px;margin:16px 0;box-shadow:0 6px 22px rgba(35,35,33,.08);border-top:5px solid var(--yellow)}
   .type-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
   .emoji{font-size:34px;line-height:1}
   .tagline{font-size:18px;font-weight:700;color:var(--teal);margin-bottom:10px}
-  .shift{background:var(--deep);color:#fff;border-left:5px solid var(--yellow);border-radius:12px;padding:12px 14px}
-  .shift strong{color:var(--yellow)}
-  .lesson a{color:var(--deep);font-weight:700}
+  .shift{background:var(--cloud);color:var(--ink);border-left:5px solid var(--yellow);border-radius:12px;padding:12px 14px}
+  .shift strong{color:var(--ink)}
+  .lesson a{color:var(--ink);font-weight:700}
   a.mini{color:var(--teal);font-weight:700;text-decoration:none;font-size:15px}
-  form{background:#fff;border-radius:16px;padding:22px 20px;margin:22px 0;box-shadow:0 6px 22px rgba(13,31,29,.08)}
+  form{background:#fff;border-radius:16px;padding:22px 20px;margin:22px 0;box-shadow:0 6px 22px rgba(35,35,33,.08);border-left:6px solid var(--yellow)}
   label{display:block;font-size:14px;margin-bottom:10px}
   label.check{display:flex;gap:10px;align-items:flex-start;line-height:1.45}
-  input[type=email]{width:100%;padding:13px 14px;font-size:16px;font-family:inherit;border-radius:12px;border:2px solid #e6e4df;margin:6px 0 12px}
+  input[type=email]{width:100%;padding:13px 14px;font-size:16px;font-family:inherit;border-radius:12px;border:2px solid var(--gray);margin:6px 0 12px}
   button{width:100%;background:var(--yellow);color:var(--ink);border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer}
   button[disabled]{opacity:.55;cursor:default}
   .msg{font-size:14px;margin-top:10px}
-  .disclaimer{font-size:13px;color:#445;margin-top:28px;line-height:1.5}
-  footer{background:var(--deep);color:#cfe3de;padding:26px 16px;font-size:13px}
+  .disclaimer{font-size:13px;color:var(--ink);opacity:.85;margin-top:28px;line-height:1.5}
+  footer{background:var(--teal);color:var(--ink);padding:26px 16px;font-size:13px;border-top:5px solid var(--yellow)}
   footer .in{max-width:720px;margin:0 auto}
-  footer a{color:#fff}
+  footer a{color:var(--ink);text-decoration:underline}
   @media (max-width:520px){h1{font-size:30px}.toc ol{columns:1}}
 </style>
 </head>
@@ -84,7 +85,7 @@
 <main>
   <article>
     <p class="eyebrow">Money Mirror</p>
-    <h1>The 9 Money Personality Types — Which One Are You?</h1>
+    <h1>The 9 Money Personality Types — <span class="hl">Which One Are You?</span></h1>
     <p class="lead">Two people earn the same paycheck. One researches a $30 purchase for three days. The other buys it in the checkout line and feels great about it until the statement lands. Same income. Completely different money.</p>
 
     <p>That gap is the thing most money advice misses. It assumes the problem is information — that if you just <em>knew</em> the 50/30/20 rule, you'd follow it. But most of us already know what we "should" do. The reason we don't is quieter and more personal: money behavior follows personality, not income.</p>
@@ -96,7 +97,7 @@
     <p>It's a mirror, not a verdict. Nobody is one type in every season of life, and no type is "the good one." Each of the nine carries a real strength and a real shadow. The point isn't to label you. It's to let you catch yourself in the act, kindly, so the next decision gets a little more deliberate.</p>
 
     <div class="box">
-      <p class="eyebrow" style="color:var(--yellow)">Under a minute · no sign-up to see your result</p>
+      <p class="eyebrow" style="color:var(--ink)">Under a minute · no sign-up to see your result</p>
       <p style="font-size:20px;font-weight:700;margin-bottom:6px">Find your Money Mirror</p>
       <a class="btn" href="/moneymirror/">Show me my type</a>
     </div>
